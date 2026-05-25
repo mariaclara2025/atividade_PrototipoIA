@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroVibe | Premium Tech Experience</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Lucide Icons para vetores consistentes -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar para manter estética premium */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-base-300 min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- ESTRUTURA DRAWER DO DAISYUI (MUITO IMPORTANTE PARA O CARRINHO LATERAL) -->
+    <div class="drawer drawer-end">
+        <input id="cart-drawer-toggle" type="checkbox" class="drawer-toggle" />
+        
+        <!-- Conteúdo Principal da Página -->
+        <div class="drawer-content flex flex-col min-h-screen">
+            
+            <!-- Navbar de Alta Fidelidade -->
+            <header class="sticky top-0 z-40 backdrop-blur-md bg-base-100/90 border-b border-base-content/10 transition-all duration-300">
+                <div class="navbar container mx-auto px-4 md:px-8">
+                    <!-- Logo / Brand -->
+                    <div class="flex-1">
+                        <a href="#" class="btn btn-ghost normal-case text-xl md:text-2xl font-extrabold tracking-tight gap-1 pl-0">
+                            <span class="text-primary flex items-center"><i data-lucide="zap" class="w-6 h-6 fill-primary mr-1"></i>Electro</span>
+                            <span class="text-neutral-content">Vibe</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Busca e Filtros Rápidos (Desktop) -->
+                    <div class="flex-none gap-4">
+                        <div class="form-control hidden md:flex relative">
+                            <input type="text" id="search-input" placeholder="Pesquisar eletrônicos premium..." class="input input-bordered input-sm w-64 pl-10 rounded-full focus:input-primary transition-all duration-300" />
+                            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-base-content/50"></i>
+                        </div>
+
+                        <!-- Menu de Links do Usuário -->
+                        <div class="dropdown dropdown-end">
+                            <button class="btn btn-ghost btn-circle avatar">
+                                <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar Usuário" onerror="this.src='https://placehold.co/100x100?text=User'" />
+                                </div>
+                            </button>
+                            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-base-200 border border-base-content/10 rounded-box w-52">
+                                <li><a class="justify-between">Perfil <span class="badge badge-primary badge-sm">Pro</span></a></li>
+                                <li><a>Configurações</a></li>
+                                <li><a>Meus Pedidos</a></li>
+                                <hr class="my-1 border-base-content/10" />
+                                <li><a class="text-error">Sair</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Botão de Ativação do Drawer do Carrinho -->
+                        <label for="cart-drawer-toggle" class="btn btn-ghost btn-circle relative" aria-label="Abrir carrinho">
+                            <div class="indicator">
+                                <i data-lucide="shopping-bag" class="w-6 h-6 text-neutral-content"></i>
+                                <span id="cart-count" class="badge badge-sm badge-primary indicator-item font-bold scale-90">0</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Hero Section Magnífico -->
+            <section class="relative overflow-hidden bg-gradient-to-br from-base-100 via-base-200 to-base-300 py-16 lg:py-24 border-b border-base-content/5">
+                <!-- Partículas visuais de fundo -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.08),transparent_50%)]"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(217,70,239,0.08),transparent_50%)]"></div>
+                
+                <div class="container mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider">
+                            <span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+                            Próxima Geração de Áudio e Tech
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-none text-neutral-content">
+                            Sinta a <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">vibe futurista</span> dos seus eletrônicos.
+                        </h1>
+                        <p class="text-base-content/80 text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 font-light">
+                            Curadoria exclusiva de periféricos de alta performance e áudio de fidelidade absoluta para audiófilos, gamers e profissionais modernos.
+                        </p>
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                            <a href="#produtos-vitrine" class="btn btn-primary rounded-xl px-8 hover:scale-105 active:scale-95 transition-all duration-200">
+                                Explorar Loja <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </a>
+                            <button onclick="document.getElementById('sobre-modal').showModal()" class="btn btn-outline rounded-xl hover:bg-neutral-content/10 transition-all duration-200">
+                                Saber Mais
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 flex justify-center relative">
+                        <div class="relative w-72 h-72 md:w-96 md:h-96">
+                            <!-- Efeito de Glow no fundo da imagem Hero -->
+                            <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 rounded-3xl filter blur-3xl opacity-60 animate-pulse"></div>
+                            <!-- Imagem do Produto em Destaque -->
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80" 
+                                 alt="Destaque ElectroVibe" 
+                                 class="object-cover rounded-3xl w-full h-full shadow-2xl border border-white/10 relative z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x600?text=Premium+Tech'" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vitrine de Produtos Principal -->
+            <main id="produtos-vitrine" class="container mx-auto px-4 md:px-8 py-16 flex-grow">
+                <!-- Cabeçalho de Categoria e Filtro -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-primary font-bold">Nossa Coleção</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-content mt-1">Vitrine de Eletrônicos</h2>
+                    </div>
+                    
+                    <!-- Barra de Abas de Categoria do DaisyUI -->
+                    <div class="flex flex-wrap gap-2" id="filtro-categorias">
+                        <button class="btn btn-sm md:btn-md btn-active category-btn rounded-xl" data-category="all">Todos</button>
+                        <button class="btn btn-sm md:btn-md btn-ghost category-btn rounded-xl" data-category="audio">Áudio</button>
+                        <button class="btn btn-sm md:btn-md btn-ghost category-btn rounded-xl" data-category="gaming">Gaming</button>
+                        <button class="btn btn-sm md:btn-md btn-ghost category-btn rounded-xl" data-category="peripherals">Acessórios</button>
+                        <button class="btn btn-sm md:btn-md btn-ghost category-btn rounded-xl" data-category="wearables">Wearables</button>
+                    </div>
+                </div>
+
+                <!-- Grid de Produtos dinâmico -->
+                <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Gerado Dinamicamente pelas Classes JS -->
+                </div>
+                
+                <!-- Feedback para busca sem resultados -->
+                <div id="no-results" class="hidden text-center py-16 space-y-4">
+                    <div class="inline-flex p-4 rounded-full bg-base-100 border border-base-content/10">
+                        <i data-lucide="alert-circle" class="w-12 h-12 text-warning animate-bounce"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Nenhum produto encontrado</h3>
+                    <p class="text-base-content/70">Tente ajustar a sua busca ou trocar de categoria de filtro.</p>
+                    <button id="btn-reset-filtros" class="btn btn-primary btn-sm rounded-lg mt-2">Limpar Filtros</button>
+                </div>
+            </main>
+
+            <!-- Rodapé Premium -->
+            <footer class="footer p-10 bg-base-100 text-base-content border-t border-base-content/5 mt-auto">
+                <nav>
+                    <h6 class="footer-title text-primary">Produtos</h6> 
+                    <a class="link link-hover">Fones Premium</a>
+                    <a class="link link-hover">Teclados Mecânicos</a>
+                    <a class="link link-hover">Smartwatches</a>
+                    <a class="link link-hover">Edição Limitada</a>
+                </nav> 
+                <nav>
+                    <h6 class="footer-title text-primary">Suporte</h6> 
+                    <a class="link link-hover">Ajuda & Contato</a>
+                    <a class="link link-hover">Políticas de Devolução</a>
+                    <a class="link link-hover">Garantia Estendida</a>
+                    <a class="link link-hover">Rastreamento</a>
+                </nav> 
+                <nav>
+                    <h6 class="footer-title text-primary">Sobre Nós</h6> 
+                    <a class="link link-hover">A ElectroVibe</a>
+                    <a class="link link-hover">Nossa Filosofia</a>
+                    <a class="link link-hover">Sustentabilidade</a>
+                    <a class="link link-hover">Parcerias</a>
+                </nav>
+                <form class="w-full max-w-sm">
+                    <h6 class="footer-title text-primary">Inscreva-se na nossa Newsletter</h6> 
+                    <fieldset class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Seja avisado sobre novos drops limitados.</span>
+                        </label> 
+                        <div class="join w-full">
+                            <input type="email" placeholder="seuemail@exemplo.com" class="input input-bordered join-item w-full" /> 
+                            <button class="btn btn-primary join-item">Inscrever</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </footer>
+            
+            <footer class="footer footer-center p-6 bg-base-200 text-base-content border-t border-base-content/5">
+                <aside class="flex flex-col md:flex-row justify-between w-full max-w-6xl px-4 gap-4">
+                    <p class="text-sm">© 2026 ElectroVibe Ltda. Todos os direitos reservados.</p>
+                    <div class="flex gap-4">
+                        <a class="btn btn-ghost btn-circle btn-sm"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a class="btn btn-ghost btn-circle btn-sm"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a class="btn btn-ghost btn-circle btn-sm"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    </div>
+                </aside>
+            </footer>
+
+        </div> 
+        
+        <!-- Drawer Lateral do Carrinho (Sidebar) -->
+        <div class="drawer-side z-50">
+            <label for="cart-drawer-toggle" aria-label="fechar carrinho" class="drawer-overlay"></label>
+            
+            <div class="p-6 w-full max-w-md min-h-screen bg-base-200 text-base-content flex flex-col shadow-2xl border-l border-base-content/10">
+                <!-- Cabeçalho do Carrinho -->
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-base-content/10">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-cart" class="text-primary w-6 h-6"></i>
+                        <h2 class="text-xl font-bold tracking-tight">Seu Carrinho</h2>
+                        <span id="cart-drawer-count" class="badge badge-primary font-bold">0</span>
+                    </div>
+                    <!-- Botão Fechar Drawer -->
+                    <label for="cart-drawer-toggle" class="btn btn-sm btn-circle btn-ghost">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </label>
+                </div>
+                
+                <!-- Lista de Itens do Carrinho -->
+                <div id="cart-items-container" class="flex-grow space-y-4 overflow-y-auto pr-1">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+                
+                <!-- Resumo de Valores e Checkout -->
+                <div class="mt-auto pt-6 border-t border-base-content/10 space-y-4 bg-base-200 sticky bottom-0">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm text-base-content/70">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-base-content/70">
+                            <span>Frete estimativo</span>
+                            <span id="cart-shipping" class="text-success font-semibold">Grátis</span>
+                        </div>
+                        <hr class="border-base-content/10 my-1" />
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span id="cart-total" class="text-primary">R$ 0,00</span>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-finalizar-compra" class="btn btn-primary w-full rounded-xl py-3 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                        <i data-lucide="credit-card" class="w-5 h-5 mr-2"></i> Finalizar Compra
+                    </button>
+                    <label for="cart-drawer-toggle" class="btn btn-outline btn-ghost w-full rounded-xl">
+                        Continuar Comprando
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALHE DO PRODUTO (Dinâmico) -->
+    <dialog id="produto-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box max-w-2xl bg-base-100 border border-base-content/10 rounded-2xl relative overflow-hidden">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </form>
+            <div id="modal-product-content" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                <!-- Inserido dinamicamente ao clicar -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- MODAL SOBRE -->
+    <dialog id="sobre-modal" class="modal">
+        <div class="modal-box bg-base-100 border border-base-content/10 rounded-2xl">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </form>
+            <h3 class="font-bold text-2xl text-primary flex items-center gap-2 mb-4">
+                <i data-lucide="zap" class="fill-primary text-primary"></i> Sobre a ElectroVibe
+            </h3>
+            <p class="text-base-content/80 leading-relaxed mb-4">
+                A ElectroVibe é um laboratório conceito de comércio eletrônico premium de tecnologia. Fundada em 2026 para os apaixonados por experiências sonoras de ultra-fidelidade e setups com design minimalista.
+            </p>
+            <div class="alert alert-info shadow-sm rounded-xl">
+                <i data-lucide="info" class="w-5 h-5 text-info-content"></i>
+                <span class="text-sm font-semibold">Este é um protótipo funcional de alta fidelidade desenhado com JavaScript Orientado a Objetos de alto padrão.</span>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- SISTEMA DE NOTIFICAÇÃO TOAST CUSTOMIZADO (LIVRE DE ALERTS NATIVOS) -->
+    <div id="toast-container" class="toast toast-top toast-center md:toast-end z-[99] pointer-events-none">
+        <!-- Notificações aparecem dinamicamente aqui -->
+    </div>
+
+    <!-- CODE LOGIC (POO JAVASCRIPT) -->
+    <script>
+        // MOCK DATA: Banco de dados dos produtos premium da ElectroVibe
+        const BANCO_PRODUTOS = [
+            {
+                id: "p1",
+                nome: "VibePods Pro ANC",
+                preco: 1249.90,
+                imagemUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",
+                descricao: "Fones de ouvido Premium Over-Ear com Cancelamento Ativo de Ruído Inteligente (ANC), drivers de berílio de 40mm para definição de estúdio e 35 horas de autonomia de bateria.",
+                categoria: "audio",
+                especificacoes: ["Drivers de Berílio 40mm", "Bluetooth 5.3 aptX Adaptive", "Autonomia de até 35 Horas", "Cancelamento de Ruído Híbrido Pro-Level"]
+            },
+            {
+                id: "p2",
+                nome: "Teclado ApexClick Carbon",
+                preco: 899.00,
+                imagemUrl: "https://images.unsplash.com/photo-1618384887929-16ec33faf9c1?auto=format&fit=crop&w=500&q=80",
+                descricao: "Teclado mecânico customizado formato 75% com switches lubrificados de fábrica e keycaps em PBT Double-Shot perfil Cherry. Perfeito para digitação ergonômica e partidas competitivas.",
+                categoria: "gaming",
+                especificacoes: ["Layout Compacto 75%", "Switches Lineares Customizados", "Chassis em Alumínio CNC", "Iluminação RGB Customizável"]
+            },
+            {
+                id: "p3",
+                nome: "Chronos Watch Ultra",
+                preco: 2199.00,
+                imagemUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80",
+                descricao: "O smartwatch definitivo para monitoramento avançado de alta performance com caixa em titânio aeronáutico, vidro de safira e tela AMOLED Ultra-Brilhante para aventuras extremas.",
+                categoria: "wearables",
+                especificacoes: ["Construção em Titânio de 49mm", "Tela AMOLED Always-on", "GPS de Dupla Frequência", "Autonomia de bateria de 7 dias"]
+            },
+            {
+                id: "p4",
+                nome: "NeonTrack Pro Mouse",
+                preco: 499.90,
+                imagemUrl: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=500&q=80",
+                descricao: "Mouse Gamer Sem Fio com sensor óptico nativo de 26.000 DPI e polling rate de 8000Hz. Desenho ultra leve focado em ergonometria de garras rápidas de apenas 54 gramas.",
+                categoria: "gaming",
+                especificacoes: ["Sensor Óptico de 26K DPI", "Peso Ultra-Leve de 54g", "Taxa de Retorno de 8000Hz", "Switches Ópticos Ópticos V2"]
+            },
+            {
+                id: "p5",
+                nome: "AuraBar RGB Inteligente",
+                preco: 349.90,
+                imagemUrl: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=500&q=80",
+                descricao: "Barra de iluminação simétrica para o monitor com controle inteligente de temperatura de cor, LED RGB traseiro para efeito Ambilight síncrono e controle sem fio dedicado por toque.",
+                categoria: "peripherals",
+                especificacoes: ["Luz Anti-Reflexo Assimétrica", "Controle por Toque Sem Fio", "LED Traseiro RGB Dinâmico", "Interface de Alimentação USB-C"]
+            },
+            {
+                id: "p6",
+                nome: "DeskMat Midnight Felt",
+                preco: 199.90,
+                imagemUrl: "https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=500&q=80",
+                descricao: "Deskmat de tamanho estendido produzido com feltro de lã merino 100% natural com base em borracha ecológica de alta aderência para dar estabilidade ao teclado e precisão ao mouse.",
+                categoria: "peripherals",
+                especificacoes: ["Material: Feltro de Lã Merino", "Base antiderrapante ecológica", "Dimensões: 900mm x 400mm", "Acabamento com costura reforçada"]
+            },
+            {
+                id: "p7",
+                nome: "VibeBeam Soundbar",
+                preco: 1499.00,
+                imagemUrl: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=500&q=80",
+                descricao: "Soundbar compacta e potente integrada com subwoofers virtuais integrados. Calibração de sala inteligente com Dolby Atmos de alta fidelidade para o seu setup de desktop.",
+                categoria: "audio",
+                especificacoes: ["Suporte Dolby Atmos Virtual", "Conexão Óptica e HDMI eARC", "Equalização Inteligente via App", "Modo Gaming ultra responsivo"]
+            },
+            {
+                id: "p8",
+                nome: "ChargePod Pro 3-em-1",
+                preco: 399.00,
+                imagemUrl: "https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&w=500&q=80",
+                descricao: "Estação de carregamento por indução magnética Qi2 capaz de carregar seu smartphone premium, relógio inteligente e fones sem fio ao mesmo tempo em velocidade máxima de 15W.",
+                categoria: "peripherals",
+                especificacoes: ["Padrão Magnético Qi2 15W", "Design Dobrável em Metal", "Indicador de Carga LED Suave", "Adaptador GaN de 30W incluso"]
+            }
+        ];
+
+        // NOTIFICAÇÃO TOAST UTILITÁRIO
+        function mostrarToast(mensagem, tipo = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            // Classes de estilização baseadas no tipo
+            let alertClass = 'alert-success';
+            let iconName = 'check-circle';
+            if (tipo === 'info') {
+                alertClass = 'alert-info';
+                iconName = 'info';
+            } else if (tipo === 'error') {
+                alertClass = 'alert-error';
+                iconName = 'alert-triangle';
+            }
+
+            toast.className = `alert ${alertClass} shadow-lg py-3 px-5 flex items-center gap-3 rounded-xl transition-all duration-300 transform translate-y-4 opacity-0`;
+            toast.innerHTML = `
+                <i data-lucide="${iconName}" class="w-5 h-5"></i>
+                <span class="text-sm font-semibold">${mensagem}</span>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons(); // Instancia o ícone do Lucide dentro do toast recém criado
+
+            // Forçar reflow para ativar animação de entrada
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            // Animação de saída e remoção do DOM
+            setTimeout(() => {
+                toast.classList.add('translate-y-[-10px]', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // CLASSE PRODUTO
+        class Produto {
+            constructor(id, nome, preco, imagemUrl, descricao, categoria, especificacoes = []) {
+                this.id = id;
+                this.nome = nome;
+                this.preco = preco;
+                this.imagemUrl = imagemUrl;
+                this.descricao = descricao;
+                this.categoria = categoria;
+                this.especificacoes = especificacoes;
+            }
+
+            // Formatação de Preço em Real Brasileiro
+            get precoFormatado() {
+                return new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(this.preco);
+            }
+
+            // Retorna o elemento HTML completo estruturado com Tailwind e DaisyUI
+            obterElementoHTML(onAdicionarCallback, onVerDetalhesCallback) {
+                const card = document.createElement('div');
+                card.className = "card bg-base-100 border border-base-content/5 hover:border-primary/30 shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 group flex flex-col h-full";
+                card.dataset.categoria = this.categoria;
+                card.dataset.id = this.id;
+                
+                card.innerHTML = `
+                    <figure class="relative overflow-hidden bg-slate-900 aspect-video cursor-pointer" id="img-click-${this.id}">
+                        <img src="${this.imagemUrl}" 
+                             alt="${this.nome}" 
+                             class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                             onerror="this.src='https://placehold.co/500x350?text=Premium+Tech'" />
+                        <!-- Badge da Categoria -->
+                        <div class="absolute top-3 left-3">
+                            <span class="badge badge-primary font-bold text-xs shadow-md uppercase tracking-wider py-2 px-3">${this.categoria}</span>
+                        </div>
+                    </figure>
+                    
+                    <div class="card-body p-6 flex flex-col flex-grow">
+                        <!-- Título e Feedback de Avaliação -->
+                        <div class="flex items-start justify-between gap-2 mb-1">
+                            <h3 class="card-title text-neutral-content font-bold text-lg hover:text-primary cursor-pointer transition-colors" id="title-click-${this.id}">
+                                ${this.nome}
+                            </h3>
+                            <div class="flex items-center gap-1 text-warning shrink-0 text-sm">
+                                <i data-lucide="star" class="w-4 h-4 fill-warning"></i>
+                                <span class="font-bold">4.9</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Breve descrição de corte -->
+                        <p class="text-base-content/70 text-sm line-clamp-2 mb-4 leading-relaxed">
+                            ${this.descricao}
+                        </p>
+                        
+                        <!-- Preço e Botão de Adição no final -->
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-base-content/5">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-base-content/50 uppercase tracking-widest">À vista</span>
+                                <span class="text-xl font-extrabold text-neutral-content">${this.precoFormatado}</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm md:btn-md rounded-xl btn-add-cart gap-2 hover:scale-105 active:scale-95 transition-all duration-200" id="btn-add-${this.id}">
+                                <i data-lucide="plus" class="w-4 h-4"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Event Listeners acionados diretamente usando callbacks injetados
+                const btnAdd = card.querySelector(`#btn-add-${this.id}`);
+                btnAdd.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    onAdicionarCallback(this);
+                });
+
+                // Ver Detalhes ao clicar no título ou imagem do card
+                const clickImg = card.querySelector(`#img-click-${this.id}`);
+                const clickTitle = card.querySelector(`#title-click-${this.id}`);
+                [clickImg, clickTitle].forEach(elem => {
+                    elem.addEventListener('click', () => {
+                        onVerDetalhesCallback(this);
+                    });
+                });
+
+                return card;
+            }
+        }
+
+        // CLASSE CARRINHO (Usando Array Privado)
+        class Carrinho {
+            #itens; // Campo Privado do ES6
+
+            constructor() {
+                this.#itens = [];
+                this.carregarDoLocalStorage();
+            }
+
+            // Métodos de Acesso
+            obterItens() {
+                return [...this.#itens]; // Retorna uma cópia para evitar mutação externa direta
+            }
+
+            // Adiciona ou incrementa o produto
+            adicionarProduto(produto) {
+                const itemExistente = this.#itens.find(item => item.produto.id === produto.id);
+                
+                if (itemExistente) {
+                    itemExistente.quantidade += 1;
+                    mostrarToast(`Adicionada mais uma unidade de ${produto.nome}!`);
+                } else {
+                    this.#itens.push({ produto, quantidade: 1 });
+                    mostrarToast(`${produto.nome} foi adicionado ao carrinho!`);
+                }
+
+                this.salvarNoLocalStorage();
+                this.atualizarInterface();
+                this.abrirDrawer();
+            }
+
+            // Remove ou decrementa o produto do carrinho
+            removerProduto(idProduto, removerCompletamente = false) {
+                const index = this.#itens.findIndex(item => item.produto.id === idProduto);
+                if (index === -1) return;
+
+                const item = this.#itens[index];
+                
+                if (removerCompletamente || item.quantidade <= 1) {
+                    this.#itens.splice(index, 1);
+                    mostrarToast(`${item.produto.nome} removido do carrinho.`, 'info');
+                } else {
+                    item.quantidade -= 1;
+                }
+
+                this.salvarNoLocalStorage();
+                this.atualizarInterface();
+            }
+
+            // Altera quantidade de itens diretamente por valor digitado ou setas
+            alterarQuantidade(idProduto, novaQuantidade) {
+                const item = this.#itens.find(item => item.produto.id === idProduto);
+                if (!item) return;
+
+                if (novaQuantidade <= 0) {
+                    this.removerProduto(idProduto, true);
+                } else {
+                    item.quantidade = parseInt(novaQuantidade);
+                    this.salvarNoLocalStorage();
+                    this.atualizarInterface();
+                }
+            }
+
+            // Calcula total global dos itens
+            calcularTotal() {
+                return this.#itens.reduce((acc, item) => acc + (item.produto.preco * item.quantidade), 0);
+            }
+
+            // Retorna contagem total acumulada de peças
+            contagemItens() {
+                return this.#itens.reduce((acc, item) => acc + item.quantidade, 0);
+            }
+
+            // Salva dados em LocalStorage para persistência inteligente do usuário
+            salvarNoLocalStorage() {
+                const dadosParaSalvar = this.#itens.map(item => ({
+                    id: item.produto.id,
+                    quantidade: item.quantidade
+                }));
+                localStorage.setItem('electrovibe_cart', JSON.stringify(dadosParaSalvar));
+            }
+
+            // Reconstrói itens do carrinho a partir dos dados do LocalStorage
+            carregarDoLocalStorage() {
+                try {
+                    const dadosLocais = localStorage.getItem('electrovibe_cart');
+                    if (!dadosLocais) return;
+
+                    const itensSalvos = JSON.parse(dadosLocais);
+                    this.#itens = itensSalvos.map(salvado => {
+                        const modelo = BANCO_PRODUTOS.find(p => p.id === salvado.id);
+                        if (modelo) {
+                            return {
+                                produto: new Produto(modelo.id, modelo.nome, modelo.preco, modelo.imagemUrl, modelo.descricao, modelo.categoria, modelo.especificacoes),
+                                quantidade: salvado.quantidade
+                            };
+                        }
+                        return null;
+                    }).filter(item => item !== null);
+                } catch (error) {
+                    console.error("Erro ao carregar carrinho local:", error);
+                    this.#itens = [];
+                }
+            }
+
+            // Força a abertura visual do Drawer lateral do Carrinho
+            abrirDrawer() {
+                const toggle = document.getElementById('cart-drawer-toggle');
+                if (toggle) toggle.checked = true;
+            }
+
+            // Limpa todo o carrinho de forma sutil
+            limparCarrinho() {
+                this.#itens = [];
+                this.salvarNoLocalStorage();
+                this.atualizarInterface();
+            }
+
+            // Atualiza de ponta-a-ponta toda a interface visual correlacionada ao carrinho
+            atualizarInterface() {
+                // Seleção de Componentes DOM do Carrinho
+                const containerItens = document.getElementById('cart-items-container');
+                const badgeNavbar = document.getElementById('cart-count');
+                const badgeDrawer = document.getElementById('cart-drawer-count');
+                const subtotalText = document.getElementById('cart-subtotal');
+                const totalText = document.getElementById('cart-total');
+                
+                // Atualização dos Badges de Contagem
+                const totalPecas = this.contagemItens();
+                badgeNavbar.textContent = totalPecas;
+                badgeDrawer.textContent = totalPecas;
+
+                // Reset e renderização dos elementos do carrinho
+                containerItens.innerHTML = '';
+
+                if (this.#itens.length === 0) {
+                    containerItens.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-16 text-center space-y-4">
+                            <div class="p-4 rounded-full bg-base-300 text-base-content/50">
+                                <i data-lucide="shopping-bag" class="w-12 h-12"></i>
+                            </div>
+                            <div>
+                                <p class="text-base font-bold">Seu carrinho está vazio</p>
+                                <p class="text-xs text-base-content/60 mt-1">Selecione e adicione eletrônicos premium para começar.</p>
+                            </div>
+                        </div>
+                    `;
+                    subtotalText.textContent = 'R$ 0,00';
+                    totalText.textContent = 'R$ 0,00';
+                    lucide.createIcons();
+                    return;
+                }
+
+                // Criação dos Itens renderizados no Carrinho Lateral
+                this.#itens.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = "flex gap-4 p-3 bg-base-300/40 rounded-xl border border-base-content/5 relative group hover:border-primary/20 transition-all";
+                    
+                    const subtotalItem = item.produto.preco * item.quantidade;
+                    const valorFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(subtotalItem);
+
+                    row.innerHTML = `
+                        <!-- Miniatura Imagem -->
+                        <div class="w-16 h-16 rounded-lg overflow-hidden bg-slate-900 shrink-0">
+                            <img src="${item.produto.imagemUrl}" alt="${item.produto.nome}" class="w-full h-full object-cover" />
+                        </div>
+                        
+                        <!-- Conteúdo Texto -->
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-bold text-sm text-neutral-content truncate pr-6">${item.produto.nome}</h4>
+                            <span class="text-xs text-base-content/50">${item.produto.precoFormatado} unid.</span>
+                            
+                            <!-- Controladores de Quantidade -->
+                            <div class="flex items-center gap-2 mt-2">
+                                <div class="join bg-base-100 rounded-lg border border-base-content/10">
+                                    <button class="btn btn-ghost btn-xs join-item font-extrabold btn-decrement text-primary px-2">-</button>
+                                    <input type="number" value="${item.quantidade}" min="1" class="join-item w-10 text-center text-xs font-semibold bg-transparent focus:outline-none border-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none input-qty" />
+                                    <button class="btn btn-ghost btn-xs join-item font-extrabold btn-increment text-primary px-2">+</button>
+                                </div>
+                                <span class="text-sm font-extrabold text-neutral-content ml-auto">${valorFormatado}</span>
+                            </div>
+                        </div>
+
+                        <!-- Botão Deletar Item -->
+                        <button class="btn btn-ghost btn-circle btn-xs text-error absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-all btn-delete-item" aria-label="Remover item">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    `;
+
+                    // Interatividade interna dos controladores do item no carrinho
+                    row.querySelector('.btn-decrement').addEventListener('click', () => {
+                        this.removerProduto(item.produto.id);
+                    });
+
+                    row.querySelector('.btn-increment').addEventListener('click', () => {
+                        this.adicionarProduto(item.produto);
+                    });
+
+                    const inputQty = row.querySelector('.input-qty');
+                    inputQty.addEventListener('change', (e) => {
+                        this.alterarQuantidade(item.produto.id, e.target.value);
+                    });
+
+                    row.querySelector('.btn-delete-item').addEventListener('click', () => {
+                        this.removerProduto(item.produto.id, true);
+                    });
+
+                    containerItens.appendChild(row);
+                });
+
+                // Atualização dos totais financeiros
+                const totalGlobal = this.calcularTotal();
+                const totalGlobalFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalGlobal);
+
+                subtotalText.textContent = totalGlobalFormatado;
+                totalText.textContent = totalGlobalFormatado;
+
+                // Atualização dos ícones adicionados de forma assíncrona
+                lucide.createIcons();
+            }
+        }
+
+        // CONTROLADOR GLOBAL DO APLICATIVO (ORCHESTRATOR)
+        class ElectroVibeApp {
+            constructor() {
+                this.carrinho = new Carrinho();
+                this.instanciasProdutos = [];
+                this.categoriaAtiva = 'all';
+                this.filtroBusca = '';
+
+                this.inicializarProdutos();
+                this.configurarFiltros();
+                this.configurarBusca();
+                this.configurarCheckout();
+                
+                // Forçar renderização de interface ao carregar página pela primeira vez
+                this.filtrarERenderizarProdutos();
+                this.carrinho.atualizarInterface();
+                lucide.createIcons();
+            }
+
+            // Inicialização de Produtos do Mock em objetos instanciados da classe Produto
+            inicializarProdutos() {
+                this.instanciasProdutos = BANCO_PRODUTOS.map(p => {
+                    return new Produto(p.id, p.nome, p.preco, p.imagemUrl, p.descricao, p.categoria, p.especificacoes);
+                });
+            }
+
+            // Configuração dos botões de filtragem por categorias
+            configurarFiltros() {
+                const containerFiltros = document.getElementById('filtro-categorias');
+                const botoes = containerFiltros.querySelectorAll('.category-btn');
+
+                botoes.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        botoes.forEach(b => b.className = "btn btn-sm md:btn-md btn-ghost category-btn rounded-xl");
+                        btn.className = "btn btn-sm md:btn-md btn-active category-btn rounded-xl";
+                        
+                        this.categoriaAtiva = btn.dataset.category;
+                        this.filtrarERenderizarProdutos();
+                    });
+                });
+
+                // Botão de Reset
+                document.getElementById('btn-reset-filtros').addEventListener('click', () => {
+                    document.getElementById('search-input').value = '';
+                    this.filtroBusca = '';
+                    this.categoriaAtiva = 'all';
+                    
+                    botoes.forEach(b => b.className = "btn btn-sm md:btn-md btn-ghost category-btn rounded-xl");
+                    containerFiltros.querySelector('[data-category="all"]').className = "btn btn-sm md:btn-md btn-active category-btn rounded-xl";
+                    
+                    this.filtrarERenderizarProdutos();
+                });
+            }
+
+            // Configuração do input de Busca dinâmico (com debounce natural)
+            configurarBusca() {
+                const searchInput = document.getElementById('search-input');
+                searchInput.addEventListener('input', (e) => {
+                    this.filtroBusca = e.target.value.toLowerCase().trim();
+                    this.filtrarERenderizarProdutos();
+                });
+            }
+
+            // Filtra e reconstrói o Grid de Produtos no DOM
+            filtrarERenderizarProdutos() {
+                const grid = document.getElementById('grid-produtos');
+                const noResults = document.getElementById('no-results');
+                grid.innerHTML = '';
+
+                const produtosFiltrados = this.instanciasProdutos.filter(prod => {
+                    const atendeCategoria = this.categoriaAtiva === 'all' || prod.categoria === this.categoriaAtiva;
+                    const atendeBusca = prod.nome.toLowerCase().includes(this.filtroBusca) || 
+                                       prod.descricao.toLowerCase().includes(this.filtroBusca) ||
+                                       prod.categoria.toLowerCase().includes(this.filtroBusca);
+                    return atendeCategoria && atendeBusca;
+                });
+
+                if (produtosFiltrados.length === 0) {
+                    grid.classList.add('hidden');
+                    noResults.classList.remove('hidden');
+                } else {
+                    grid.classList.remove('hidden');
+                    noResults.classList.add('hidden');
+                    
+                    // Renderiza os cards chamando o método de classe obterElementoHTML
+                    produtosFiltrados.forEach(prod => {
+                        const elemento = prod.obterElementoHTML(
+                            // Callback ao Adicionar
+                            (produto) => this.carrinho.adicionarProduto(produto),
+                            // Callback ao Ver Detalhes
+                            (produto) => this.abrirModalDetalhes(produto)
+                        );
+                        grid.appendChild(elemento);
+                    });
+                }
+                lucide.createIcons();
+            }
+
+            // Renderiza o Modal de Detalhes com dados enriquecidos do produto
+            abrirModalDetalhes(produto) {
+                const modal = document.getElementById('produto-modal');
+                const content = document.getElementById('modal-product-content');
+                
+                content.innerHTML = `
+                    <div class="rounded-2xl overflow-hidden bg-slate-900 aspect-square">
+                        <img src="${produto.imagemUrl}" alt="${produto.nome}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600?text=Premium+Tech'" />
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <span class="badge badge-primary font-bold text-xs uppercase mb-2">${produto.categoria}</span>
+                            <h3 class="font-extrabold text-2xl text-neutral-content">${produto.nome}</h3>
+                            <p class="text-base-content/80 text-sm mt-3 leading-relaxed">${produto.descricao}</p>
+                            
+                            <!-- Lista de Especificações Técnicas -->
+                            <div class="mt-4">
+                                <span class="text-xs uppercase tracking-widest font-bold text-primary">Destaques Técnicos</span>
+                                <ul class="grid grid-cols-1 gap-2 mt-2">
+                                    ${produto.especificacoes.map(spec => `
+                                        <li class="flex items-center gap-2 text-xs text-base-content/70">
+                                            <i data-lucide="check" class="w-4 h-4 text-primary shrink-0"></i> ${spec}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-base-content/10 flex items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs text-base-content/50 uppercase tracking-widest block">Preço Especial</span>
+                                <span class="text-2xl font-black text-neutral-content">${produto.precoFormatado}</span>
+                            </div>
+                            <button class="btn btn-primary rounded-xl flex-grow md:flex-initial" id="modal-btn-add-${produto.id}">
+                                <i data-lucide="shopping-cart" class="w-5 h-5 mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Configura ação do botão adicionar que está dentro do modal
+                content.querySelector(`#modal-btn-add-${produto.id}`).addEventListener('click', () => {
+                    this.carrinho.adicionarProduto(produto);
+                    modal.close();
+                });
+
+                // Instancia novos ícones gerados no modal
+                lucide.createIcons();
+                modal.showModal();
+            }
+
+            // Simulação de Checkout do E-commerce
+            configurarCheckout() {
+                const btnCheckout = document.getElementById('btn-finalizar-compra');
+                btnCheckout.addEventListener('click', () => {
+                    if (this.carrinho.obterItens().length === 0) {
+                        mostrarToast("Adicione itens ao carrinho primeiro!", "info");
+                        return;
+                    }
+
+                    // Fechar Drawer do Carrinho
+                    document.getElementById('cart-drawer-toggle').checked = false;
+
+                    // Altera botão para estado de carregamento
+                    btnCheckout.innerHTML = `<span class="loading loading-spinner"></span> Processando...`;
+                    btnCheckout.disabled = true;
+
+                    // Simula conexão bancária / processamento
+                    setTimeout(() => {
+                        mostrarToast("Pedido recebido! Processando pagamento...", "info");
+                        
+                        setTimeout(() => {
+                            mostrarToast("Pagamento Aprovado com sucesso! 🎉", "success");
+                            this.carrinho.limparCarrinho();
+                            
+                            // Restaura layout original do botão
+                            btnCheckout.innerHTML = `<i data-lucide="credit-card" class="w-5 h-5 mr-2"></i> Finalizar Compra`;
+                            btnCheckout.disabled = false;
+                            lucide.createIcons();
+                        }, 2000);
+                        
+                    }, 1500);
+                });
+            }
+        }
+
+        // Inicializar aplicação assim que a janela estiver pronta
+        window.addEventListener('DOMContentLoaded', () => {
+            window.app = new ElectroVibeApp();
+        });
+    </script>
+</body>
+</html>

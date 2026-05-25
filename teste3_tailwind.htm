@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroVolt - Seu E-commerce de Eletrônicos</title>
+    
+    <!-- Tailwind CSS e DaisyUI via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar para melhor estética */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-base-100 text-base-content min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-base-100/90 backdrop-blur-md border-b border-base-200">
+        <div class="navbar container mx-auto px-4 md:px-8">
+            <!-- Logo -->
+            <div class="navbar-start">
+                <a href="#" class="btn btn-ghost text-xl md:text-2xl font-black tracking-tight gap-1 text-primary">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <span>ELECTRO<span class="text-secondary">VOLT</span></span>
+                </a>
+            </div>
+
+            <!-- Campo de Busca - Desktop -->
+            <div class="navbar-center hidden lg:flex w-1/3">
+                <div class="relative w-full">
+                    <input type="text" id="search-input" placeholder="Buscar produtos, marcas e mais..." class="input input-bordered w-full pl-10 focus:outline-primary" />
+                    <span class="absolute left-3 top-3.5 text-base-content/50">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Ações: Dark Mode, Favoritos e Carrinho -->
+            <div class="navbar-end gap-2 md:gap-4">
+                <!-- Toggle Tema (Claro/Escuro) -->
+                <button id="theme-toggle" class="btn btn-ghost btn-circle" aria-label="Alterar Tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+
+                <!-- Botão do Carrinho -->
+                <div class="dropdown dropdown-end">
+                    <button id="cart-btn" class="btn btn-ghost btn-circle relative" aria-label="Ver Carrinho">
+                        <div class="indicator">
+                            <i class="fa-solid fa-cart-shopping text-xl"></i>
+                            <span id="cart-badge" class="badge badge-sm badge-secondary indicator-item hidden">0</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Campo de Busca - Mobile -->
+        <div class="p-3 bg-base-200/50 lg:hidden border-t border-base-200">
+            <div class="relative w-full">
+                <input type="text" id="search-input-mobile" placeholder="Buscar produtos..." class="input input-bordered w-full pl-10 focus:outline-primary input-sm" />
+                <span class="absolute left-3 top-2.5 text-base-content/50">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER DE DESTAQUE (HERO) -->
+    <section class="bg-gradient-to-r from-primary/10 via-secondary/10 to-base-100 py-12 md:py-20 px-4 md:px-8 border-b border-base-200">
+        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="badge badge-secondary font-bold p-3 gap-2">
+                    <i class="fa-solid fa-fire-flame-curved"></i> OFERTAS DA SEMANA
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-none tracking-tight">
+                    Tecnologia que <br class="hidden md:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Conecta Você</span> ao Futuro
+                </h1>
+                <p class="text-base-content/70 text-lg max-w-lg mx-auto lg:mx-0">
+                    Explore os melhores lançamentos em áudio, computação, smartphones e wearables com frete grátis para compras acima de R$ 499.
+                </p>
+                <div class="flex justify-center lg:justify-start gap-4">
+                    <a href="#catalogo" class="btn btn-primary shadow-lg shadow-primary/20">Ver Ofertas</a>
+                    <button onclick="scrollToProducts('Audio')" class="btn btn-outline">Som Premium</button>
+                </div>
+            </div>
+            <div class="hidden lg:flex justify-center relative">
+                <!-- Elemento decorativo de fundo -->
+                <div class="absolute w-72 h-72 bg-primary/20 rounded-full blur-3xl -top-10 -left-10"></div>
+                <div class="absolute w-72 h-72 bg-secondary/20 rounded-full blur-3xl -bottom-10 -right-10"></div>
+                
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80" alt="Headphone Premium de Destaque" class="rounded-2xl shadow-2xl relative z-10 border-4 border-base-150 object-cover w-[500px] h-[350px] transform hover:scale-[1.02] transition-transform duration-300" onerror="this.src='https://placehold.co/600x400/31363F/FFF?text=Audio+Premium'" />
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main id="catalogo" class="flex-grow container mx-auto px-4 md:px-8 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- SIDEBAR DE FILTROS (Desktop) / COLLAPSIBLE (Mobile) -->
+        <aside class="lg:col-span-1 space-y-6 lg:sticky lg:top-24 h-fit">
+            
+            <!-- Card de Filtros -->
+            <div class="card bg-base-200/50 border border-base-200 rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-bold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-primary"></i> Filtrar & Ordenar
+                    </h2>
+                    <button id="clear-filters-btn" class="btn btn-ghost btn-xs text-error hidden">Limpar tudo</button>
+                </div>
+
+                <!-- Categorias -->
+                <div class="form-control w-full mb-6">
+                    <label class="label font-semibold text-xs uppercase tracking-wider text-base-content/60">Categorias</label>
+                    <div class="flex flex-col gap-2 mt-2" id="categories-container">
+                        <!-- Gerado dinamicamente por JS -->
+                    </div>
+                </div>
+
+                <!-- Ordenação -->
+                <div class="form-control w-full mb-6">
+                    <label class="label font-semibold text-xs uppercase tracking-wider text-base-content/60">Ordenar por</label>
+                    <select id="sort-select" class="select select-bordered select-sm w-full mt-2 focus:outline-primary">
+                        <option value="default">Relevância</option>
+                        <option value="price-asc">Menor Preço</option>
+                        <option value="price-desc">Maior Preço</option>
+                        <option value="rating">Melhor Avaliado</option>
+                    </select>
+                </div>
+
+                <!-- Faixa de Preço Máximo -->
+                <div class="form-control w-full">
+                    <div class="flex justify-between items-center">
+                        <label class="label font-semibold text-xs uppercase tracking-wider text-base-content/60">Preço Máximo</label>
+                        <span id="price-val" class="text-sm font-bold text-primary">R$ 10.000</span>
+                    </div>
+                    <input type="range" id="price-range" min="0" max="10000" value="10000" step="100" class="range range-primary range-xs mt-2" />
+                    <div class="flex justify-between text-xs px-2 mt-2 text-base-content/50">
+                        <span>R$ 0</span>
+                        <span>R$ 10.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Lateral de Promoção -->
+            <div class="card bg-gradient-to-br from-primary to-secondary text-primary-content p-6 rounded-2xl relative overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                    <i class="fa-solid fa-percent"></i>
+                </div>
+                <div class="relative z-10 space-y-3">
+                    <span class="badge badge-ghost text-xs font-bold bg-white/20 border-none">CUPOM: TECH10</span>
+                    <h3 class="text-xl font-extrabold leading-tight">Ganhe 10% de desconto na primeira compra!</h3>
+                    <p class="text-xs text-primary-content/85">Válido para produtos selecionados com selo exclusivo de desconto.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- GRID DE PRODUTOS -->
+        <section class="lg:col-span-3 space-y-6">
+            <!-- Resultados Status -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-base-200/30 p-4 rounded-xl border border-base-200">
+                <div class="text-sm text-base-content/70">
+                    Exibindo <span id="products-count" class="font-bold text-primary">0</span> produtos
+                </div>
+                <!-- Filtros Ativos (Chips) -->
+                <div id="active-filters" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Listagem -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Cartões de Produtos populados dinamicamente via JS -->
+            </div>
+
+            <!-- Sem resultados -->
+            <div id="no-results" class="hidden text-center py-16 space-y-4">
+                <div class="text-6xl text-base-content/30"><i class="fa-solid fa-box-open"></i></div>
+                <h3 class="text-xl font-bold">Nenhum produto encontrado</h3>
+                <p class="text-base-content/60 max-w-md mx-auto">Tente ajustar suas palavras-chave de busca ou redefinir seus filtros aplicados.</p>
+                <button onclick="resetFilters()" class="btn btn-primary btn-sm">Limpar Filtros</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-base-300 text-base-content border-t border-base-200">
+        <div class="footer p-10 container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <nav class="space-y-4">
+                <h6 class="footer-title opacity-100 text-lg font-bold text-primary flex items-center gap-2">
+                    <i class="fa-solid fa-bolt-lightning"></i> ELECTROVOLT
+                </h6> 
+                <p class="text-sm text-base-content/70 max-w-xs">
+                    As melhores tecnologias e novidades de mercado entregues no conforto da sua casa com velocidade e segurança.
+                </p>
+                <div class="flex gap-4 text-xl text-base-content/60">
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </nav> 
+            <nav>
+                <h6 class="footer-title">Categorias</h6> 
+                <a href="javascript:void(0)" onclick="setCategory('Smartphones')" class="link link-hover">Smartphones</a>
+                <a href="javascript:void(0)" onclick="setCategory('Notebooks')" class="link link-hover">Notebooks</a>
+                <a href="javascript:void(0)" onclick="setCategory('Audio')" class="link link-hover">Áudio & Som</a>
+                <a href="javascript:void(0)" onclick="setCategory('Wearables')" class="link link-hover">Dispositivos Vestíveis</a>
+            </nav> 
+            <nav>
+                <h6 class="footer-title">Institucional</h6> 
+                <a class="link link-hover">Sobre Nós</a>
+                <a class="link link-hover">Política de Privacidade</a>
+                <a class="link link-hover">Termos de Serviço</a>
+                <a class="link link-hover">Trabalhe Conosco</a>
+            </nav> 
+            <nav class="w-full">
+                <h6 class="footer-title">Novidades & Ofertas</h6> 
+                <p class="text-sm text-base-content/70">Inscreva seu e-mail para receber cupons exclusivos de até 20% off.</p>
+                <div class="join w-full mt-2">
+                    <input type="email" placeholder="seuemail@exemplo.com" class="input input-bordered join-item w-full focus:outline-primary" /> 
+                    <button class="btn btn-primary join-item" onclick="showNotification('Inscrição realizada com sucesso!', 'success')">Inscrever</button>
+                </div>
+            </nav>
+        </div> 
+        <div class="footer footer-center p-6 bg-base-200 text-base-content/60 border-t border-base-300">
+            <p>Copyright © 2026 - ElectroVolt E-commerce S.A. CNPJ 00.000.000/0001-00</p>
+        </div>
+    </footer>
+
+    <!-- DRAWER DO CARRINHO (LATERAL DIREITO) -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" id="cart-overlay"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex">
+            <div class="w-screen max-w-md bg-base-100 flex flex-col shadow-2xl h-full border-l border-base-200">
+                <!-- Cabeçalho do Carrinho -->
+                <div class="p-6 border-b border-base-200 flex items-center justify-between bg-base-200/20">
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping text-secondary"></i> Seu Carrinho
+                    </h2>
+                    <button id="close-cart-btn" class="btn btn-sm btn-circle btn-ghost">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Conteúdo dos Itens -->
+                <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+                    <!-- Itens serão renderizados dinamicamente via JS -->
+                </div>
+
+                <!-- Resumo e Ações Finais -->
+                <div class="p-6 border-t border-base-200 bg-base-200/20 space-y-4">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-base-content/70">Subtotal</span>
+                            <span id="cart-subtotal" class="font-semibold">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-base-content/70">Frete estimado</span>
+                            <span id="cart-shipping" class="text-success font-medium">Grátis</span>
+                        </div>
+                        <div class="border-t border-base-200 my-2 pt-2 flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span id="cart-total" class="text-primary">R$ 0,00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-2 pt-2">
+                        <button id="checkout-btn" class="btn btn-primary w-full shadow-lg shadow-primary/20">Finalizar Compra</button>
+                        <button id="keep-shopping-btn" class="btn btn-ghost btn-sm w-full">Continuar Comprando</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE DETALHES DO PRODUTO -->
+    <dialog id="product-detail-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box max-w-3xl rounded-2xl p-0 overflow-hidden bg-base-100">
+            <!-- Botão Fechar -->
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-10 bg-base-100/50 backdrop-blur-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </form>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Imagem do Produto no Modal -->
+                <div class="relative bg-base-200 flex items-center justify-center min-h-[300px]">
+                    <img id="modal-product-img" src="" alt="" class="object-cover w-full h-full max-h-[400px]" onerror="this.src='https://placehold.co/400x400/31363F/FFF?text=Produto'" />
+                    <span id="modal-product-badge" class="absolute top-4 left-4 badge badge-primary font-bold">Lançamento</span>
+                </div>
+                <!-- Informações do Produto no Modal -->
+                <div class="p-6 md:p-8 flex flex-col justify-between space-y-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span id="modal-product-category" class="text-xs uppercase tracking-wider text-primary font-bold">Categoria</span>
+                            <div class="rating rating-xs">
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <span id="modal-product-rating" class="ml-1 text-xs font-semibold">4.8</span>
+                            </div>
+                        </div>
+                        <h2 id="modal-product-name" class="text-2xl font-black leading-tight">Nome do Produto</h2>
+                        <p id="modal-product-desc" class="text-base-content/70 text-sm leading-relaxed">Descrição detalhada do produto e suas especificações técnicas principais.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-baseline gap-3">
+                            <span id="modal-product-price" class="text-3xl font-extrabold text-primary">R$ 0,00</span>
+                            <span id="modal-product-old-price" class="text-sm line-through text-base-content/40">R$ 0,00</span>
+                        </div>
+                        
+                        <!-- Opções adicionais ilustrativas -->
+                        <div class="space-y-2">
+                            <span class="text-xs font-semibold uppercase text-base-content/60">Garantia</span>
+                            <div class="flex gap-2">
+                                <button class="btn btn-outline btn-xs btn-primary">12 Meses Oficial</button>
+                                <button class="btn btn-outline btn-xs">24 Meses (+ R$ 149)</button>
+                            </div>
+                        </div>
+
+                        <!-- Botão Adicionar ao Carrinho -->
+                        <button id="modal-add-to-cart-btn" class="btn btn-primary w-full gap-2 shadow-lg shadow-primary/20">
+                            <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>Fechar</button>
+        </form>
+    </dialog>
+
+    <!-- MODAL DE CHECKOUT -->
+    <dialog id="checkout-modal" class="modal">
+        <div class="modal-box max-w-2xl rounded-2xl p-6 bg-base-100">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </form>
+            
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-primary">
+                <i class="fa-solid fa-credit-card"></i> Finalizar Compra
+            </h3>
+
+            <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-6">
+                <!-- Informações de Envio -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-base-content/60 border-b border-base-200 pb-2">1. Dados de Entrega</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Nome Completo</span></label>
+                            <input type="text" required class="input input-bordered input-sm focus:outline-primary" placeholder="Nome Sobrenome" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">E-mail</span></label>
+                            <input type="email" required class="input input-bordered input-sm focus:outline-primary" placeholder="email@exemplo.com" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Endereço de Entrega</span></label>
+                            <input type="text" required class="input input-bordered input-sm focus:outline-primary" placeholder="Rua, Número, Bairro" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">CEP</span></label>
+                            <input type="text" required class="input input-bordered input-sm focus:outline-primary" placeholder="00000-000" id="cep-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Método de Pagamento -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-base-content/60 border-b border-base-200 pb-2">2. Forma de Pagamento</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="btn btn-outline btn-sm flex flex-col h-auto py-3 gap-2 cursor-pointer border-base-300">
+                            <input type="radio" name="payment-method" value="pix" checked class="radio radio-primary radio-xs hidden" />
+                            <i class="fa-brands fa-pix text-lg text-[#32BCAD]"></i>
+                            <span class="text-xs">PIX (10% OFF)</span>
+                        </label>
+                        <label class="btn btn-outline btn-sm flex flex-col h-auto py-3 gap-2 cursor-pointer border-base-300">
+                            <input type="radio" name="payment-method" value="card" class="radio radio-primary radio-xs hidden" />
+                            <i class="fa-solid fa-credit-card text-lg"></i>
+                            <span class="text-xs">Cartão</span>
+                        </label>
+                        <label class="btn btn-outline btn-sm flex flex-col h-auto py-3 gap-2 cursor-pointer border-base-300">
+                            <input type="radio" name="payment-method" value="boleto" class="radio radio-primary radio-xs hidden" />
+                            <i class="fa-solid fa-barcode text-lg"></i>
+                            <span class="text-xs">Boleto</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Resumo dos valores dentro do Checkout -->
+                <div class="bg-base-200 p-4 rounded-xl flex justify-between items-center">
+                    <div>
+                        <span class="text-xs block text-base-content/60">Total a pagar</span>
+                        <span id="checkout-total-val" class="text-xl font-extrabold text-primary">R$ 0,00</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary shadow-lg shadow-primary/20">Confirmar e Pagar</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- BANNER DE SUCESSO DO CHECKOUT -->
+    <dialog id="success-modal" class="modal">
+        <div class="modal-box text-center p-8 max-w-md rounded-2xl bg-base-100">
+            <div class="w-16 h-16 bg-success/20 text-success rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-success mb-2">Pedido Recebido!</h3>
+            <p class="text-base-content/70 text-sm mb-6">Agradecemos pela preferência! Seu pedido foi registrado sob o código <strong id="order-code">#EV-0000</strong> e as atualizações serão enviadas por e-mail.</p>
+            
+            <div class="bg-base-200 p-4 rounded-xl text-left mb-6 space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-base-content/60">Pagamento:</span>
+                    <span id="success-payment-method" class="font-semibold uppercase">PIX</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-base-content/60">Total pago:</span>
+                    <span id="success-total-val" class="font-bold text-primary">R$ 0,00</span>
+                </div>
+            </div>
+
+            <form method="dialog">
+                <button class="btn btn-primary w-full" onclick="clearCartAndCloseSuccess()">Entendido</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- NOTIFICAÇÕES (Toast) -->
+    <div id="toast-container" class="toast toast-end toast-bottom z-50"></div>
+
+    <!-- SCRIPTS DE CONTROLE (Vanilla JS) -->
+    <script>
+        // BANCO DE DADOS DE PRODUTOS
+        const produtos = [
+            {
+                id: 1,
+                name: "Smartphone Volt 12X",
+                category: "Smartphones",
+                price: 3499.00,
+                oldPrice: 3999.00,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
+                description: "O novo Volt 12X conta com 256GB de armazenamento, tela AMOLED de 120Hz, processador octa-core de última geração e câmeras quádruplas de 108MP de alta fidelidade para registros impecáveis.",
+                badge: "Lançamento"
+            },
+            {
+                id: 2,
+                name: "Notebook AeroPro Slim 15",
+                category: "Notebooks",
+                price: 5499.00,
+                oldPrice: 6299.00,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=400&q=80",
+                description: "Notebook ultrafino de alumínio aeronáutico com chip M2, 16GB de RAM unificada e SSD NVMe de 512GB. Perfeito para programadores, designers e profissionais em movimento.",
+                badge: "Mais vendido"
+            },
+            {
+                id: 3,
+                name: "Fone Over-Ear Noise-Cancelling H9",
+                category: "Audio",
+                price: 899.00,
+                oldPrice: 1199.00,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+                description: "Fone Bluetooth com Cancelamento de Ruído Ativo (ANC) inteligente, bateria com autonomia de até 40 horas e drivers de neodímio personalizados para graves robustos e médios claros.",
+                badge: "Oferta"
+            },
+            {
+                id: 4,
+                name: "Relógio Inteligente Chronos Fit",
+                category: "Wearables",
+                price: 459.00,
+                oldPrice: 599.00,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+                description: "Acompanhe seu ritmo diário com o Chronos Fit. Sensores integrados para monitoramento cardíaco contínuo, oxigenação do sangue, mais de 30 modos de esporte e resistência a água de 5ATM.",
+                badge: "Popular"
+            },
+            {
+                id: 5,
+                name: "Teclado Mecânico RGB Wireless VoltKey",
+                category: "Acessorios",
+                price: 349.00,
+                oldPrice: 429.00,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=400&q=80",
+                description: "Teclado mecânico compacto de perfil 65%, switches lineares amarelos lubrificados de fábrica, retroiluminação RGB customizável via software e conectividade tripla estável.",
+                badge: "Especial"
+            },
+            {
+                id: 6,
+                name: "Caixa de Som SoundCore Pulse Pro",
+                category: "Audio",
+                price: 599.00,
+                oldPrice: 749.00,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=400&q=80",
+                description: "Caixa de som Bluetooth com proteção à prova d'água IPX7, iluminação LED integrada que dança com a música e potência de 40W para animar qualquer ambiente com alta fidelidade acústica.",
+                badge: "Novidade"
+            },
+            {
+                id: 7,
+                name: "Monitor Gamer 27' Curvo QuadHD",
+                category: "Notebooks",
+                price: 1899.00,
+                oldPrice: 2299.00,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=400&q=80",
+                description: "Monitor de 27 polegadas com curvatura 1500R, resolução Quad HD (1440p), taxa de atualização de 165Hz e tempo de resposta ultra-rápido de 1ms para a melhor experiência competitiva.",
+                badge: "Gamer"
+            },
+            {
+                id: 8,
+                name: "Carregador Portátil PowerBank 20.000mAh",
+                category: "Acessorios",
+                price: 189.00,
+                oldPrice: 249.00,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1609592424109-dd9892f1b17c?auto=format&fit=crop&w=400&q=80",
+                description: "Bateria externa compacta de alta capacidade de carga. Equipado com Power Delivery (PD) de 22.5W e portas USB-C inteligentes que recarregam seu celular de 0 a 50% em apenas 30 minutos.",
+                badge: "Utilidade"
+            }
+        ];
+
+        // VARIÁVEIS DE ESTADO DO SISTEMA
+        let carrinho = [];
+        let filtrosAtivos = {
+            categoria: 'Todos',
+            busca: '',
+            precoMaximo: 10000
+        };
+        let ordenacaoAtual = 'default';
+
+        // ELEMENTOS DA DOM
+        const productsGrid = document.getElementById('products-grid');
+        const searchInput = document.getElementById('search-input');
+        const searchInputMobile = document.getElementById('search-input-mobile');
+        const priceRange = document.getElementById('price-range');
+        const priceVal = document.getElementById('price-val');
+        const sortSelect = document.getElementById('sort-select');
+        const noResults = document.getElementById('no-results');
+        const productsCount = document.getElementById('products-count');
+        const activeFiltersContainer = document.getElementById('active-filters');
+        const clearFiltersBtn = document.getElementById('clear-filters-btn');
+        const categoriesContainer = document.getElementById('categories-container');
+
+        // ELEMENTOS DO CARRINHO
+        const cartBtn = document.getElementById('cart-btn');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const keepShoppingBtn = document.getElementById('keep-shopping-btn');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartBadge = document.getElementById('cart-badge');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const cartShipping = document.getElementById('cart-shipping');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        // ELEMENTOS DOS MODAIS
+        const productDetailModal = document.getElementById('product-detail-modal');
+        const modalProductImg = document.getElementById('modal-product-img');
+        const modalProductBadge = document.getElementById('modal-product-badge');
+        const modalProductCategory = document.getElementById('modal-product-category');
+        const modalProductRating = document.getElementById('modal-product-rating');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDesc = document.getElementById('modal-product-desc');
+        const modalProductPrice = document.getElementById('modal-product-price');
+        const modalProductOldPrice = document.getElementById('modal-product-old-price');
+        const modalAddToCartBtn = document.getElementById('modal-add-to-cart-btn');
+
+        const checkoutModal = document.getElementById('checkout-modal');
+        const checkoutTotalVal = document.getElementById('checkout-total-val');
+        const successModal = document.getElementById('success-modal');
+
+        // INICIALIZAÇÃO DA PÁGINA
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProducts();
+            setupEventListeners();
+            initTheme();
+        });
+
+        // DETECTAR E SETAR TEMA PREFERIDO
+        function initTheme() {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const themeIcon = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                themeIcon.className = 'fa-solid fa-sun text-lg';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon text-lg';
+            }
+        }
+
+        // CONTROLADOR DE ALTERAÇÃO DE TEMA
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            showNotification(`Tema ${newTheme === 'dark' ? 'Escuro' : 'Claro'} ativado!`, 'info');
+        });
+
+        // MONTAGEM DINÂMICA DA SIDEBAR DE CATEGORIAS
+        function renderCategories() {
+            const categories = ['Todos', ...new Set(produtos.map(p => p.category))];
+            categoriesContainer.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const isSelected = filtrosAtivos.categoria === cat;
+                const button = document.createElement('button');
+                button.className = `btn btn-sm justify-start gap-2 w-full text-left font-semibold ${isSelected ? 'btn-primary' : 'btn-ghost'}`;
+                button.innerHTML = `
+                    <i class="fa-solid ${getCategoryIcon(cat)}"></i>
+                    <span>${formatCategoryName(cat)}</span>
+                `;
+                button.addEventListener('click', () => setCategory(cat));
+                categoriesContainer.appendChild(button);
+            });
+        }
+
+        function getCategoryIcon(category) {
+            switch(category) {
+                case 'Smartphones': return 'fa-mobile-screen-button';
+                case 'Notebooks': return 'fa-laptop';
+                case 'Audio': return 'fa-headphones';
+                case 'Wearables': return 'fa-clock';
+                case 'Acessorios': return 'fa-keyboard';
+                default: return 'fa-grip';
+            }
+        }
+
+        function formatCategoryName(category) {
+            switch(category) {
+                case 'Audio': return 'Áudio & Som';
+                case 'Acessorios': return 'Acessórios';
+                case 'Todos': return 'Todas as Categorias';
+                default: return category;
+            }
+        }
+
+        // RENDERIZAÇÃO DOS PRODUTOS NO GRID
+        function renderProducts() {
+            // Filtragem
+            let produtosFiltrados = produtos.filter(p => {
+                const matchCategory = filtrosAtivos.categoria === 'Todos' || p.category === filtrosAtivos.categoria;
+                const matchSearch = p.name.toLowerCase().includes(filtrosAtivos.busca.toLowerCase()) || 
+                                    p.description.toLowerCase().includes(filtrosAtivos.busca.toLowerCase()) || 
+                                    p.category.toLowerCase().includes(filtrosAtivos.busca.toLowerCase());
+                const matchPrice = p.price <= filtrosAtivos.precoMaximo;
+                return matchCategory && matchSearch && matchPrice;
+            });
+
+            // Ordenação
+            if (ordenacaoAtual === 'price-asc') {
+                produtosFiltrados.sort((a, b) => a.price - b.price);
+            } else if (ordenacaoAtual === 'price-desc') {
+                produtosFiltrados.sort((a, b) => b.price - a.price);
+            } else if (ordenacaoAtual === 'rating') {
+                produtosFiltrados.sort((a, b) => b.rating - a.rating);
+            }
+
+            // Exibir/Ocultar sem resultados
+            if (produtosFiltrados.length === 0) {
+                productsGrid.innerHTML = '';
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                productsGrid.innerHTML = '';
+                
+                produtosFiltrados.forEach(prod => {
+                    const card = document.createElement('div');
+                    card.className = "card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden group";
+                    card.innerHTML = `
+                        <!-- Imagem do Produto -->
+                        <figure class="relative bg-base-200 overflow-hidden pt-[100%] cursor-pointer" onclick="openProductDetail(${prod.id})">
+                            <img src="${prod.image}" alt="${prod.name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/31363F/FFF?text=${prod.name}'" />
+                            ${prod.badge ? `<span class="absolute top-3 left-3 badge badge-primary font-bold shadow-sm">${prod.badge}</span>` : ''}
+                            <button class="absolute bottom-3 right-3 btn btn-circle btn-primary btn-sm opacity-0 group-hover:opacity-100 transition-opacity shadow-md" aria-label="Detalhes Rápido">
+                                <i class="fa-solid fa-expand"></i>
+                            </button>
+                        </figure>
+
+                        <!-- Detalhes do Produto -->
+                        <div class="card-body p-5 space-y-3">
+                            <div class="flex items-center justify-between text-xs text-base-content/50">
+                                <span>${formatCategoryName(prod.category)}</span>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-warning text-xs"></i>
+                                    <span class="font-bold text-base-content">${prod.rating}</span>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-bold text-md leading-snug cursor-pointer line-clamp-1 hover:text-primary transition-colors" onclick="openProductDetail(${prod.id})">
+                                ${prod.name}
+                            </h3>
+                            
+                            <p class="text-xs text-base-content/60 line-clamp-2 h-8">
+                                ${prod.description}
+                            </p>
+
+                            <!-- Preços e Botão -->
+                            <div class="flex items-center justify-between pt-2">
+                                <div class="flex flex-col">
+                                    <span class="text-xs line-through text-base-content/40 font-medium">R$ ${prod.oldPrice.toFixed(2).replace('.', ',')}</span>
+                                    <span class="text-xl font-black text-primary">R$ ${prod.price.toFixed(2).replace('.', ',')}</span>
+                                </div>
+                                <button onclick="addToCart(${prod.id})" class="btn btn-primary btn-sm rounded-lg gap-2 text-xs">
+                                    <i class="fa-solid fa-cart-plus"></i> Comprar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productsGrid.appendChild(card);
+                });
+            }
+
+            productsCount.innerText = produtosFiltrados.length;
+            renderActiveChips();
+        }
+
+        // RENDERIZAÇÃO DOS CHIPS DE FILTRO ATIVOS
+        function renderActiveChips() {
+            activeFiltersContainer.innerHTML = '';
+            let hasActiveFilter = false;
+
+            if (filtrosAtivos.categoria !== 'Todos') {
+                hasActiveFilter = true;
+                createChip(`Cat: ${filtrosAtivos.categoria}`, () => setCategory('Todos'));
+            }
+
+            if (filtrosAtivos.busca !== '') {
+                hasActiveFilter = true;
+                createChip(`Busca: "${filtrosAtivos.busca}"`, () => {
+                    searchInput.value = '';
+                    searchInputMobile.value = '';
+                    filtrosAtivos.busca = '';
+                    renderProducts();
+                });
+            }
+
+            if (filtrosAtivos.precoMaximo < 10000) {
+                hasActiveFilter = true;
+                createChip(`Preço até R$ ${filtrosAtivos.precoMaximo}`, () => {
+                    priceRange.value = 10000;
+                    priceVal.innerText = 'R$ 10.000';
+                    filtrosAtivos.precoMaximo = 10000;
+                    renderProducts();
+                });
+            }
+
+            if (hasActiveFilter) {
+                clearFiltersBtn.classList.remove('hidden');
+            } else {
+                clearFiltersBtn.classList.add('hidden');
+            }
+        }
+
+        function createChip(text, onClose) {
+            const chip = document.createElement('div');
+            chip.className = "badge badge-primary badge-outline gap-2 p-3 font-semibold text-xs";
+            chip.innerHTML = `
+                <span>${text}</span>
+                <button class="hover:text-error transition-colors focus:outline-none" aria-label="Remover Filtro"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            chip.querySelector('button').addEventListener('click', onClose);
+            activeFiltersContainer.appendChild(chip);
+        }
+
+        // GERENCIADORES DE FILTRO DO USUÁRIO
+        function setCategory(cat) {
+            filtrosAtivos.categoria = cat;
+            renderCategories();
+            renderProducts();
+        }
+
+        function scrollToProducts(category) {
+            setCategory(category);
+            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetFilters() {
+            filtrosAtivos = {
+                categoria: 'Todos',
+                busca: '',
+                precoMaximo: 10000
+            };
+            ordenacaoAtual = 'default';
+            
+            searchInput.value = '';
+            searchInputMobile.value = '';
+            priceRange.value = 10000;
+            priceVal.innerText = 'R$ 10.000';
+            sortSelect.value = 'default';
+
+            renderCategories();
+            renderProducts();
+        }
+
+        // DETALHES DO PRODUTO (MODAL)
+        function openProductDetail(id) {
+            const product = produtos.find(p => p.id === id);
+            if (!product) return;
+
+            modalProductImg.src = product.image;
+            modalProductImg.alt = product.name;
+            modalProductBadge.innerText = product.badge || "Lançamento";
+            modalProductCategory.innerText = formatCategoryName(product.category);
+            modalProductRating.innerText = product.rating;
+            modalProductName.innerText = product.name;
+            modalProductDesc.innerText = product.description;
+            modalProductPrice.innerText = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+            modalProductOldPrice.innerText = `R$ ${product.oldPrice.toFixed(2).replace('.', ',')}`;
+            
+            // Reconfigura o clique do botão adicionar no modal
+            modalAddToCartBtn.onclick = () => {
+                addToCart(product.id);
+                productDetailModal.close();
+            };
+
+            productDetailModal.showModal();
+        }
+
+        // LÓGICA DO CARRINHO DE COMPRAS
+        function addToCart(id) {
+            const product = produtos.find(p => p.id === id);
+            if (!product) return;
+
+            const existingItem = carrinho.find(item => item.product.id === id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                carrinho.push({
+                    product: product,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showNotification(`"${product.name}" adicionado ao carrinho!`, "success");
+        }
+
+        function updateCartUI() {
+            // Atualizar contagem no ícone do header
+            const totalItems = carrinho.reduce((acc, item) => acc + item.quantity, 0);
+            if (totalItems > 0) {
+                cartBadge.innerText = totalItems;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+
+            // Renderizar itens no drawer
+            cartItemsContainer.innerHTML = '';
+            
+            if (carrinho.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-16 text-center space-y-4">
+                        <div class="text-5xl text-base-content/20"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <h3 class="font-bold text-md">Seu carrinho está vazio</h3>
+                        <p class="text-xs text-base-content/60 max-w-xs">Navegue pelas nossas categorias e encontre as melhores ofertas em tecnologia hoje mesmo!</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.disabled = false;
+                carrinho.forEach(item => {
+                    const cartItemEl = document.createElement('div');
+                    cartItemEl.className = "flex gap-4 p-3 bg-base-200/40 rounded-xl border border-base-200 hover:border-base-300 transition-colors";
+                    cartItemEl.innerHTML = `
+                        <!-- Thumbnail do Item -->
+                        <div class="w-20 h-20 bg-base-200 rounded-lg overflow-hidden flex-shrink-0">
+                            <img src="${item.product.image}" alt="${item.product.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/31363F/FFF?text=Item'" />
+                        </div>
+
+                        <!-- Detalhes e Controle -->
+                        <div class="flex-grow flex flex-col justify-between py-0.5">
+                            <div class="space-y-1">
+                                <h4 class="text-xs font-bold line-clamp-1 text-base-content">${item.product.name}</h4>
+                                <span class="text-xs text-primary font-extrabold block">R$ ${item.product.price.toFixed(2).replace('.', ',')}</span>
+                            </div>
+
+                            <div class="flex items-center justify-between mt-1">
+                                <!-- Quantidade -->
+                                <div class="join border border-base-300">
+                                    <button onclick="changeQuantity(${item.product.id}, -1)" class="btn btn-xs join-item btn-ghost text-base-content">-</button>
+                                    <span class="px-3 py-0.5 bg-base-100 text-xs font-semibold flex items-center join-item">${item.quantity}</span>
+                                    <button onclick="changeQuantity(${item.product.id}, 1)" class="btn btn-xs join-item btn-ghost text-base-content">+</button>
+                                </div>
+                                <!-- Remover -->
+                                <button onclick="removeFromCart(${item.product.id})" class="btn btn-ghost btn-xs text-error hover:bg-error/10" aria-label="Remover do Carrinho">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(cartItemEl);
+                });
+            }
+
+            // Atualização de valores
+            const subtotal = carrinho.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+            
+            // Regra simples de frete grátis acima de R$ 499
+            const freeShippingMin = 499.00;
+            const shippingCost = (subtotal >= freeShippingMin || subtotal === 0) ? 0 : 25.00;
+            const total = subtotal + shippingCost;
+
+            cartSubtotal.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            
+            if (subtotal === 0) {
+                cartShipping.innerText = "R$ 0,00";
+                cartShipping.className = "font-medium text-base-content/70";
+            } else if (shippingCost === 0) {
+                cartShipping.innerText = "Grátis";
+                cartShipping.className = "font-bold text-success";
+            } else {
+                cartShipping.innerText = `R$ ${shippingCost.toFixed(2).replace('.', ',')}`;
+                cartShipping.className = "font-semibold text-base-content/70";
+            }
+
+            cartTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            checkoutTotalVal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function changeQuantity(id, change) {
+            const item = carrinho.find(item => item.product.id === id);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                removeFromCart(id);
+            } else {
+                updateCartUI();
+            }
+        }
+
+        function removeFromCart(id) {
+            const item = carrinho.find(item => item.product.id === id);
+            carrinho = carrinho.filter(item => item.product.id !== id);
+            updateCartUI();
+            if (item) {
+                showNotification(`"${item.product.name}" removido do carrinho.`, "warning");
+            }
+        }
+
+        // GESTÃO DOS LISTENERS DE EVENTO
+        function setupEventListeners() {
+            // Busca Desktop
+            searchInput.addEventListener('input', (e) => {
+                filtrosAtivos.busca = e.target.value;
+                renderProducts();
+            });
+
+            // Busca Mobile
+            searchInputMobile.addEventListener('input', (e) => {
+                filtrosAtivos.busca = e.target.value;
+                renderProducts();
+            });
+
+            // Slider de Preço
+            priceRange.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                priceVal.innerText = `R$ ${val.toLocaleString('pt-BR')}`;
+                filtrosAtivos.precoMaximo = val;
+                renderProducts();
+            });
+
+            // Seletor de Ordenação
+            sortSelect.addEventListener('change', (e) => {
+                ordenacaoAtual = e.target.value;
+                renderProducts();
+            });
+
+            // Botão Limpar Tudo (no Sidebar)
+            clearFiltersBtn.addEventListener('click', () => {
+                resetFilters();
+                showNotification("Filtros redefinidos para os valores originais.", "info");
+            });
+
+            // Drawer do Carrinho (Exibição)
+            cartBtn.addEventListener('click', () => {
+                cartDrawer.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+
+            const closeCart = () => {
+                cartDrawer.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            };
+
+            closeCartBtn.addEventListener('click', closeCart);
+            keepShoppingBtn.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+
+            // Checkout Event
+            checkoutBtn.addEventListener('click', () => {
+                closeCart();
+                checkoutModal.showModal();
+            });
+        }
+
+        // SUBMISSÃO SIMULADA DO CHECKOUT
+        function handleCheckoutSubmit(event) {
+            event.preventDefault();
+            
+            // Obter informações do formulário para o resumo
+            const paymentMethodSelected = document.querySelector('input[name="payment-method"]:checked').value;
+            let finalPaymentMethodStr = "PIX";
+            
+            if (paymentMethodSelected === "card") {
+                finalPaymentMethodStr = "Cartão de Crédito";
+            } else if (paymentMethodSelected === "boleto") {
+                finalPaymentMethodStr = "Boleto Bancário";
+            }
+
+            // Gerar código de pedido randômico
+            const randomCode = `#EV-${Math.floor(1000 + Math.random() * 9000)}`;
+            
+            // Passar valores para o modal de sucesso
+            document.getElementById('order-code').innerText = randomCode;
+            document.getElementById('success-payment-method').innerText = finalPaymentMethodStr;
+            document.getElementById('success-total-val').innerText = checkoutTotalVal.innerText;
+
+            checkoutModal.close();
+            successModal.showModal();
+        }
+
+        // LIMPAR CARRINHO APÓS SUCESSO DE COMPRA
+        function clearCartAndCloseSuccess() {
+            carrinho = [];
+            updateCartUI();
+            successModal.close();
+            showNotification("Compra finalizada com sucesso! Seu recibo foi gerado.", "success");
+        }
+
+        // SISTEMA DE NOTIFICAÇÕES TOAST (Toast de Sucesso/Alerta customizado)
+        function showNotification(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const alert = document.createElement('div');
+            
+            let alertClass = "alert-success";
+            let iconClass = "fa-circle-check";
+            
+            if (type === "warning") {
+                alertClass = "alert-warning";
+                iconClass = "fa-triangle-exclamation";
+            } else if (type === "error") {
+                alertClass = "alert-error";
+                iconClass = "fa-circle-xmark";
+            } else if (type === "info") {
+                alertClass = "alert-info";
+                iconClass = "fa-circle-info";
+            }
+
+            alert.className = `alert ${alertClass} shadow-lg py-3 px-4 rounded-xl flex items-center gap-3 transition-all duration-300 transform translate-y-4 opacity-0`;
+            alert.innerHTML = `
+                <i class="fa-solid ${iconClass}"></i>
+                <span class="text-xs font-semibold">${message}</span>
+            `;
+            
+            container.appendChild(alert);
+
+            // Animação de entrada
+            setTimeout(() => {
+                alert.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            // Animação de saída e destruição
+            setTimeout(() => {
+                alert.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => {
+                    alert.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

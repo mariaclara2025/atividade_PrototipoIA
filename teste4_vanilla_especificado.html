@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroVibe | Premium Electronics</title>
+    <!-- Tailwind CSS para utilitários de alta velocidade e consistência visual -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes Google para tipografia elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --color-bg: #0f172a;
+            --color-surface: #1e293b;
+            --color-primary: #38bdf8;
+            --color-primary-hover: #0ea5e9;
+            --color-text: #f8fafc;
+            --color-text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Efeito de neon brilhante personalizado */
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+        }
+        
+        .neon-glow-btn:hover {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Drawer Transition */
+        .drawer-transition {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center neon-glow">
+                    <i data-lucide="zap" class="w-6 h-6 text-white animate-pulse"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-sky-200 to-white bg-clip-text text-transparent">
+                    Electro<span class="text-sky-400">Vibe</span>
+                </span>
+            </div>
+
+            <!-- Navegação Desktop -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#produtos" class="hover:text-sky-400 transition-colors">Produtos</a>
+                <a href="#sobre" class="hover:text-sky-400 transition-colors">Tecnologia</a>
+                <a href="#suporte" class="hover:text-sky-400 transition-colors">Suporte</a>
+            </nav>
+
+            <!-- Carrinho Triggers -->
+            <div class="flex items-center gap-4">
+                <button id="btn-carrinho" class="relative p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-sky-500/50 transition-all group">
+                    <i data-lucide="shopping-bag" class="w-6 h-6 text-slate-200 group-hover:text-sky-400 transition-colors"></i>
+                    <!-- Contador reativo de itens -->
+                    <span id="carrinho-contador" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-sky-500 text-[10px] font-bold text-slate-950 scale-0 transition-transform duration-300">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24">
+        <!-- Background Decorativos de Neon -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-10 right-10 w-[300px] h-[300px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20 mb-6">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Coleção Futurista de Áudio e Tech
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
+                Sinta a vibe da <span class="bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">tecnologia pura</span> nos seus ouvidos
+            </h1>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Descubra fones de ouvido de nível audiófilo, acessórios premium e wearables de alta performance projetados para a era espacial digital.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#produtos" class="px-8 py-4 w-full sm:w-auto rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-base transition-all flex items-center justify-center gap-2 neon-glow-btn">
+                    Explorar Coleção <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+                <button onclick="document.getElementById('produtos').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 w-full sm:w-auto rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 font-semibold text-base transition-all">
+                    Saber mais
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Produtos -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" id="produtos">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight">Eletrônicos em Destaque</h2>
+                <p class="text-slate-400 mt-1">Equipamentos meticulosamente desenhados para performance.</p>
+            </div>
+            <!-- Filtro Simples e Estilizado -->
+            <div class="flex items-center gap-2 text-sm text-slate-400">
+                <span class="font-medium">Categoria:</span>
+                <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-sky-400 font-semibold">Tudo</span>
+            </div>
+        </div>
+
+        <!-- Grid de Renderização de Produtos via JavaScript -->
+        <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Os cards dos produtos serão injetados dinamicamente aqui -->
+        </div>
+    </main>
+
+    <!-- Benefícios e Garantias -->
+    <section class="border-t border-slate-800 bg-slate-900/40 py-16 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-slate-900/50 border border-slate-800/80">
+                <div class="p-3 rounded-xl bg-sky-500/10 text-sky-400">
+                    <i data-lucide="truck" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-slate-100">Envio Expresso Grátis</h4>
+                    <p class="text-sm text-slate-400 mt-1">Receba com seguro e embalagem hermética protetora em todo o país.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-slate-900/50 border border-slate-800/80">
+                <div class="p-3 rounded-xl bg-sky-500/10 text-sky-400">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-slate-100">Garantia Vibe Care Pro</h4>
+                    <p class="text-sm text-slate-400 mt-1">3 anos de garantia direta de fábrica sem dores de cabeça ou burocracia.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-4 p-6 rounded-2xl bg-slate-900/50 border border-slate-800/80">
+                <div class="p-3 rounded-xl bg-sky-500/10 text-sky-400">
+                    <i data-lucide="headset" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-slate-100">Suporte 24/7 de Especialistas</h4>
+                    <p class="text-sm text-slate-400 mt-1">Fale diretamente com engenheiros de áudio e tech a qualquer momento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-12 w-full text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center">
+                    <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-white">
+                    Electro<span class="text-sky-400">Vibe</span>
+                </span>
+            </div>
+            <p class="text-xs text-slate-500">
+                &copy; 2026 ElectroVibe Inc. Desenvolvido para entusiastas de inovação e alta performance. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Overlay de Fundo do Drawer (Fica visível ao abrir o carrinho) -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
+
+    <!-- Carrinho Lateral (Drawer) -->
+    <div id="carrinho-drawer" class="fixed top-0 right-0 h-full w-full sm:max-w-md bg-slate-900 border-l border-slate-800 z-50 shadow-2xl drawer-transition translate-x-full flex flex-col justify-between">
+        <!-- Header do Drawer -->
+        <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-sky-400"></i>
+                <h3 class="font-bold text-xl text-slate-100">Seu Carrinho</h3>
+            </div>
+            <button id="btn-fechar-carrinho" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-slate-600 transition-colors">
+                <i data-lucide="x" class="w-5 h-5 text-slate-300"></i>
+            </button>
+        </div>
+
+        <!-- Corpo: Lista de Itens Adicionados -->
+        <div id="carrinho-itens-container" class="flex-grow overflow-y-auto p-6 space-y-4">
+            <!-- Estado Vazio padrão do Carrinho -->
+            <div id="carrinho-vazio-msg" class="h-full flex flex-col items-center justify-center text-center space-y-4">
+                <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center">
+                    <i data-lucide="shopping-cart" class="w-8 h-8 text-slate-500"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-300">Carrinho Vazio</h4>
+                    <p class="text-sm text-slate-500 mt-1 max-w-[220px]">Você ainda não adicionou nenhum dispositivo à sua vibe.</p>
+                </div>
+            </div>
+
+            <!-- Lista de cards renderizados de forma dinâmica -->
+            <div id="lista-carrinho" class="space-y-4 hidden"></div>
+        </div>
+
+        <!-- Footer do Drawer: Subtotal e Checkout -->
+        <div class="p-6 border-t border-slate-800 bg-slate-900/80 backdrop-blur-sm">
+            <div class="space-y-3 mb-6">
+                <div class="flex justify-between text-sm text-slate-400">
+                    <span>Subtotal</span>
+                    <span id="carrinho-subtotal">R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-sm text-slate-400">
+                    <span>Frete Expresso</span>
+                    <span class="text-emerald-400 font-semibold">Grátis</span>
+                </div>
+                <hr class="border-slate-800">
+                <div class="flex justify-between items-end">
+                    <span class="font-semibold text-slate-200">Valor Total:</span>
+                    <span id="carrinho-total" class="font-extrabold text-2xl text-sky-400">R$ 0,00</span>
+                </div>
+            </div>
+
+            <button id="btn-finalizar-compra" class="w-full py-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold transition-all flex items-center justify-center gap-2 neon-glow-btn disabled:opacity-50 disabled:pointer-events-none" disabled>
+                <i data-lucide="credit-card" class="w-5 h-5"></i> Finalizar Compra
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação de Ação Efetuada -->
+    <div id="toast-notificacao" class="fixed bottom-6 left-6 z-50 flex items-center gap-3 p-4 rounded-xl bg-slate-900 border border-slate-700/80 shadow-2xl translate-y-24 opacity-0 transition-all duration-300 max-w-sm pointer-events-none">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <p class="font-semibold text-sm text-slate-100" id="toast-titulo">Produto Adicionado!</p>
+            <p class="text-xs text-slate-400 mt-0.5" id="toast-mensagem">Seu carrinho já está atualizado com as novidades.</p>
+        </div>
+    </div>
+
+    <!-- LÓGICA DE NEGÓCIO DA APLICAÇÃO (POO) -->
+    <script>
+        // --- PROTÓTIPOS DE SVGS EXCLUSIVOS ---
+        // Evita chamadas de imagens externas quebradas ou lentas
+        const SVGS = {
+            auroraHeadphones: `
+                <svg viewBox="0 0 200 200" class="w-full h-full p-4" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="auroraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#6366f1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" rx="24" fill="#1e293b"/>
+                    <!-- Arco -->
+                    <path d="M50,110 C50,50 150,50 150,110" fill="none" stroke="url(#auroraGrad)" stroke-width="12" stroke-linecap="round" />
+                    <!-- Fios elétricos sutis -->
+                    <path d="M55,100 L55,115 M145,100 L145,115" stroke="#475569" stroke-width="3" />
+                    <!-- Concha Esquerda -->
+                    <rect x="35" y="105" width="30" height="50" rx="15" fill="url(#auroraGrad)" />
+                    <rect x="25" y="115" width="10" height="30" rx="5" fill="#0f172a" />
+                    <!-- Concha Direita -->
+                    <rect x="135" y="105" width="30" height="50" rx="15" fill="url(#auroraGrad)" />
+                    <rect x="165" y="115" width="10" height="30" rx="5" fill="#0f172a" />
+                    <!-- Detalhes de brilho neon -->
+                    <circle cx="50" cy="130" r="4" fill="#ffffff" opacity="0.6"/>
+                    <circle cx="150" cy="130" r="4" fill="#ffffff" opacity="0.6"/>
+                </svg>`,
+            cyberWatch: `
+                <svg viewBox="0 0 200 200" class="w-full h-full p-4" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="watchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#ec4899" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" rx="24" fill="#1e293b"/>
+                    <!-- Pulseira -->
+                    <rect x="80" y="20" width="40" height="160" rx="10" fill="#0f172a" />
+                    <!-- Corpo Smartwatch -->
+                    <rect x="60" y="60" width="80" height="80" rx="20" fill="#334155" stroke="url(#watchGrad)" stroke-width="4" />
+                    <!-- Tela Display -->
+                    <rect x="68" y="68" width="64" height="64" rx="14" fill="#0f172a" />
+                    <!-- Interface Gráfica -->
+                    <text x="100" y="100" font-family="monospace" font-size="20" font-weight="bold" fill="url(#watchGrad)" text-anchor="middle">10:42</text>
+                    <circle cx="85" cy="115" r="4" fill="#38bdf8" />
+                    <circle cx="100" cy="115" r="4" fill="#38bdf8" />
+                    <circle cx="115" cy="115" r="4" fill="#ec4899" />
+                </svg>`,
+            nebulaKeyboard: `
+                <svg viewBox="0 0 200 200" class="w-full h-full p-4" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="keyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#8b5cf6" />
+                            <stop offset="100%" stop-color="#38bdf8" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" rx="24" fill="#1e293b"/>
+                    <!-- Corpo do Teclado -->
+                    <rect x="30" y="70" width="140" height="60" rx="10" fill="#0f172a" stroke="url(#keyGrad)" stroke-width="3" />
+                    <!-- Linha de Teclas 1 -->
+                    <rect x="40" y="80" width="16" height="12" rx="3" fill="url(#keyGrad)" />
+                    <rect x="62" y="80" width="16" height="12" rx="3" fill="#334155" />
+                    <rect x="84" y="80" width="16" height="12" rx="3" fill="#334155" />
+                    <rect x="106" y="80" width="16" height="12" rx="3" fill="#334155" />
+                    <rect x="128" y="80" width="16" height="12" rx="3" fill="#334155" />
+                    <rect x="150" y="80" width="10" height="12" rx="3" fill="url(#keyGrad)" />
+                    <!-- Linha de Teclas 2 -->
+                    <rect x="40" y="98" width="22" height="12" rx="3" fill="#334155" />
+                    <rect x="68" y="98" width="16" height="12" rx="3" fill="#334155" />
+                    <rect x="90" y="98" width="45" height="12" rx="3" fill="url(#keyGrad)" />
+                    <rect x="141" y="98" width="19" height="12" rx="3" fill="#334155" />
+                    <!-- Linha de Teclas 3 -->
+                    <rect x="40" y="114" width="120" height="8" rx="2" fill="#0f172a" />
+                </svg>`,
+            quantumMouse: `
+                <svg viewBox="0 0 200 200" class="w-full h-full p-4" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mouseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#10b981" />
+                            <stop offset="100%" stop-color="#38bdf8" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" rx="24" fill="#1e293b"/>
+                    <!-- Corpo do Mouse -->
+                    <path d="M100,45 C75,45 65,80 65,115 C65,150 80,155 100,155 C120,155 135,150 135,115 C135,80 125,45 100,45 Z" fill="#0f172a" stroke="url(#mouseGrad)" stroke-width="4" />
+                    <!-- Scroll Wheel -->
+                    <rect x="97" y="60" width="6" height="20" rx="3" fill="url(#mouseGrad)" />
+                    <!-- Fenda central -->
+                    <line x1="100" y1="80" x2="100" y2="105" stroke="#334155" stroke-width="2" />
+                    <!-- Brilho lateral neon -->
+                    <path d="M70,120 C75,135 85,145 100,145 C115,145 125,135 130,120" fill="none" stroke="url(#mouseGrad)" stroke-width="3" opacity="0.7" />
+                </svg>`
+        };
+
+        // --- ARQUITETURA POO NO JAVASCRIPT ---
+
+        /**
+         * Classe representando o modelo de um Produto no E-Commerce
+         */
+        class Produto {
+            /**
+             * @param {string} id - ID único do produto
+             * @param {string} nome - Nome do produto
+             * @param {number} preco - Preço em Reais
+             * @param {string} imagemUrl - Chave do Objeto SVGS para visualização do produto
+             */
+            constructor(id, nome, preco, imagemUrl) {
+                this.id = id;
+                this.nome = nome;
+                this.preco = preco;
+                this.imagemUrl = imagemUrl;
+            }
+
+            /**
+             * Retorna a estrutura do card HTML renderizada de forma elegante e padronizada.
+             * @returns {HTMLElement} Card de produto pronto para injeção no DOM
+             */
+            obterElementoHTML() {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-sky-500/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col group";
+                
+                // Formatação monetária PT-BR
+                const precoFormatado = this.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                
+                // Obtendo o SVG
+                const svgConteudo = SVGS[this.imagemUrl] || SVGS.auroraHeadphones;
+
+                card.innerHTML = `
+                    <div class="relative overflow-hidden bg-slate-950 flex items-center justify-center h-52 group-hover:bg-slate-950/80 transition-all">
+                        ${svgConteudo}
+                        <div class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-sky-400 border border-sky-500/20">
+                            Premium Tech
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-100 group-hover:text-sky-400 transition-colors line-clamp-1">${this.nome}</h3>
+                            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+                                4.9 (48 avaliações)
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 font-medium">À vista</span>
+                                <span class="text-xl font-black text-slate-100">${precoFormatado}</span>
+                            </div>
+                            <button class="add-btn px-4 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm transition-all flex items-center gap-1.5 neon-glow-btn" data-id="${this.id}">
+                                <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Recriar ícones do Lucide de forma pontual para o card
+                setTimeout(() => lucide.createIcons({ scope: card }), 0);
+
+                return card;
+            }
+        }
+
+        /**
+         * Classe gerenciadora do Estado do Carrinho de Compras
+         */
+        class Carrinho {
+            #itens; // Campo Privado (Encapsulamento estrito ES6)
+
+            constructor() {
+                this.#itens = [];
+            }
+
+            /**
+             * Retorna a lista de itens de forma protegida contra manipulação direta externa
+             * @returns {Array} Cópia estruturada do array de itens do carrinho
+             */
+            obterItens() {
+                return [...this.#itens];
+            }
+
+            /**
+             * Adiciona um produto ao carrinho ou incrementa sua quantidade
+             * @param {Produto} produto - Instância da classe Produto
+             */
+            adicionarProduto(produto) {
+                const itemExistente = this.#itens.find(item => item.produto.id === produto.id);
+
+                if (itemExistente) {
+                    itemExistente.quantidade += 1;
+                } else {
+                    this.#itens.push({ produto, quantidade: 1 });
+                }
+
+                this.atualizarInterface();
+                this.mostrarNotificacao(`Adicionado ao Carrinho`, `${produto.nome} foi incluído.`);
+            }
+
+            /**
+             * Remove uma unidade de um produto do carrinho ou zera por completo
+             * @param {string} idProduto - ID único do produto a ser editado
+             */
+            removerProduto(idProduto) {
+                const index = this.#itens.findIndex(item => item.produto.id === idProduto);
+
+                if (index !== -1) {
+                    const item = this.#itens[index];
+                    if (item.quantidade > 1) {
+                        item.quantidade -= 1;
+                    } else {
+                        this.#itens.splice(index, 1);
+                    }
+                }
+
+                this.atualizarInterface();
+            }
+
+            /**
+             * Zera ou limpa de vez aquele ID do carrinho
+             * @param {string} idProduto 
+             */
+            deletarItemCompleto(idProduto) {
+                this.#itens = this.#itens.filter(item => item.produto.id !== idProduto);
+                this.atualizarInterface();
+            }
+
+            /**
+             * Calcula o preço somado total de todos os itens considerando a quantidade de cada um
+             * @returns {number} Valor total acumulado
+             */
+            calcularTotal() {
+                return this.#itens.reduce((total, item) => total + (item.produto.preco * item.quantidade), 0);
+            }
+
+            /**
+             * Calcula a quantidade total líquida de itens no carrinho
+             * @returns {number} Quantidade total de itens
+             */
+            obterQuantidadeTotal() {
+                return this.#itens.reduce((total, item) => total + item.quantidade, 0);
+            }
+
+            /**
+             * Atualiza todos os elementos de Interface do Usuário (UI/DOM) de forma síncrona
+             */
+            atualizarInterface() {
+                const totalContador = this.obterQuantidadeTotal();
+                const totalValor = this.calcularTotal();
+
+                // 1. Atualizar Contador da Navbar
+                const contadorElemento = document.getElementById('carrinho-contador');
+                contadorElemento.textContent = totalContador;
+                if (totalContador > 0) {
+                    contadorElemento.classList.remove('scale-0');
+                    contadorElemento.classList.add('scale-100');
+                } else {
+                    contadorElemento.classList.remove('scale-100');
+                    contadorElemento.classList.add('scale-0');
+                }
+
+                // 2. Controlar visibilidade de Estado Vazio vs Preenchido do Drawer
+                const msgVazio = document.getElementById('carrinho-vazio-msg');
+                const listaCarrinho = document.getElementById('lista-carrinho');
+                const btnFinalizar = document.getElementById('btn-finalizar-compra');
+
+                if (this.#itens.length === 0) {
+                    msgVazio.classList.remove('hidden');
+                    listaCarrinho.classList.add('hidden');
+                    btnFinalizar.setAttribute('disabled', 'true');
+                } else {
+                    msgVazio.classList.add('hidden');
+                    listaCarrinho.classList.remove('hidden');
+                    btnFinalizar.removeAttribute('disabled');
+                }
+
+                // 3. Renderizar Itens Atuais no Drawer
+                listaCarrinho.innerHTML = '';
+                this.#itens.forEach(item => {
+                    const itemHTML = document.createElement('div');
+                    itemHTML.className = "flex items-center gap-4 bg-slate-950 p-3.5 rounded-xl border border-slate-800/80 hover:border-slate-700 transition-colors";
+                    
+                    const subtotalItem = (item.produto.preco * item.quantidade).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                    itemHTML.innerHTML = `
+                        <div class="w-14 h-14 rounded-lg bg-slate-900 overflow-hidden flex-shrink-0">
+                            ${SVGS[item.produto.imagemUrl]}
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-bold text-sm text-slate-100 truncate">${item.produto.nome}</h4>
+                            <p class="text-xs text-sky-400 font-semibold mt-0.5">${subtotalItem}</p>
+                            
+                            <div class="flex items-center gap-2.5 mt-2">
+                                <button class="btn-subtrair p-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors" data-id="${item.produto.id}">
+                                    <i data-lucide="minus" class="w-3 h-3"></i>
+                                </button>
+                                <span class="text-sm font-bold text-slate-200 select-none">${item.quantidade}</span>
+                                <button class="btn-adicionar p-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors" data-id="${item.produto.id}">
+                                    <i data-lucide="plus" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn-deletar p-2 text-slate-500 hover:text-rose-400 rounded-lg hover:bg-rose-500/10 transition-all self-center" data-id="${item.produto.id}">
+                            <i data-lucide="trash-2" class="w-4.5 h-4.5"></i>
+                        </button>
+                    `;
+
+                    listaCarrinho.appendChild(itemHTML);
+                });
+
+                // Atualizar os sub-ícones injetados no carrinho
+                lucide.createIcons({ scope: listaCarrinho });
+
+                // 4. Registrar Event Listeners dos botões de controle de quantidade recém criados
+                this.vincularAcoesCarrinho(listaCarrinho);
+
+                // 5. Atualizar Totais Finais
+                document.getElementById('carrinho-subtotal').textContent = totalValor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                document.getElementById('carrinho-total').textContent = totalValor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+            /**
+             * Mapeia os listeners de clique para as interações diretas no carrinho lateral
+             * @param {HTMLElement} container 
+             */
+            vincularAcoesCarrinho(container) {
+                container.querySelectorAll('.btn-adicionar').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const item = this.#itens.find(i => i.produto.id === id);
+                        if (item) this.adicionarProduto(item.produto);
+                    });
+                });
+
+                container.querySelectorAll('.btn-subtrair').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        this.removerProduto(id);
+                    });
+                });
+
+                container.querySelectorAll('.btn-deletar').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        this.deletarItemCompleto(id);
+                    });
+                });
+            }
+
+            /**
+             * Dispara um Toast de Notificação na tela
+             * @param {string} titulo 
+             * @param {string} msg 
+             */
+            mostrarNotificacao(titulo, msg) {
+                const toast = document.getElementById('toast-notificacao');
+                const toastTitulo = document.getElementById('toast-titulo');
+                const toastMsg = document.getElementById('toast-mensagem');
+
+                toastTitulo.textContent = titulo;
+                toastMsg.textContent = msg;
+
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 3000);
+            }
+        }
+
+        // --- INSTANCIAÇÃO DE DADOS & INTERFACE DO USUÁRIO (UI) ---
+
+        // Base de Dados de Produtos Mockados de alta fidelidade
+        const PRODUTOS_MOCKADOS = [
+            new Produto("p1", "Fones Aurora Vibe Max", 1299.90, "auroraHeadphones"),
+            new Produto("p2", "CyberWatch Aurora Pro", 1899.00, "cyberWatch"),
+            new Produto("p3", "Teclado Mecânico Nebula RGB", 649.90, "nebulaKeyboard"),
+            new Produto("p4", "Quantum Mouse Silent 16k", 349.90, "quantumMouse"),
+            new Produto("p5", "Fones Aurora Vibe Stealth", 1199.90, "auroraHeadphones"),
+            new Produto("p6", "CyberWatch Sport Edition", 1499.00, "cyberWatch"),
+            new Produto("p7", "Teclado Custom Compact", 799.00, "nebulaKeyboard"),
+            new Produto("p8", "Quantum Mouse Wireless Pro", 499.90, "quantumMouse")
+        ];
+
+        // Inicialização de Instâncias Principais
+        const carrinhoInstancia = new Carrinho();
+
+        // Aguarda carregamento total do DOM
+        window.addEventListener('DOMContentLoaded', () => {
+            // Inicializar Ícones Globais
+            lucide.createIcons();
+
+            // Renderizar Grid de Produtos
+            const gridProdutos = document.getElementById('grid-produtos');
+            PRODUTOS_MOCKADOS.forEach(produto => {
+                const cardElemento = produto.obterElementoHTML();
+                
+                // Mapear ação de clique no botão 'Adicionar' de cada Card
+                const btnAdd = cardElemento.querySelector('.add-btn');
+                btnAdd.addEventListener('click', () => {
+                    carrinhoInstancia.adicionarProduto(produto);
+                });
+
+                gridProdutos.appendChild(cardElemento);
+            });
+
+            // --- CONTROLE DE INTERAÇÃO DO DRAWER DO CARRINHO ---
+            const btnCarrinho = document.getElementById('btn-carrinho');
+            const btnFecharCarrinho = document.getElementById('btn-fechar-carrinho');
+            const drawerOverlay = document.getElementById('drawer-overlay');
+            const carrinhoDrawer = document.getElementById('carrinho-drawer');
+            const btnFinalizarCompra = document.getElementById('btn-finalizar-compra');
+
+            function abrirDrawer() {
+                drawerOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    drawerOverlay.classList.remove('opacity-0');
+                    carrinhoDrawer.classList.remove('translate-x-full');
+                }, 10);
+            }
+
+            function fecharDrawer() {
+                carrinhoDrawer.classList.add('translate-x-full');
+                drawerOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    drawerOverlay.classList.add('hidden');
+                }, 300);
+            }
+
+            btnCarrinho.addEventListener('click', abrirDrawer);
+            btnFecharCarrinho.addEventListener('click', fecharDrawer);
+            drawerOverlay.addEventListener('click', fecharDrawer);
+
+            // Mock de finalização de Compra
+            btnFinalizarCompra.addEventListener('click', () => {
+                carrinhoInstancia.mostrarNotificacao("Pedido Processado!", "Verifique o seu e-mail para acompanhar a entrega.");
+                fecharDrawer();
+                // Limpar carrinho simulado
+                const itensAtuais = carrinhoInstancia.obterItens();
+                itensAtuais.forEach(item => carrinhoInstancia.deletarItemCompleto(item.produto.id));
+            });
+        });
+    </script>
+</body>
+</html>

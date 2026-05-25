@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechVault | Eletrônicos de Alta Performance</title>
+    <!-- Bootstrap 5.3.2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-glow: #00f2fe;
+            --secondary-glow: #4facfe;
+            --dark-bg: #0b0f19;
+            --card-bg-dark: #131a2c;
+            --card-bg-light: #ffffff;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--dark-bg);
+            color: #f8f9fa;
+            transition: var(--transition-smooth);
+            overflow-x: hidden;
+        }
+
+        /* Light Mode Customizations */
+        [data-bs-theme="light"] body {
+            background-color: #f4f6f9;
+            color: #1a1f2c;
+        }
+
+        /* Navbar & Header */
+        .navbar {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1030;
+        }
+        [data-bs-theme="light"] .navbar {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphism Hero Section */
+        .hero-section {
+            padding: 120px 0 80px 0;
+            background: radial-gradient(circle at 90% 10%, rgba(0, 242, 254, 0.15), transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(79, 172, 254, 0.1), transparent 40%);
+        }
+        [data-bs-theme="light"] .hero-section {
+            background: radial-gradient(circle at 90% 10%, rgba(0, 242, 254, 0.08), transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(79, 172, 254, 0.05), transparent 40%);
+        }
+
+        /* Product Cards */
+        .product-card {
+            background-color: var(--card-bg-dark);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        [data-bs-theme="light"] .product-card {
+            background-color: var(--card-bg-light);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+        }
+        [data-bs-theme="light"] .product-card:hover {
+            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.15);
+            border-color: rgba(79, 172, 254, 0.3);
+        }
+
+        .product-img-container {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 240px;
+            overflow: hidden;
+        }
+        [data-bs-theme="light"] .product-img-container {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .product-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            transition: var(--transition-smooth);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            color: #0b0f19;
+            z-index: 2;
+        }
+
+        .btn-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        [data-bs-theme="light"] .btn-action {
+            background-color: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #1a1f2c;
+        }
+
+        .btn-action:hover {
+            background-color: var(--primary-glow);
+            color: #0b0f19;
+            transform: scale(1.1);
+        }
+
+        .card-body-custom {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .category-text {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-glow);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 48px;
+        }
+
+        .price-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        [data-bs-theme="light"] .price-text {
+            color: #1a1f2c;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 0.85rem;
+        }
+
+        /* Cart Offcanvas */
+        .offcanvas {
+            background-color: var(--card-bg-dark);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 450px !important;
+        }
+        [data-bs-theme="light"] .offcanvas {
+            background-color: var(--card-bg-light);
+            border-left: 1px solid rgba(0, 0, 0, 0.08);
+            color: #1a1f2c;
+        }
+
+        .cart-item {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: var(--transition-smooth);
+        }
+        [data-bs-theme="light"] .cart-item {
+            background-color: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        /* Quantity Selector */
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 2px 6px;
+            width: fit-content;
+        }
+        [data-bs-theme="light"] .qty-selector {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .qty-btn:hover {
+            color: var(--primary-glow);
+        }
+
+        /* Badges & Counters */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            color: #0b0f19;
+            font-size: 0.75rem;
+            font-weight: 800;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid var(--dark-bg);
+        }
+        [data-bs-theme="light"] .cart-badge {
+            border: 2px solid #f4f6f9;
+        }
+
+        /* Category Filter Buttons */
+        .filter-btn {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        [data-bs-theme="light"] .filter-btn {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1a1f2c;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            color: #0b0f19;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.25);
+        }
+
+        /* Toast Styling */
+        .toast-container {
+            z-index: 1060;
+        }
+
+        .toast-custom {
+            background-color: var(--card-bg-dark) !important;
+            border: 1px solid rgba(0, 242, 254, 0.3) !important;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        [data-bs-theme="light"] .toast-custom {
+            background-color: var(--card-bg-light) !important;
+            border: 1px solid rgba(79, 172, 254, 0.3) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* custom checkout state */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .checkout-progress {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            color: #0b0f19;
+            font-weight: 700;
+            border: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #00d4df, #4396dc);
+            color: #0b0f19;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Back to top */
+        .btn-back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            display: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-cpu-fill fs-3 text-info"></i>
+                <span>TechVault</span>
+            </a>
+            
+            <button class="navbar-toggler" type="text" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navContent">
+                <form class="mx-auto my-3 my-lg-0 w-50 position-relative" id="searchForm" onsubmit="event.preventDefault();">
+                    <input class="form-control rounded-pill bg-dark-subtle border-0 py-2 ps-4 pe-5 text-reset" type="search" id="searchInput" placeholder="Buscar produtos incríveis..." aria-label="Search">
+                    <button class="btn position-absolute end-0 top-50 translate-middle-y me-2 text-secondary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+
+                <div class="d-flex align-items-center gap-3 justify-content-end">
+                    <!-- Theme Toggle -->
+                    <button class="btn btn-action" id="themeToggler" onclick="toggleTheme()" title="Mudar tema">
+                        <i class="bi bi-sun-fill" id="themeIcon"></i>
+                    </button>
+
+                    <!-- Cart Trigger -->
+                    <button class="btn btn-action position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" title="Ver carrinho">
+                        <i class="bi bi-bag-fill"></i>
+                        <span class="cart-badge d-none" id="cartBadgeCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center text-lg-start">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <span class="badge bg-info-subtle text-info px-3 py-2 rounded-pill mb-3 fw-semibold">Lançamento de Outono</span>
+                    <h1 class="display-4 fw-extrabold mb-4">A Próxima Geração de <span class="text-info">Eletrônicos</span> Já Chegou</h1>
+                    <p class="lead text-secondary mb-4">Explore nossa curadoria de tecnologia premium com entrega ultra-rápida, garantia exclusiva de 2 anos e as melhores opções de parcelamento.</p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#catalogo" class="btn btn-gradient px-4 py-3 rounded-pill">Explorar Catálogo <i class="bi bi-arrow-right ms-2"></i></a>
+                        <a href="#ofertas" class="btn btn-outline-secondary px-4 py-3 rounded-pill">Ver Ofertas</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="position-relative">
+                        <!-- Imagem conceitual mock de produto em destaque -->
+                        <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px)">
+                            <div class="text-center py-4">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop" alt="Auscultadores de Ouvido Estilo Estúdio Premium" class="img-fluid rounded-3 shadow-lg mb-3" style="max-height: 280px; object-fit: cover;">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1 fw-bold">Acoustic Pro Max V2</h5>
+                                    <span class="rating-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (128 avaliações)</span>
+                                </div>
+                                <div class="text-end">
+                                    <h4 class="text-info fw-extrabold mb-0">R$ 1.299</h4>
+                                    <span class="text-muted text-decoration-line-through small">R$ 1.599</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content / Store Layout -->
+    <main class="container py-5" id="catalogo">
+        <!-- Filter Bar & Sorter -->
+        <div class="row align-items-center mb-5 g-4">
+            <div class="col-lg-8">
+                <div class="d-flex flex-wrap gap-2" id="categoryContainer">
+                    <!-- Categorias inseridas dinamicamente via JS -->
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <div class="d-flex align-items-center justify-content-lg-end gap-2">
+                    <label for="sortSelector" class="text-secondary text-nowrap small">Ordenar por:</label>
+                    <select class="form-select rounded-pill bg-dark-subtle border-0" id="sortSelector" style="width: 200px;" onchange="handleSorting(this.value)">
+                        <option value="default">Destaques</option>
+                        <option value="price-asc">Menor preço</option>
+                        <option value="price-desc">Maior preço</option>
+                        <option value="rating">Melhor avaliação</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="productsGrid">
+            <!-- Os cards dos produtos serão renderizados dinamicamente pelo JS -->
+        </div>
+
+        <!-- Info/Advantages Grid -->
+        <section class="mt-5 pt-5 border-top border-secondary-subtle" id="ofertas">
+            <div class="row g-4 text-center">
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.02)">
+                        <i class="bi bi-truck fs-1 text-info mb-3"></i>
+                        <h5 class="fw-bold">Frete Grátis</h5>
+                        <p class="text-secondary small mb-0">Para compras acima de R$ 250 de forma rápida e segura.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.02)">
+                        <i class="bi bi-shield-check fs-1 text-info mb-3"></i>
+                        <h5 class="fw-bold">Garantia TechVault</h5>
+                        <p class="text-secondary small mb-0">2 anos de garantia direta para qualquer defeito técnico.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.02)">
+                        <i class="bi bi-arrow-left-right fs-1 text-info mb-3"></i>
+                        <h5 class="fw-bold">Troca Fácil</h5>
+                        <p class="text-secondary small mb-0">Até 30 dias após o recebimento para trocar sem burocracia.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.02)">
+                        <i class="bi bi-chat-quote fs-1 text-info mb-3"></i>
+                        <h5 class="fw-bold">Suporte Premium</h5>
+                        <p class="text-secondary small mb-0">Atendimento humanizado disponível 24 horas por dia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Offcanvas (Painel Lateral do Carrinho) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header border-bottom border-secondary-subtle py-4">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel">
+                <i class="bi bi-bag-check-fill text-info me-2"></i>Seu Carrinho
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column justify-content-between">
+            <!-- Cart Items Container -->
+            <div class="flex-grow-1 overflow-y-auto pe-1" id="cartItemsList">
+                <!-- Inserido dinamicamente via JS -->
+            </div>
+
+            <!-- Cart Footer Area -->
+            <div class="border-top border-secondary-subtle pt-4 mt-3 bg-card-custom">
+                <!-- Coupon & Shipping Sim -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm bg-dark-subtle border-0" id="couponInput" placeholder="Cupom de Desconto">
+                        <button class="btn btn-sm btn-outline-info" type="button" onclick="applyCoupon()">Aplicar</button>
+                    </div>
+                    <div id="couponMessage" class="small mt-1 d-none"></div>
+                </div>
+
+                <!-- Pricing Breakdown -->
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary">Subtotal</span>
+                    <span id="cartSubtotal" class="fw-bold">R$ 0,00</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary">Desconto <span id="couponBadge" class="badge bg-success-subtle text-success d-none"></span></span>
+                    <span id="cartDiscount" class="text-success fw-bold">- R$ 0,00</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="text-secondary">Frete Estimado</span>
+                    <span id="cartShipping" class="fw-bold">R$ 0,00</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-4 py-2 border-top border-bottom border-secondary-subtle">
+                    <h5 class="mb-0 fw-bold">Total</h5>
+                    <h4 id="cartTotal" class="text-info fw-extrabold mb-0">R$ 0,00</h4>
+                </div>
+
+                <!-- Cart Action Buttons -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-gradient py-3" onclick="openCheckoutModal()" id="btnCheckout">
+                        <i class="bi bi-shield-lock-fill me-2"></i>Finalizar Compra
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="clearCart()">
+                        <i class="bi bi-trash-fill me-1"></i>Limpar Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes do Produto -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark-subtle" style="border-radius: 24px; border: 1px solid rgba(255,255,255,0.08)">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="modalProductBody">
+                    <!-- Inserido dinamicamente via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Checkout / Finalização de Compra -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: 24px; border: 1px solid rgba(255,255,255,0.08)">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold" id="checkoutModalLabel"><i class="bi bi-credit-card-fill text-info me-2"></i>Checkout do Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeCheckoutBtn"></button>
+                </div>
+                <div class="modal-body p-4" id="checkoutModalBody">
+                    <!-- Flow de pagamento simular via JS -->
+                    <div id="checkoutStep1">
+                        <div class="row g-4">
+                            <!-- Formulário de Informações de Entrega -->
+                            <div class="col-md-7">
+                                <h6 class="fw-bold mb-3">1. Dados de Envio</h6>
+                                <form id="checkoutForm" onsubmit="event.preventDefault(); processCheckoutPayment();">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label for="inputName" class="form-label small">Nome Completo</label>
+                                            <input type="text" class="form-control rounded-3" id="inputName" placeholder="João da Silva" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputEmail" class="form-label small">E-mail</label>
+                                            <input type="email" class="form-control rounded-3" id="inputEmail" placeholder="joao@example.com" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputPhone" class="form-label small">Celular</label>
+                                            <input type="tel" class="form-control rounded-3" id="inputPhone" placeholder="(11) 99999-9999" required>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label for="inputCep" class="form-label small">CEP</label>
+                                            <input type="text" class="form-control rounded-3" id="inputCep" placeholder="01001-000" required>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <label for="inputAddress" class="form-label small">Endereço</label>
+                                            <input type="text" class="form-control rounded-3" id="inputAddress" placeholder="Av. Paulista, 1000" required>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="fw-bold mb-3 mt-4">2. Método de Pagamento</h6>
+                                    <div class="d-flex flex-column gap-2">
+                                        <div class="form-check p-3 rounded-3 border border-secondary-subtle d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <input class="form-check-input ms-0 me-3" type="radio" name="paymentMethod" id="payPix" value="pix" checked>
+                                                <label class="form-check-label fw-bold" for="payPix">Pix <span class="badge bg-success ms-2">Recomendado</span></label>
+                                            </div>
+                                            <i class="bi bi-qr-code fs-3 text-info"></i>
+                                        </div>
+                                        <div class="form-check p-3 rounded-3 border border-secondary-subtle d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <input class="form-check-input ms-0 me-3" type="radio" name="paymentMethod" id="payCard" value="card">
+                                                <label class="form-check-label fw-bold" for="payCard">Cartão de Crédito</label>
+                                            </div>
+                                            <i class="bi bi-credit-card-2-front fs-3 text-info"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Campos de Cartão (Mostrados dinamicamente) -->
+                                    <div id="creditCardDetails" class="mt-3 d-none">
+                                        <div class="row g-2">
+                                            <div class="col-12">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Número do Cartão" id="ccNumber">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Validade (MM/AA)" id="ccExpiry">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control form-control-sm" placeholder="CVV" id="ccCvv">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-gradient w-full py-3">
+                                            <i class="bi bi-check-circle-fill me-2"></i>Confirmar Pagamento
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Resumo Lateral do Checkout -->
+                            <div class="col-md-5">
+                                <div class="p-3 rounded-4 bg-dark-subtle h-100 border border-secondary-subtle">
+                                    <h6 class="fw-bold mb-3">Resumo da Compra</h6>
+                                    <div class="overflow-y-auto mb-3" style="max-height: 250px;" id="checkoutSummaryList">
+                                        <!-- itens dinâmicos -->
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between mb-2 text-secondary small">
+                                        <span>Itens</span>
+                                        <span id="coSubtotal">R$ 0,00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2 text-success small">
+                                        <span>Desconto</span>
+                                        <span id="coDiscount">- R$ 0,00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2 text-secondary small">
+                                        <span>Frete</span>
+                                        <span id="coShipping">R$ 0,00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                                        <h6 class="mb-0 fw-bold">Total Final</h6>
+                                        <h5 class="text-info fw-extrabold mb-0" id="coTotal">R$ 0,00</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Sucesso do Pedido -->
+                    <div id="checkoutStep2" class="d-none text-center py-5">
+                        <div class="success-checkmark text-success mb-4">
+                            <i class="bi bi-check-circle-fill" style="font-size: 5rem;"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">Pedido Realizado com Sucesso!</h3>
+                        <p class="text-secondary mb-4">Agradecemos pela preferência. Um e-mail com todas as instruções de rastreio e nota fiscal foi enviado para você.</p>
+                        
+                        <div id="pixQrContainer" class="mb-4 d-none p-3 border rounded-3 bg-dark-subtle d-inline-block">
+                            <p class="small fw-semibold mb-2 text-warning"><i class="bi bi-clock-history me-1"></i>Aguardando pagamento Pix</p>
+                            <!-- Placeholder QR Code -->
+                            <div class="bg-white p-2 d-inline-block rounded mb-2">
+                                <i class="bi bi-qr-code text-dark" style="font-size: 150px;"></i>
+                            </div>
+                            <div class="input-group input-group-sm mx-auto" style="max-width: 300px;">
+                                <input type="text" class="form-control" readonly value="00020126580014BR.GOV.BCB.PIX0136techvault-recebedor-ficticio-0102" id="pixCodeInput">
+                                <button class="btn btn-outline-info" type="button" onclick="copyPixCode()"><i class="bi bi-copy"></i> Copiar</button>
+                            </div>
+                        </div>
+
+                        <p class="small text-muted mb-4">ID do Pedido: <strong id="orderIdText">#TV-00000</strong></p>
+                        <button class="btn btn-gradient px-4 py-2 rounded-pill" onclick="closeCheckoutSuccess()">Continuar Comprando</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast toast-custom text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+            <div class="toast-header bg-transparent border-0 text-white d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-info-circle-fill text-info" id="toastIcon"></i>
+                    <strong class="me-auto" id="toastTitle">TechVault</strong>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body pt-0" id="toastMessage">
+                Produto adicionado ao carrinho!
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button class="btn btn-gradient btn-back-to-top" id="btnBackToTop" onclick="scrollToTop()">
+        <i class="bi bi-arrow-up-short fs-4"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5 border-top border-secondary-subtle">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="#">
+                        <i class="bi bi-cpu-fill fs-3 text-info"></i>
+                        <span class="fs-4 text-white">TechVault</span>
+                    </a>
+                    <p class="text-secondary small mb-4">Experiências tecnológicas autênticas que elevam seu trabalho, diversão e conexões para o próximo nível.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-action"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-action"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-action"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="btn btn-action"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="fw-bold text-info mb-3">Categorias</h6>
+                    <ul class="list-unstyled text-secondary small d-flex flex-column gap-2">
+                        <li><a href="#catalogo" onclick="filterCategory('smartphones')" class="text-reset text-decoration-none hover-info">Smartphones</a></li>
+                        <li><a href="#catalogo" onclick="filterCategory('audio')" class="text-reset text-decoration-none hover-info">Áudio Premium</a></li>
+                        <li><a href="#catalogo" onclick="filterCategory('notebooks')" class="text-reset text-decoration-none hover-info">Computadores</a></li>
+                        <li><a href="#catalogo" onclick="filterCategory('wearables')" class="text-reset text-decoration-none hover-info">Wearables</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="fw-bold text-info mb-3">Suporte</h6>
+                    <ul class="list-unstyled text-secondary small d-flex flex-column gap-2">
+                        <li><a href="#" class="text-reset text-decoration-none">Central de Ajuda</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Acompanhar Pedido</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Políticas de Devolução</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold text-info mb-3">Assine nossa Newsletter</h6>
+                    <p class="text-secondary small">Ganhe 10% de desconto imediato na sua primeira compra enviando seu e-mail.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control bg-dark-subtle border-0" placeholder="seuemail@provedor.com" id="newsletterEmail">
+                        <button class="btn btn-gradient" type="button" onclick="subscribeNewsletter()">Inscrever</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 border-secondary-subtle">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-secondary small">&copy; 2026 TechVault S.A. Todos os direitos reservados. CNPJ: 12.345.678/0001-90</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <!-- Ícones de Formas de Pagamento -->
+                    <span class="text-secondary small me-2">Aceitamos:</span>
+                    <i class="bi bi-credit-card fs-4 text-secondary mx-1" title="Cartão de Crédito"></i>
+                    <i class="bi bi-qr-code-scan fs-4 text-secondary mx-1" title="Pix"></i>
+                    <i class="bi bi-bank fs-4 text-secondary mx-1" title="Boleto"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS com Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Principal com Dados e Lógica em JS Vanilla -->
+    <script>
+        // Banco de Dados de Produtos (Mock)
+        const products = [
+            {
+                id: 1,
+                title: "Smartphone Nexus 14 Pro",
+                category: "smartphones",
+                categoryLabel: "Smartphones",
+                price: 5499.00,
+                rating: 4.9,
+                reviews: 245,
+                tag: "Populares",
+                img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=400&auto=format&fit=crop",
+                description: "O Nexus 14 Pro define o padrão de inovação móvel. Equipado com chip NeuroChip v3, tela AMOLED de 120Hz adaptativa de última geração e câmera quádrupla Ultra-Sensing de 200MP. Capture cada detalhe do universo com o sensor astronômico dedicado.",
+                specs: {
+                    "Processador": "NeuroChip v3 Deca-Core",
+                    "Memória RAM": "12GB LPDDR5X",
+                    "Armazenamento": "256GB UFS 4.0",
+                    "Bateria": "5.200mAh com recarga rápida de 120W"
+                }
+            },
+            {
+                id: 2,
+                title: "Fone de Ouvido Acoustic Pro Max V2",
+                category: "audio",
+                categoryLabel: "Áudio Premium",
+                price: 1299.00,
+                rating: 4.8,
+                reviews: 128,
+                tag: "Oferta",
+                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop",
+                description: "Cancelamento de Ruído Ativo Avançado (ANC) de 45dB, áudio de altíssima fidelidade espacial e almofadas de veludo ergonômicas para longas sessões de escuta ou produção musical.",
+                specs: {
+                    "Drivers": "40mm customizados de neodímio",
+                    "Conectividade": "Bluetooth 5.3 e entrada P2/USB-C",
+                    "Bateria": "Até 60 horas de reprodução",
+                    "Recursos adicionais": "Som Espacial com Rastreio de Cabeça Dinâmico"
+                }
+            },
+            {
+                id: 3,
+                title: "Notebook Odyssey Book M1",
+                category: "notebooks",
+                categoryLabel: "Computadores",
+                price: 7899.00,
+                rating: 5.0,
+                reviews: 82,
+                tag: "Premium",
+                img: "https://images.unsplash.com/photo-1496181130204-755241524eab?q=80&w=400&auto=format&fit=crop",
+                description: "Criado para profissionais exigentes. O Odyssey Book M1 une poder de renderização gráfica com autonomia incomparável, em um chassi de alumínio espacial cortado a laser.",
+                specs: {
+                    "Processador": "Octa-Core de 3.8GHz com motor de IA",
+                    "Placa de Vídeo": "RTX 4050 Mobilidade Dedicada",
+                    "Memória": "16GB RAM Integrada",
+                    "Tela": "Liquid Crystal Retina 15.4\" - 4K"
+                }
+            },
+            {
+                id: 4,
+                title: "Relógio Inteligente Chrono Watch 5 Active",
+                category: "wearables",
+                categoryLabel: "Wearables",
+                price: 899.00,
+                rating: 4.5,
+                reviews: 312,
+                tag: "Novidade",
+                img: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=400&auto=format&fit=crop",
+                description: "Seu assistente de saúde definitivo. Monitore frequência cardíaca, oxigênio no sangue, níveis de estresse e rastreie mais de 100 modalidades esportivas profissionais com GPS integrado de triplo canal.",
+                specs: {
+                    "Material": "Caixa de polímero aeroespacial e pulseira de fluoroelastômero",
+                    "Sensores": "Frequência cardíaca, oxímetro de pulso, acelerômetro e giroscópio",
+                    "Resistência à Água": "Classificação 5ATM (até 50 metros)",
+                    "Compatibilidade": "iOS e Android"
+                }
+            },
+            {
+                id: 5,
+                title: "Teclado Mecânico Lumen Pro",
+                category: "perifericos",
+                categoryLabel: "Periféricos",
+                price: 450.00,
+                rating: 4.7,
+                reviews: 95,
+                tag: "Estoque Baixo",
+                img: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?q=80&w=400&auto=format&fit=crop",
+                description: "Switches mecânicos ultra-responsivos, iluminação RGB totalmente endereçável via software e teclas do tipo PBT doubleshot para máxima durabilidade.",
+                specs: {
+                    "Switches": "Linear Red (Silencioso e responsivo)",
+                    "Layout": "ABNT2 com teclado numérico",
+                    "Iluminação": "RGB por tecla - 16.8M de cores",
+                    "Conexão": "Cabo USB-C Trançado Destacável"
+                }
+            },
+            {
+                id: 6,
+                title: "Soundbar ThunderBass 240W",
+                category: "audio",
+                categoryLabel: "Áudio Premium",
+                price: 1549.00,
+                rating: 4.6,
+                reviews: 57,
+                tag: "Mais Vendidos",
+                img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=400&auto=format&fit=crop",
+                description: "Sinta o cinema na sua sala. Soundbar inteligente com subwoofer ativo sem fio, suporte a Dolby Atmos de verdade e otimização dinâmica de som baseada em inteligência espacial de ambiente.",
+                specs: {
+                    "Potência Máxima": "240W RMS",
+                    "Conectividade": "HDMI eARC, Bluetooth 5.0, Entrada Óptica e Auxiliar",
+                    "Quantidade de canais": "3.1.2 Canais de áudio de alta performance",
+                    "Subwoofer": "Ativo Wireless de 8 polegadas"
+                }
+            },
+            {
+                id: 7,
+                title: "Monitor Gamer Prism View 270Hz",
+                category: "notebooks",
+                categoryLabel: "Computadores",
+                price: 2499.00,
+                rating: 4.9,
+                reviews: 104,
+                tag: "Pro Gamer",
+                img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400&auto=format&fit=crop",
+                description: "Painel Fast IPS com taxa de atualização de 270Hz extrema e tempo de resposta de 0.5ms real. Suporte a AMD FreeSync Premium e compatibilidade total com consoles de última geração.",
+                specs: {
+                    "Resolução": "Quad HD (2560 x 1440)",
+                    "Tecnologia do Painel": "Fast-IPS de baixa latência",
+                    "Saturação de Cor": "99% sRGB real",
+                    "Entradas": "2x DisplayPort 1.4 e 2x HDMI 2.1"
+                }
+            },
+            {
+                id: 8,
+                title: "Hub USB-C Premium 8-em-1",
+                category: "perifericos",
+                categoryLabel: "Periféricos",
+                price: 299.00,
+                rating: 4.4,
+                reviews: 142,
+                tag: "Acessórios",
+                img: "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?q=80&w=400&auto=format&fit=crop",
+                description: "Expanda a conectividade do seu laptop ou iPad com um hub completo de alta eficiência e liga de alumínio que dissipa calor perfeitamente.",
+                specs: {
+                    "Portas HDMI": "1x Saída UltraHD 4K 60Hz",
+                    "Portas USB-A": "3x USB 3.2 de Alta Velocidade",
+                    "Leitores": "Leitor de Cartão SD e MicroSD Integrados",
+                    "Energia": "Porta USB-C com Power Delivery de 100W"
+                }
+            }
+        ];
+
+        // Estado Global da Aplicação
+        let cart = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let currentSort = 'default';
+        let currentCoupon = null;
+
+        // Cupons válidos
+        const coupons = {
+            "TECHVAULT10": 0.10, // 10% desc.
+            "FUTURO20": 0.20, // 20% desc.
+            "BEMVINDO50": 50.00 // R$50 de desconto fixo
+        };
+
+        // Elementos do DOM
+        const productsGrid = document.getElementById('productsGrid');
+        const categoryContainer = document.getElementById('categoryContainer');
+        const searchInput = document.getElementById('searchInput');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartBadgeCount = document.getElementById('cartBadgeCount');
+        const cartSubtotal = document.getElementById('cartSubtotal');
+        const cartDiscount = document.getElementById('cartDiscount');
+        const cartShipping = document.getElementById('cartShipping');
+        const cartTotal = document.getElementById('cartTotal');
+        const couponInput = document.getElementById('couponInput');
+        const couponMessage = document.getElementById('couponMessage');
+        const couponBadge = document.getElementById('couponBadge');
+        const btnBackToTop = document.getElementById('btnBackToTop');
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProducts();
+            loadCartFromLocalStorage();
+            updateCartUI();
+
+            // Evento para input de busca instantânea
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                renderProducts();
+            });
+
+            // Monitorar scroll para botão "Voltar ao Topo"
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btnBackToTop.style.display = 'flex';
+                } else {
+                    btnBackToTop.style.display = 'none';
+                }
+            });
+
+            // Evento do método de pagamento no checkout
+            const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
+            paymentOptions.forEach(opt => {
+                opt.addEventListener('change', (e) => {
+                    const ccDetails = document.getElementById('creditCardDetails');
+                    if (e.target.value === 'card') {
+                        ccDetails.classList.remove('d-none');
+                        document.getElementById('ccNumber').setAttribute('required', 'true');
+                        document.getElementById('ccExpiry').setAttribute('required', 'true');
+                        document.getElementById('ccCvv').setAttribute('required', 'true');
+                    } else {
+                        ccDetails.classList.add('d-none');
+                        document.getElementById('ccNumber').removeAttribute('required');
+                        document.getElementById('ccExpiry').removeAttribute('required');
+                        document.getElementById('ccCvv').removeAttribute('required');
+                    }
+                });
+            });
+        });
+
+        // Alternar entre modo Escuro e Claro
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', newTheme);
+            
+            const themeIcon = document.getElementById('themeIcon');
+            if (newTheme === 'light') {
+                themeIcon.className = 'bi bi-moon-fill';
+            } else {
+                themeIcon.className = 'bi bi-sun-fill';
+            }
+        }
+
+        // Renderizar botões de Categorias
+        function renderCategories() {
+            // Obter categorias únicas existentes
+            const categories = ['all', ...new Set(products.map(p => p.category))];
+            
+            const categoryNames = {
+                'all': 'Todos os Itens',
+                'smartphones': 'Smartphones',
+                'audio': 'Áudio Premium',
+                'notebooks': 'Computadores',
+                'wearables': 'Wearables',
+                'perifericos': 'Periféricos'
+            };
+
+            categoryContainer.innerHTML = categories.map(cat => `
+                <button class="filter-btn ${cat === activeCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">
+                    ${categoryNames[cat] || cat}
+                </button>
+            `).join('');
+        }
+
+        // Alterar categoria ativa
+        function filterCategory(cat) {
+            activeCategory = cat;
+            renderCategories();
+            renderProducts();
+        }
+
+        // Ordenar produtos
+        function handleSorting(value) {
+            currentSort = value;
+            renderProducts();
+        }
+
+        // Filtra e ordena produtos baseado no estado atual
+        function getFilteredProducts() {
+            let filtered = [...products];
+
+            // Filtro por Categoria
+            if (activeCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === activeCategory);
+            }
+
+            // Filtro por Busca
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    p.title.toLowerCase().includes(searchQuery) || 
+                    p.description.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Ordenação
+            if (currentSort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === 'rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            return filtered;
+        }
+
+        // Renderizar Grid de Produtos
+        function renderProducts() {
+            const list = getFilteredProducts();
+
+            if (list.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-search fs-1 text-secondary mb-3"></i>
+                        <h4 class="fw-bold">Nenhum produto encontrado</h4>
+                        <p class="text-secondary">Tente mudar sua busca ou filtro de categoria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = list.map(prod => {
+                // Estrelas de Avaliação
+                let stars = '';
+                const fullStars = Math.floor(prod.rating);
+                for(let i=0; i < 5; i++) {
+                    if (i < fullStars) {
+                        stars += '<i class="bi bi-star-fill text-warning"></i>';
+                    } else if (prod.rating % 1 !== 0 && i === fullStars) {
+                        stars += '<i class="bi bi-star-half text-warning"></i>';
+                    } else {
+                        stars += '<i class="bi bi-star text-warning"></i>';
+                    }
+                }
+
+                return `
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                ${prod.tag ? `<span class="product-tag">${prod.tag}</span>` : ''}
+                                <img src="${prod.img}" alt="${prod.title}" class="product-img" onerror="this.src='https://placehold.co/400x300?text=Dispositivo'">
+                            </div>
+                            <div class="card-body-custom">
+                                <span class="category-text">${prod.categoryLabel}</span>
+                                <h5 class="product-title" title="${prod.title}">${prod.title}</h5>
+                                
+                                <div class="mb-3">
+                                    <span class="rating-stars me-2">${stars}</span>
+                                    <span class="text-secondary small">(${prod.reviews})</span>
+                                </div>
+
+                                <div class="mt-auto d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="text-muted small d-block">À vista</span>
+                                        <span class="price-text">${formatCurrency(prod.price)}</span>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-action" onclick="showProductDetails(${prod.id})" title="Ver Detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-action" onclick="addToCart(${prod.id})" title="Adicionar ao Carrinho">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Formatação de Valores Monetários
+        function formatCurrency(val) {
+            return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Mostrar Detalhes do Produto no Modal
+        function showProductDetails(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            const modalBody = document.getElementById('modalProductBody');
+            
+            // Construir tabela de especificações
+            let specsHTML = '<table class="table table-sm table-borderless text-white-50 mt-3">';
+            if (document.documentElement.getAttribute('data-bs-theme') === 'light') {
+                specsHTML = '<table class="table table-sm table-borderless text-dark-50 mt-3">';
+            }
+            for (let [key, val] of Object.entries(prod.specs)) {
+                specsHTML += `
+                    <tr>
+                        <td class="fw-bold text-start ps-0" style="width: 35%; color: var(--primary-glow);">${key}</td>
+                        <td class="text-start">${val}</td>
+                    </tr>
+                `;
+            }
+            specsHTML += '</table>';
+
+            modalBody.innerHTML = `
+                <div class="row g-4">
+                    <div class="col-md-5 d-flex align-items-center justify-content-center bg-dark rounded-4 p-4">
+                        <img src="${prod.img}" alt="${prod.title}" class="img-fluid rounded-3" style="max-height: 350px; object-fit: contain;" onerror="this.src='https://placehold.co/400x300?text=Dispositivo'">
+                    </div>
+                    <div class="col-md-7 text-start">
+                        <span class="badge bg-info-subtle text-info px-3 py-1 rounded-pill mb-2">${prod.categoryLabel}</span>
+                        <h3 class="fw-bold mb-2">${prod.title}</h3>
+                        <div class="mb-3">
+                            <span class="rating-stars me-2">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                            </span>
+                            <span class="text-secondary small">(${prod.reviews} avaliações dos clientes)</span>
+                        </div>
+                        <h2 class="text-info fw-extrabold mb-3">${formatCurrency(prod.price)}</h2>
+                        <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.6;">${prod.description}</p>
+                        
+                        <h6 class="fw-bold mt-4 border-bottom pb-2">Especificações Técnicas</h6>
+                        ${specsHTML}
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-gradient py-3 rounded-3" onclick="addToCartAndOpen(${prod.id})">
+                                <i class="bi bi-cart-plus-fill me-2"></i>Adicionar ao Carrinho de Compras
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+        }
+
+        // Adicionar Produto ao Carrinho
+        function addToCart(id) {
+            const existingItem = cart.find(item => item.product.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                const product = products.find(p => p.id === id);
+                cart.push({ product, quantity: 1 });
+            }
+
+            saveCartToLocalStorage();
+            updateCartUI();
+            showToast("Sucesso", "Produto adicionado ao carrinho com sucesso!");
+        }
+
+        // Adicionar ao Carrinho e abrir instantaneamente o offcanvas do carrinho
+        function addToCartAndOpen(id) {
+            // Fechar modal de produto primeiro
+            const pModal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+            if (pModal) pModal.hide();
+
+            addToCart(id);
+
+            // Abrir carrinho lateral
+            const cartCanvas = new bootstrap.Offcanvas(document.getElementById('cartOffcanvas'));
+            cartCanvas.show();
+        }
+
+        // Atualizar Quantidade de um Item no Carrinho
+        function updateItemQuantity(productId, delta) {
+            const item = cart.find(item => item.product.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                // Remover item se chegar a zero
+                cart = cart.filter(item => item.product.id !== productId);
+            }
+
+            saveCartToLocalStorage();
+            updateCartUI();
+        }
+
+        // Remover item completamente do carrinho
+        function removeCartItem(productId) {
+            cart = cart.filter(item => item.product.id !== productId);
+            saveCartToLocalStorage();
+            updateCartUI();
+            showToast("Item Removido", "O item foi removido do seu carrinho.");
+        }
+
+        // Limpar Carrinho Inteiro
+        function clearCart() {
+            cart = [];
+            currentCoupon = null;
+            couponInput.value = '';
+            couponMessage.className = 'd-none';
+            couponBadge.className = 'd-none';
+            saveCartToLocalStorage();
+            updateCartUI();
+            showToast("Carrinho Esvaziado", "Todos os itens foram removidos do carrinho.");
+        }
+
+        // Salvar Carrinho no LocalStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem('techvault_cart', JSON.stringify(cart));
+        }
+
+        // Carregar do LocalStorage
+        function loadCartFromLocalStorage() {
+            const saved = localStorage.getItem('techvault_cart');
+            if (saved) {
+                try {
+                    cart = JSON.parse(saved);
+                } catch(e) {
+                    cart = [];
+                }
+            }
+        }
+
+        // Aplicar código de cupom
+        function applyCoupon() {
+            const code = couponInput.value.trim().toUpperCase();
+            if (!code) return;
+
+            if (coupons[code] !== undefined) {
+                currentCoupon = {
+                    code: code,
+                    value: coupons[code]
+                };
+                showToast("Cupom Ativado", `Cupom ${code} aplicado com sucesso!`);
+                updateCartUI();
+            } else {
+                couponMessage.className = "small mt-1 text-danger";
+                couponMessage.textContent = "Cupom inválido ou expirado.";
+            }
+        }
+
+        // Atualizar Interface Gráfica do Carrinho
+        function updateCartUI() {
+            // Contagem total de itens
+            const totalQty = cart.reduce((acc, item) => acc + item.quantity, 0);
+            
+            // Badge da Navbar
+            if (totalQty > 0) {
+                cartBadgeCount.textContent = totalQty;
+                cartBadgeCount.classList.remove('d-none');
+            } else {
+                cartBadgeCount.classList.add('d-none');
+            }
+
+            // Se o carrinho estiver vazio
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="bi bi-cart-x fs-1 text-secondary mb-3"></i>
+                        <h5 class="fw-bold">Seu carrinho está vazio</h5>
+                        <p class="text-secondary small">Explore nosso catálogo e encontre os melhores eletrônicos!</p>
+                    </div>
+                `;
+                cartSubtotal.textContent = formatCurrency(0);
+                cartDiscount.textContent = formatCurrency(0);
+                cartShipping.textContent = formatCurrency(0);
+                cartTotal.textContent = formatCurrency(0);
+                document.getElementById('btnCheckout').disabled = true;
+                return;
+            }
+
+            document.getElementById('btnCheckout').disabled = false;
+
+            // Renderizar itens do carrinho
+            cartItemsList.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="${item.product.img}" alt="${item.product.title}" class="cart-item-img" onerror="this.src='https://placehold.co/100?text=Item'">
+                        <div class="flex-grow-1 text-start">
+                            <h6 class="fw-bold text-truncate mb-1" style="max-width: 200px;" title="${item.product.title}">${item.product.title}</h6>
+                            <span class="text-info small d-block mb-2">${formatCurrency(item.product.price)}</span>
+                            
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="qty-selector">
+                                    <button class="qty-btn" onclick="updateItemQuantity(${item.product.id}, -1)">-</button>
+                                    <span class="px-2 small fw-bold">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="updateItemQuantity(${item.product.id}, 1)">+</button>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="removeCartItem(${item.product.id})" title="Remover item">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Cálculos financeiros
+            const subtotalVal = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+            
+            // Cálculo de Desconto baseado no Cupom
+            let discountVal = 0;
+            if (currentCoupon) {
+                if (currentCoupon.value <= 1) {
+                    // Porcentagem
+                    discountVal = subtotalVal * currentCoupon.value;
+                } else {
+                    // Desconto Fixo
+                    discountVal = Math.min(currentCoupon.value, subtotalVal);
+                }
+                
+                couponBadge.textContent = currentCoupon.code;
+                couponBadge.classList.remove('d-none');
+                couponMessage.className = "small mt-1 text-success";
+                couponMessage.textContent = `Cupom ativo: ${currentCoupon.code}`;
+            } else {
+                couponBadge.classList.add('d-none');
+            }
+
+            // Regra de Frete Simples: Frete Grátis acima de R$2500, senão valor fictício baseado na quantidade
+            const shippingVal = subtotalVal > 2500 ? 0 : 25 + (cart.length * 5);
+
+            const finalTotalVal = Math.max(0, subtotalVal - discountVal + shippingVal);
+
+            // Atualizar labels de valor
+            cartSubtotal.textContent = formatCurrency(subtotalVal);
+            cartDiscount.textContent = `-${formatCurrency(discountVal)}`;
+            cartShipping.textContent = shippingVal === 0 ? "Grátis" : formatCurrency(shippingVal);
+            cartTotal.textContent = formatCurrency(finalTotalVal);
+        }
+
+        // Mostrar Toast de Notificação customizado
+        function showToast(title, message) {
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        // Rolagem suave até o topo da página
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Fluxo de Finalização de Compra (Checkout)
+        function openCheckoutModal() {
+            // Fechar carrinho lateral
+            const cartCanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
+            if (cartCanvas) cartCanvas.hide();
+
+            // Preparar Resumo do Checkout
+            const checkoutSummaryList = document.getElementById('checkoutSummaryList');
+            checkoutSummaryList.innerHTML = cart.map(item => `
+                <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom border-secondary-subtle">
+                    <div class="text-start">
+                        <span class="small fw-semibold d-block text-truncate" style="max-width: 180px;">${item.product.title}</span>
+                        <span class="text-muted small">Qtd: ${item.quantity}</span>
+                    </div>
+                    <span class="small fw-bold">${formatCurrency(item.product.price * item.quantity)}</span>
+                </div>
+            `).join('');
+
+            // Transferir Valores para o Resumo
+            const subtotalVal = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+            let discountVal = 0;
+            if (currentCoupon) {
+                if (currentCoupon.value <= 1) {
+                    discountVal = subtotalVal * currentCoupon.value;
+                } else {
+                    discountVal = Math.min(currentCoupon.value, subtotalVal);
+                }
+            }
+            const shippingVal = subtotalVal > 2500 ? 0 : 25 + (cart.length * 5);
+            const finalTotalVal = Math.max(0, subtotalVal - discountVal + shippingVal);
+
+            document.getElementById('coSubtotal').textContent = formatCurrency(subtotalVal);
+            document.getElementById('coDiscount').textContent = `-${formatCurrency(discountVal)}`;
+            document.getElementById('coShipping').textContent = shippingVal === 0 ? "Grátis" : formatCurrency(shippingVal);
+            document.getElementById('coTotal').textContent = formatCurrency(finalTotalVal);
+
+            // Reiniciar estado do modal
+            document.getElementById('checkoutStep1').classList.remove('d-none');
+            document.getElementById('checkoutStep2').classList.add('d-none');
+            document.getElementById('closeCheckoutBtn').classList.remove('d-none');
+
+            // Mostrar Modal
+            const coModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+            coModal.show();
+        }
+
+        // Processar Pagamento Fictício
+        function processCheckoutPayment() {
+            // Simular tempo de resposta de gateway de pagamento
+            const payMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            // Gerar id do pedido fictício
+            const orderId = '#TV-' + Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('orderIdText').textContent = orderId;
+
+            // Transição visual do Modal
+            document.getElementById('checkoutStep1').classList.add('d-none');
+            document.getElementById('closeCheckoutBtn').classList.add('d-none');
+            document.getElementById('checkoutStep2').classList.remove('d-none');
+
+            if (payMethod === 'pix') {
+                document.getElementById('pixQrContainer').classList.remove('d-none');
+            } else {
+                document.getElementById('pixQrContainer').classList.add('d-none');
+            }
+
+            // Limpar o carrinho local após fechamento
+            cart = [];
+            currentCoupon = null;
+            saveCartToLocalStorage();
+            updateCartUI();
+        }
+
+        // Copiar Código Pix Fictício
+        function copyPixCode() {
+            const copyText = document.getElementById("pixCodeInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Para dispositivos móveis
+            
+            // Usando clipboard seguro API ou fallback
+            try {
+                document.execCommand('copy');
+                showToast("Pix Copiado", "Código Pix " + copyText.value.substring(0, 15) + "... copiado para área de transferência!");
+            } catch (err) {
+                console.error('Falha ao copiar: ', err);
+            }
+        }
+
+        // Fechar Modal com Sucesso do Pedido
+        function closeCheckoutSuccess() {
+            const coModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+            if (coModal) coModal.hide();
+            scrollToTop();
+        }
+
+        // Simulação de Assinatura de Newsletter
+        function subscribeNewsletter() {
+            const emailInput = document.getElementById('newsletterEmail');
+            if (emailInput.value && emailInput.value.includes('@')) {
+                showToast("Newsletter TechVault", "Obrigado por assinar! Cupom TECHVAULT10 de 10% de desconto foi enviado ao seu e-mail.");
+                emailInput.value = '';
+            } else {
+                showToast("Erro", "Por favor, digite um endereço de e-mail válido.");
+            }
+        }
+    </script>
+</body>
+</html>

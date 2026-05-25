@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroVibe - Premium Electronics</title>
+  
+  <!-- Bootstrap 5 CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cyber-dark: #08070c;
+      --bg-card-dark: #12101a;
+      --accent-neon-cyan: #00f0ff;
+      --accent-neon-purple: #9d4edd;
+      --text-muted: #9a98a6;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top right, #161030 0%, var(--bg-cyber-dark) 60%);
+      color: #f3f1f8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Custom Premium Gradients & Typography */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--accent-neon-cyan) 0%, var(--accent-neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-cyber {
+      background: linear-gradient(135deg, var(--accent-neon-cyan) 0%, var(--accent-neon-purple) 100%);
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* Cards & Interactions */
+    .card-premium {
+      background: var(--bg-card-dark);
+      border: 1px solid rgba(157, 78, 221, 0.15);
+      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(157, 78, 221, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 0;
+    }
+
+    .card-premium:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 240, 255, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 240, 255, 0.15);
+    }
+
+    .card-premium:hover::before {
+      opacity: 1;
+    }
+
+    .card-premium * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .img-container {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease;
+    }
+
+    .card-premium:hover .img-container {
+      transform: scale(1.05);
+    }
+
+    /* Neon Buttons */
+    .btn-neon {
+      background: transparent;
+      color: var(--accent-neon-cyan);
+      border: 1px solid var(--accent-neon-cyan);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-neon:hover {
+      background: var(--accent-neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-checkout {
+      background: linear-gradient(135deg, var(--accent-neon-cyan) 0%, var(--accent-neon-purple) 100%);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-checkout:hover {
+      opacity: 0.95;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+
+    /* Custom Offcanvas & Cart styling */
+    .offcanvas-cyber {
+      background-color: var(--bg-card-dark) !important;
+      border-left: 1px solid rgba(157, 78, 221, 0.2) !important;
+    }
+
+    .cart-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .cart-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-cyber-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a243d;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-neon-purple);
+    }
+
+    /* Floating Cart Counter Animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .pulse-badge {
+      animation: pulse 0.3s ease-out-forward;
+    }
+
+    /* Toast Container Position Custom */
+    .toast-container-custom {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1100;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent border-bottom border-secondary border-opacity-10 py-3 sticky-top backdrop-blur" style="background: rgba(8, 7, 12, 0.8) !important; backdrop-filter: blur(12px);">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <!-- Logo SVG -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+          <path d="M10 16L15 11V21L10 16Z" fill="white"/>
+          <path d="M22 16L17 21V11L22 16Z" fill="white"/>
+          <circle cx="16" cy="16" r="2" fill="#00f0ff"/>
+          <defs>
+            <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00f0ff"/>
+              <stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="fw-extrabold fs-4 tracking-wider">ELECTRO<span class="text-gradient">VIBE</span></span>
+      </a>
+
+      <!-- Menu toggle mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navigation Items -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+          <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="#store">Coleção Premium</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="#tecnologia">Tecnologia</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="#suporte">Suporte</a>
+          </li>
+        </ul>
+
+        <!-- Cart Button in Navbar Triggering Offcanvas -->
+        <button class="btn position-relative d-flex align-items-center gap-2 px-4 py-2 border border-secondary border-opacity-20 rounded-pill bg-dark-subtle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+          <i class="bi bi-handbag fs-5 text-gradient"></i>
+          <span class="d-none d-sm-inline fw-semibold text-light-emphasis">Carrinho</span>
+          <span id="cart-counter" class="badge rounded-pill badge-cyber ms-1">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <header class="py-5 text-center container my-4 position-relative overflow-hidden rounded-4">
+    <div class="row py-lg-5 justify-content-center align-items-center position-relative">
+      <div class="col-lg-8 col-md-10">
+        <span class="badge border border-info border-opacity-50 text-info px-3 py-2 rounded-pill mb-3 uppercase tracking-widest text-xs">EXCLUSIVIDADE INTERATIVA</span>
+        <h1 class="display-3 fw-black text-white mb-3">Futuro em Alta Vibração</h1>
+        <p class="lead text-secondary px-md-5">Descubra uma curadoria exclusiva de hardware premium. Performance implacável, design refinado e tecnologia cibernética avançada ao seu alcance.</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <a href="#store" class="btn btn-checkout px-4 py-3 rounded-pill">Explorar Vitrine</a>
+        </div>
+      </div>
+    </div>
+    <!-- Neon blur accents in background -->
+    <div style="position: absolute; top: -50px; left: 10%; width: 250px; height: 250px; background: rgba(0, 240, 255, 0.15); filter: blur(80px); border-radius: 50%; pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -50px; right: 10%; width: 250px; height: 250px; background: rgba(157, 78, 221, 0.15); filter: blur(80px); border-radius: 50%; pointer-events: none;"></div>
+  </header>
+
+  <!-- Main Store Section -->
+  <main class="container py-4" id="store">
+    <div class="d-flex justify-content-between align-items-end mb-5">
+      <div>
+        <h2 class="fs-1 fw-extrabold text-white mb-1">Dispositivos em Destaque</h2>
+        <p class="text-secondary mb-0">Cada peça foi selecionada por engenheiros para entregar excelência sensorial.</p>
+      </div>
+      <div class="d-none d-md-block">
+        <select class="form-select bg-dark border-secondary border-opacity-25 rounded-3 text-secondary" id="categoryFilter" style="width: 200px;">
+          <option value="all">Todas categorias</option>
+          <option value="audio">Áudio</option>
+          <option value="wearables">Wearables</option>
+          <option value="perifericos">Periféricos</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid Rendered Dynamic via JS -->
+    <div class="row g-4" id="product-grid">
+      <!-- JavaScript will inject cards here -->
+    </div>
+  </main>
+
+  <!-- Offcanvas Component for Cart -->
+  <div class="offcanvas offcanvas-end offcanvas-cyber text-light" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel" style="width: 440px; max-width: 100vw;">
+    <div class="offcanvas-header border-bottom border-secondary border-opacity-10 py-4">
+      <h5 class="offcanvas-title fw-bold fs-4 d-flex align-items-center gap-2" id="offcanvasCartLabel">
+        <i class="bi bi-handbag text-gradient"></i> Seu Carrinho
+      </h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+
+    <!-- Dynamic Cart Content Container -->
+    <div class="offcanvas-body d-flex flex-column" id="cart-body">
+      <!-- Active items are injected here or an empty state warning -->
+    </div>
+
+    <!-- Offcanvas Footer / Total & Checkout -->
+    <div class="p-4 border-top border-secondary border-opacity-10" id="cart-footer">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-secondary fw-medium">Subtotal Estimado</span>
+        <span class="fs-4 fw-extrabold text-white" id="cart-total-value">R$ 0,00</span>
+      </div>
+      <button class="btn btn-checkout w-full w-100 py-3 fs-5" id="btn-finalizar-compra" disabled>
+        Avançar para Checkout <i class="bi bi-arrow-right-short ms-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Custom Success Checkout Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border border-secondary border-opacity-20 rounded-4 p-4 text-center">
+        <div class="modal-body">
+          <!-- Animated check icon -->
+          <div class="d-inline-flex justify-content-center align-items-center mb-4" style="width: 80px; height: 80px; border-radius: 50%; background: rgba(0, 240, 255, 0.1);">
+            <i class="bi bi-check2-all text-gradient fs-1"></i>
+          </div>
+          <h3 class="fw-bold mb-3">Vibração Confirmada!</h3>
+          <p class="text-secondary px-3">Seu pedido premium foi recebido com sucesso pelo protocolo ElectroVibe. Em instantes, enviaremos as credenciais de rastreio para o seu terminal.</p>
+          <div class="alert bg-black bg-opacity-25 text-info border border-info border-opacity-10 py-3 mt-4 text-start small">
+            <div class="d-flex gap-2">
+              <i class="bi bi-shield-check"></i>
+              <div>
+                <strong>Pagamento Seguro:</strong> Pedido #EV-${Math.floor(100000 + Math.random() * 900000)} processado com infraestrutura criptografada.
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-info rounded-pill px-5 py-2 mt-3" data-bs-dismiss="modal">Fechar Terminal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert System (Toast) container -->
+  <div class="toast-container-custom" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="py-5 mt-5 border-top border-secondary border-opacity-10" style="background: rgba(8,7,12,0.9);">
+    <div class="container text-center">
+      <p class="text-gradient fw-bold mb-2">ELECTROVIBE DESIGN SYSTEM v2.5</p>
+      <p class="small text-secondary mb-0">&copy; 2026 ElectroVibe Inc. Todos os direitos reservados. Protótipo Interativo Premium para demonstração.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core OOP Application JavaScript -->
+  <script>
+    /**
+     * Classe Produto
+     * Encapsula as propriedades de cada eletrônico do catálogo e cuida do seu ciclo visual
+     */
+    class Produto {
+      /**
+       * @param {string} id - Identificador exclusivo do produto
+       * @param {string} nome - Nome comercial do produto
+       * @param {number} preco - Valor numérico em Reais (BRL)
+       * @param {string} categoria - Grupo do produto (audio, wearables, perifericos)
+       * @param {string} descricao - Texto comercial detalhado
+       * @param {string} imagemUrl - String contendo uma tag SVG inline para renderização limpa
+       */
+      constructor(id, nome, preco, categoria, descricao, imagemUrl) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.categoria = categoria;
+        this.descricao = descricao;
+        this.imagemUrl = imagemUrl;
+      }
+
+      /**
+       * Renderiza o componente Card do Bootstrap de forma elegante
+       * @param {Function} onAdicionar - Callback disparada quando o usuário clica no botão 'Adicionar'
+       * @returns {HTMLElement} Um objeto DOM correspondente à coluna do produto no Grid
+       */
+      obterElementoHTML(onAdicionar) {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4 col-xl-3 product-item';
+        col.dataset.category = this.categoria;
+
+        col.innerHTML = `
+          <div class="card card-premium h-100 p-3">
+            <div class="img-container mb-3">
+              ${this.imagemUrl}
+            </div>
+            <div class="card-body p-2 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge border border-secondary border-opacity-20 text-secondary-emphasis rounded-pill text-capitalize px-2">${this.categoria}</span>
+                <span class="small text-success d-flex align-items-center gap-1"><i class="bi bi-lightning-charge-fill"></i> Em estoque</span>
+              </div>
+              <h5 class="card-title fw-bold text-white fs-5 mb-2">${this.nome}</h5>
+              <p class="card-text text-light-emphasis small flex-grow-1">${this.descricao}</p>
+              
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary border-opacity-10">
+                <div>
+                  <span class="text-secondary d-block" style="font-size: 0.75rem;">Valor Premium</span>
+                  <span class="fs-5 fw-extrabold text-info">R$ ${this.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </div>
+                <button class="btn btn-neon btn-sm px-3 py-2 btn-adicionar d-flex align-items-center gap-2">
+                  <i class="bi bi-cart-plus-fill fs-6"></i> Adicionar
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Vincula o evento do botão de adicionar produto
+        col.querySelector('.btn-adicionar').addEventListener('click', (e) => {
+          e.preventDefault();
+          onAdicionar(this);
+        });
+
+        return col;
+      }
+    }
+
+    /**
+     * Classe Carrinho
+     * Gerencia a lógica de armazenamento interno (privado) dos produtos selecionados e interface
+     */
+    class Carrinho {
+      // Atributo privado que mantém a lista de produtos adicionados
+      #itens = [];
+
+      constructor() {
+        this.#itens = [];
+      }
+
+      /**
+       * Adiciona um produto ao carrinho. Se já houver, apenas incrementa a quantidade.
+       * @param {Produto} produto - Instância do produto a ser adicionado
+       */
+      adicionarProduto(produto) {
+        const itemExistente = this.#itens.find(item => item.produto.id === produto.id);
+        
+        if (itemExistente) {
+          itemExistente.quantidade++;
+        } else {
+          this.#itens.push({
+            produto: produto,
+            quantidade: 1
+          });
+        }
+        
+        this.atualizarInterface();
+        this.#dispararNotificacao(produto.nome);
+      }
+
+      /**
+       * Decrementa a quantidade de um produto ou remove-o caso a quantidade seja zerada.
+       * @param {string} idProduto - ID do produto a ser decrementado/removido
+       */
+      removerProduto(idProduto) {
+        const index = this.#itens.findIndex(item => item.produto.id === idProduto);
+        
+        if (index !== -1) {
+          const item = this.#itens[index];
+          if (item.quantidade > 1) {
+            item.quantidade--;
+          } else {
+            this.#itens.splice(index, 1);
+          }
+        }
+        this.atualizarInterface();
+      }
+
+      /**
+       * Remove completamente um item do carrinho, independente da quantidade.
+       * @param {string} idProduto - ID do produto
+       */
+      removerItemCompleto(idProduto) {
+        this.#itens = this.#itens.filter(item => item.produto.id !== idProduto);
+        this.atualizarInterface();
+      }
+
+      /**
+       * Esvazia todos os itens do carrinho de compras
+       */
+      limparCarrinho() {
+        this.#itens = [];
+        this.atualizarInterface();
+      }
+
+      /**
+       * Calcula o valor financeiro total de todos os itens do carrinho
+       * @returns {number} Valor total acumulado
+       */
+      calcularTotal() {
+        return this.#itens.reduce((acumulado, item) => acumulado + (item.produto.preco * item.quantidade), 0);
+      }
+
+      /**
+       * Calcula o total consolidado de itens (unidades)
+       * @returns {number} Quantidade total de itens
+       */
+      calcularTotalItens() {
+        return this.#itens.reduce((acumulado, item) => acumulado + item.quantidade, 0);
+      }
+
+      /**
+       * Sincroniza o estado atual do carrinho com todos os componentes visuais do DOM
+       */
+      atualizarInterface() {
+        const totalItens = this.calcularTotalItens();
+        const totalDinheiro = this.calcularTotal();
+
+        // 1. Atualizar o contador do carrinho na Navbar
+        const badge = document.getElementById('cart-counter');
+        if (badge) {
+          badge.textContent = totalItens;
+          
+          // Efeito de pulsação para melhor feedback do usuário (Affordance)
+          badge.classList.remove('pulse-badge');
+          void badge.offsetWidth; // Força re-render para disparar animação CSS
+          badge.classList.add('pulse-badge');
+        }
+
+        // 2. Montar a lista visível de produtos no Offcanvas
+        const cartBody = document.getElementById('cart-body');
+        const btnCheckout = document.getElementById('btn-finalizar-compra');
+        
+        if (cartBody) {
+          if (this.#itens.length === 0) {
+            // Estado Vazio (Empty State)
+            cartBody.innerHTML = `
+              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 py-5">
+                <div class="mb-4" style="font-size: 4rem; opacity: 0.2;">
+                  <i class="bi bi-cart-x"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Carrinho Vazio</h5>
+                <p class="text-secondary small px-4">Seu terminal ainda não carregou produtos eletrônicos premium. Explore nossa coleção para começar.</p>
+              </div>
+            `;
+            if (btnCheckout) btnCheckout.disabled = true;
+          } else {
+            // Renderização da lista de itens ativos
+            cartBody.innerHTML = '';
+            
+            this.#itens.forEach(item => {
+              const divItem = document.createElement('div');
+              divItem.className = 'cart-item p-3 mb-3 d-flex align-items-center justify-content-between';
+              
+              divItem.innerHTML = `
+                <div class="d-flex align-items-center gap-3">
+                  <div class="p-2 bg-black bg-opacity-40 rounded-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                    ${item.produto.imagemUrl}
+                  </div>
+                  <div>
+                    <h6 class="fw-bold text-white mb-0 text-truncate" style="max-width: 160px;">${item.produto.nome}</h6>
+                    <span class="small text-info">R$ ${item.produto.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-center gap-3">
+                  <!-- Controles de Quantidade -->
+                  <div class="d-flex align-items-center bg-black bg-opacity-30 rounded-pill border border-secondary border-opacity-10 px-1">
+                    <button class="btn btn-link text-secondary btn-sm p-1 px-2 border-0 minus-btn"><i class="bi bi-dash"></i></button>
+                    <span class="px-2 text-white small fw-bold" style="min-width: 20px; text-align: center;">${item.quantidade}</span>
+                    <button class="btn btn-link text-secondary btn-sm p-1 px-2 border-0 plus-btn"><i class="bi bi-plus"></i></button>
+                  </div>
+                  
+                  <!-- Remover Item Inteiro -->
+                  <button class="btn btn-sm text-danger p-1 remove-all-btn"><i class="bi bi-trash"></i></button>
+                </div>
+              `;
+
+              // Eventos de controle de quantidade e exclusão
+              divItem.querySelector('.minus-btn').addEventListener('click', () => this.removerProduto(item.produto.id));
+              divItem.querySelector('.plus-btn').addEventListener('click', () => this.adicionarProduto(item.produto));
+              divItem.querySelector('.remove-all-btn').addEventListener('click', () => this.removerItemCompleto(item.produto.id));
+
+              cartBody.appendChild(divItem);
+            });
+
+            if (btnCheckout) btnCheckout.disabled = false;
+          }
+        }
+
+        // 3. Atualizar o subtotal no rodapé do Offcanvas
+        const totalDisplay = document.getElementById('cart-total-value');
+        if (totalDisplay) {
+          totalDisplay.textContent = `R$ ${totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+      }
+
+      /**
+       * Dispara uma notificação flutuante não-obstrutiva na tela (Toast)
+       * @param {string} nomeProduto - Nome do produto adicionado
+       */
+      #dispararNotificacao(nomeProduto) {
+        const toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) return;
+
+        const toast = document.createElement('div');
+        toast.className = 'toast align-items-center text-bg-dark border border-info border-opacity-25 shadow-lg';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        toast.style.background = 'rgba(18, 16, 26, 0.95)';
+        toast.style.backdropFilter = 'blur(8px)';
+
+        toast.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill text-gradient"></i>
+              <span><strong>${nomeProduto}</strong> foi adicionado ao carrinho!</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+          </div>
+        `;
+
+        toastContainer.appendChild(toast);
+        
+        // Inicializa e exibe o toast usando a API do Bootstrap
+        const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+        bsToast.show();
+
+        // Limpa o DOM após fechar
+        toast.addEventListener('hidden.bs.toast', () => {
+          toast.remove();
+        });
+      }
+    }
+
+    /* ==========================================================================
+       CONJUNTO DE DADOS - ARQUIVO DE PRODUTOS PREMIUM (SVG Ilustrativo)
+       ========================================================================== */
+    const bancoProdutos = [
+      new Produto(
+        "p1", 
+        "VibePods Max Elite", 
+        1499.00, 
+        "audio", 
+        "Cancelamento de ruído ativo inteligente, drivers de alta fidelidade e acabamento refinado em alumínio aeroespacial.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p1)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <path d="M30 45C30 30 70 30 70 45" stroke="url(#card-p1)" stroke-width="4" stroke-linecap="round"/>
+          <rect x="22" y="45" width="16" height="24" rx="8" fill="url(#card-p1)"/>
+          <rect x="62" y="45" width="16" height="24" rx="8" fill="url(#card-p1)"/>
+          <path d="M26 49V65" stroke="#00f0ff" stroke-width="2"/>
+          <path d="M74 49V65" stroke="#9d4edd" stroke-width="2"/>
+          <defs>
+            <linearGradient id="card-p1" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      ),
+      new Produto(
+        "p2", 
+        "Chronos Sync v2", 
+        2199.00, 
+        "wearables", 
+        "Ecrã AMOLED adaptativo de 120Hz, sensor cardíaco de precisão médica, GPS multicanal e carcaça ultraleve de titânio.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p2)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <rect x="42" y="15" width="16" height="70" rx="4" fill="#1b162c" stroke="url(#card-p2)" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="24" fill="url(#card-p2)" stroke="#fff" stroke-width="0.5"/>
+          <circle cx="50" cy="50" r="20" fill="#08070c"/>
+          <line x1="50" y1="50" x2="50" y2="38" stroke="#00f0ff" stroke-width="2" stroke-linecap="round"/>
+          <line x1="50" y1="50" x2="62" y2="50" stroke="#9d4edd" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="card-p2" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      ),
+      new Produto(
+        "p3", 
+        "VibeKeyboard Pro RGB", 
+        899.00, 
+        "perifericos", 
+        "Switches óticos analógicos de resposta tátil hiperveloz, keycaps de PBT injetadas e iluminação RGB individual configurável.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p3)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <rect x="20" y="32" width="60" height="36" rx="4" fill="#08070c" stroke="url(#card-p3)" stroke-width="2"/>
+          <rect x="26" y="38" width="8" height="8" rx="2" fill="#00f0ff" fill-opacity="0.8"/>
+          <rect x="38" y="38" width="8" height="8" rx="2" fill="#9d4edd" fill-opacity="0.8"/>
+          <rect x="50" y="38" width="8" height="8" rx="2" fill="#00f0ff" fill-opacity="0.8"/>
+          <rect x="62" y="38" width="8" height="8" rx="2" fill="#9d4edd" fill-opacity="0.8"/>
+          <rect x="26" y="50" width="8" height="8" rx="2" fill="#9d4edd" fill-opacity="0.8"/>
+          <rect x="38" y="50" width="20" height="8" rx="2" fill="#00f0ff" fill-opacity="0.8"/>
+          <rect x="62" y="50" width="8" height="8" rx="2" fill="#9d4edd" fill-opacity="0.8"/>
+          <defs>
+            <linearGradient id="card-p3" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      ),
+      new Produto(
+        "p4", 
+        "VibeScreen 34\" UltraWide", 
+        4899.00, 
+        "perifericos", 
+        "Monitor curvo imersivo com painel IPS Quantum-Dot de 165Hz. Excelente fidelidade cromática DCI-P3 98% para alta produtividade.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p4)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <path d="M15 35C30 31 70 31 85 35V57C70 53 30 53 15 57V35Z" fill="#08070c" stroke="url(#card-p4)" stroke-width="2"/>
+          <path d="M42 55L38 71H62L58 55" stroke="url(#card-p4)" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="30" y="71" width="40" height="3" rx="1.5" fill="#9d4edd"/>
+          <defs>
+            <linearGradient id="card-p4" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      ),
+      new Produto(
+        "p5", 
+        "Quantum Soundbar Pro", 
+        1250.00, 
+        "audio", 
+        "Som surround espacial tridimensional Dolby Atmos, subwoofer ativo sem fio de alto impacto e calibração de ambiente automática.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p5)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <rect x="15" y="44" width="70" height="12" rx="4" fill="#08070c" stroke="url(#card-p5)" stroke-width="2"/>
+          <circle cx="23" cy="50" r="2.5" fill="#00f0ff"/>
+          <circle cx="77" cy="50" r="2.5" fill="#9d4edd"/>
+          <line x1="30" y1="50" x2="70" y2="50" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.6"/>
+          <defs>
+            <linearGradient id="card-p5" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      ),
+      new Produto(
+        "p6", 
+        "BioRing Infinity", 
+        1199.00, 
+        "wearables", 
+        "Anel inteligente ultra discreto revestido em titânio de grau balístico. Monitoramento contínuo de sono, estresse e temperatura.",
+        `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="url(#card-p6)" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.3"/>
+          <circle cx="50" cy="50" r="22" stroke="url(#card-p6)" stroke-width="6"/>
+          <circle cx="50" cy="50" r="16" stroke="#00f0ff" stroke-width="1" stroke-dasharray="1 2"/>
+          <rect x="47" y="25" width="6" height="4" rx="1" fill="#fff"/>
+          <defs>
+            <linearGradient id="card-p6" x1="0" y1="0" x2="100" y2="100">
+              <stop stop-color="#00f0ff"/><stop offset="1" stop-color="#9d4edd"/>
+            </linearGradient>
+          </defs>
+        </svg>`
+      )
+    ];
+
+    /* ==========================================================================
+       CONEXÃO DA APLICAÇÃO E EVENTOS DO PROTÓTIPO
+       ========================================================================== */
+    document.addEventListener("DOMContentLoaded", () => {
+      // Instanciamento único da classe Carrinho
+      const carrinho = new Carrinho();
+
+      // Referências cruciais aos elementos do DOM
+      const productGrid = document.getElementById('product-grid');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const btnFinalizarCompra = document.getElementById('btn-finalizar-compra');
+      const successModalElement = document.getElementById('successModal');
+      const successModal = new bootstrap.Modal(successModalElement);
+      const offcanvasElement = document.getElementById('offcanvasCart');
+      const bsOffcanvas = new bootstrap.Offcanvas(offcanvasElement);
+
+      /**
+       * Função principal de renderização do catálogo de produtos
+       * @param {string} filter - Categoria ativa para renderização no Grid
+       */
+      function renderizarCatalogo(filter = 'all') {
+        if (!productGrid) return;
+        productGrid.innerHTML = '';
+
+        bancoProdutos.forEach(produto => {
+          // Filtro conceitual de categorias
+          if (filter !== 'all' && produto.categoria !== filter) return;
+
+          // Executa o método obterElementoHTML da classe Produto, injetando o callback de ação
+          const cardElement = produto.obterElementoHTML((prod) => {
+            // Adiciona o produto ao carrinho
+            carrinho.adicionarProduto(prod);
+            
+            // Abre de forma automatizada o Offcanvas para guiar visualmente o checkout
+            bsOffcanvas.show();
+          });
+
+          productGrid.appendChild(cardElement);
+        });
+      }
+
+      // Inicializa a renderização de toda a vitrine
+      renderizarCatalogo();
+
+      // Ouvinte de eventos para filtro de categorias (Desktop select)
+      if (categoryFilter) {
+        categoryFilter.addEventListener('change', (e) => {
+          renderizarCatalogo(e.target.value);
+        });
+      }
+
+      // Fluxo de checkout fictício / Feedback de Sucesso
+      if (btnFinalizarCompra) {
+        btnFinalizarCompra.addEventListener('click', () => {
+          // Esconde o Offcanvas lateral do carrinho
+          bsOffcanvas.hide();
+          
+          // Abre o Modal com mensagem de processamento criptográfico de sucesso
+          successModal.show();
+          
+          // Esvazia os dados do carrinho de compras
+          carrinho.limparCarrinho();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
