@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroVibe - Painel de Controle de Estoque</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para interface profissional -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Variáveis de cores dinâmicas para suporte aos Temas Claro e Escuro
+                        brandBg: 'var(--color-bg)',
+                        brandBgDark: 'var(--color-bg-dark)',
+                        brandBgLight: 'var(--color-bg-light)',
+                        brandText: 'var(--color-text)',
+                        brandTextMuted: 'var(--color-text-muted)',
+                        brandAccent: 'var(--color-accent)',
+                        brandAccentMuted: 'var(--color-accent-muted)',
+                        brandCardBg: 'var(--color-card-bg)',
+                        brandBorder: 'var(--color-border)',
+                        brandTextContrast: 'var(--color-text-contrast)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* DEFINIÇÃO DAS PALETAS DE CORES VIA VARIÁVEIS CSS */
+        :root {
+            /* Tema Escuro Original (Baseado nos limites oklch solicitados) */
+            --color-bg: oklch(39.8% 0.07 227.392);
+            --color-bg-dark: oklch(32% 0.06 227.392);
+            --color-bg-light: oklch(46% 0.08 227.392);
+            --color-text: oklch(87.2% 0.007 219.6);
+            --color-text-muted: oklch(75% 0.01 219.6);
+            --color-accent: oklch(98.8% 0.003 106.5);
+            --color-accent-muted: oklch(88% 0.02 106.5);
+            --color-card-bg: rgba(32, 45, 58, 0.5);
+            --color-border: rgba(255, 255, 255, 0.15);
+            --color-text-contrast: #ffffff;
+        }
+        
+        body.light-mode {
+            /* Tema Claro Otimizado para Contraste e Elegância Corporativa */
+            --color-bg: oklch(96% 0.01 227.392);
+            --color-bg-dark: oklch(90% 0.015 227.392);
+            --color-bg-light: #ffffff;
+            --color-text: oklch(25% 0.02 227.392);
+            --color-text-muted: oklch(45% 0.02 227.392);
+            --color-accent: oklch(50% 0.15 227.392); /* Azul vibrante de alta visibilidade */
+            --color-accent-muted: oklch(40% 0.15 227.392);
+            --color-card-bg: #ffffff;
+            --color-border: oklch(85% 0.01 227.392);
+            --color-text-contrast: oklch(20% 0.02 227.392);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Transições suaves aplicadas de forma global para a troca de tema */
+        body, header, aside, section, div, button, input, select, textarea, table, tr, td, th {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-bg-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brandAccent selection:text-brandBg">
+
+    <!-- HEADER / BARRA DE NAVEGAÇÃO -->
+    <header class="bg-brandBgDark border-b border-brandBorder px-6 py-4 sticky top-0 z-40 shadow-lg backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <!-- Branding -->
+            <div class="flex items-center gap-3">
+                <div class="bg-brandAccent text-brandBg p-2 rounded-lg font-bold flex items-center justify-center shadow-md">
+                    <i data-lucide="zap" class="w-6 h-6 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight text-brandTextContrast flex items-center gap-2">
+                        ELECTRO<span class="text-brandAccent">VIBE</span>
+                    </h1>
+                    <p class="text-xs text-brandTextMuted tracking-wider uppercase">Painel de Estoque Premium</p>
+                </div>
+            </div>
+
+            <!-- Ações rápidas superiores -->
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Botão Seletor de Tema (Claro / Escuro) -->
+                <button id="btnToggleTema" class="flex items-center gap-2 bg-brandBgLight hover:bg-brandBgLight/85 text-brandText border border-brandBorder px-4 py-2 rounded-lg transition-all duration-300 shadow-sm group">
+                    <i data-lucide="sun" class="icone-tema w-4 h-4 text-brandAccent group-hover:rotate-45 transition-transform duration-300"></i>
+                    <span class="texto-tema font-medium text-sm">Modo Claro</span>
+                </button>
+
+                <button id="btnAlertaEstoque" class="flex items-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/30 px-4 py-2 rounded-lg transition-all duration-300 shadow-sm relative group">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium text-sm">Alerta de Estoque</span>
+                    <span id="badgeBaixoEstoque" class="hidden absolute -top-2 -right-2 bg-amber-500 text-brandBgDark font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center animate-bounce shadow-md">0</span>
+                </button>
+
+                <button id="btnMaisVendidos" class="flex items-center gap-2 bg-brandAccent/10 hover:bg-brandAccent/20 text-brandAccent border border-brandAccent/30 px-4 py-2 rounded-lg transition-all duration-300 shadow-sm group">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-brandAccent group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium text-sm">Mais Vendidos</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- COLUNA ESQUERDA: CADASTRO & FILTROS (4 COLS) -->
+        <aside class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <section class="bg-brandCardBg rounded-xl border border-brandBorder p-6 shadow-xl">
+                <div class="flex items-center gap-2 mb-5 pb-3 border-b border-brandBorder">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-brandAccent"></i>
+                    <h2 class="text-lg font-bold text-brandTextContrast">Cadastrar Produto</h2>
+                </div>
+                
+                <form id="formProduto" class="space-y-4" novalidate>
+                    <!-- Nome do Produto -->
+                    <div>
+                        <label for="prodNome" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Nome do Produto *</label>
+                        <input type="text" id="prodNome" required placeholder="Ex: Teclado Mecânico RGB" 
+                            class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3.5 py-2 text-brandText placeholder-brandTextMuted/60 focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Código do Produto -->
+                        <div>
+                            <label for="prodCodigo" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Código *</label>
+                            <input type="text" id="prodCodigo" required placeholder="Ex: EV-1092" 
+                                class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3.5 py-2 text-brandText placeholder-brandTextMuted/60 focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm">
+                        </div>
+
+                        <!-- Quantidade -->
+                        <div>
+                            <label for="prodQtd" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Quantidade *</label>
+                            <input type="number" id="prodQtd" required min="0" placeholder="Ex: 15" 
+                                class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3.5 py-2 text-brandText placeholder-brandTextMuted/60 focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Categoria -->
+                        <div>
+                            <label for="prodCategoria" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Categoria *</label>
+                            <select id="prodCategoria" required 
+                                class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3 py-2 text-brandText focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecione...</option>
+                                <option value="Periféricos">Periféricos</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Áudio">Áudio</option>
+                                <option value="Smartphones">Smartphones</option>
+                                <option value="Acessórios">Acessórios</option>
+                            </select>
+                        </div>
+
+                        <!-- Preço -->
+                        <div>
+                            <label for="prodPreco" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Preço (R$) *</label>
+                            <input type="number" id="prodPreco" required min="0" step="0.01" placeholder="Ex: 299.90" 
+                                class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3.5 py-2 text-brandText placeholder-brandTextMuted/60 focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Especificação -->
+                    <div>
+                        <label for="prodEspec" class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Especificações Técnicas *</label>
+                        <textarea id="prodEspec" required rows="3" placeholder="Ex: Switch Blue, layout ABNT2, iluminação Chroma LED" 
+                            class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg px-3.5 py-2 text-brandText placeholder-brandTextMuted/60 focus:outline-none focus:ring-2 focus:ring-brandAccent/50 focus:border-brandAccent transition duration-200 text-sm resize-none"></textarea>
+                    </div>
+
+                    <!-- Botão Salvar -->
+                    <button type="submit" class="w-full bg-brandAccent hover:bg-brandAccentMuted text-brandBg font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 shadow-lg transition duration-300 transform active:scale-[0.98]">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        <span>Adicionar ao Estoque</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- CARD DE FILTRO E BUSCA -->
+            <section class="bg-brandCardBg rounded-xl border border-brandBorder p-5 shadow-xl">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-brandAccent"></i>
+                    <h3 class="font-bold text-sm text-brandTextContrast uppercase tracking-wider">Filtros Avançados</h3>
+                </div>
+                
+                <div class="space-y-3.5">
+                    <!-- Busca Geral -->
+                    <div>
+                        <label for="searchQuery" class="block text-xs text-brandTextMuted mb-1">Buscar por Nome ou Código</label>
+                        <div class="relative">
+                            <input type="text" id="searchQuery" placeholder="Pesquisar..." 
+                                class="w-full bg-brandBgDark/50 border border-brandBorder rounded-lg pl-9 pr-3 py-1.5 text-brandText placeholder-brandTextMuted/50 focus:outline-none focus:border-brandAccent transition text-sm">
+                            <i data-lucide="search" class="w-4 h-4 text-brandTextMuted/70 absolute left-3 top-2.5"></i>
+                        </div>
+                    </div>
+
+                    <!-- Filtrar por Categoria -->
+                    <div>
+                        <label class="block text-xs text-brandTextMuted mb-1">Filtrar Categoria</label>
+                        <div class="flex flex-wrap gap-1.5" id="categoriaFiltrosContainer">
+                            <button data-cat="todas" class="cat-filter-btn px-2.5 py-1 text-xs rounded-full bg-brandAccent text-brandBg font-bold border border-brandAccent transition duration-200">
+                                Todas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- COLUNA DIREITA: TABELA DE GESTÃO DE PRODUTOS (8 COLS) -->
+        <section class="lg:col-span-8 flex flex-col gap-4 bg-brandCardBg rounded-xl border border-brandBorder p-4 md:p-6 shadow-xl">
+            <!-- Header da Seção -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-brandBorder">
+                <div>
+                    <h2 class="text-xl font-bold text-brandTextContrast flex items-center gap-2">
+                        <i data-lucide="package-open" class="text-brandAccent w-5 h-5"></i>
+                        Controle do Almoxarifado
+                    </h2>
+                    <p class="text-xs text-brandTextMuted">Gerencie, modifique a quantidade e inspecione as especificações em tempo real</p>
+                </div>
+                
+                <!-- Status numéricos rápidos -->
+                <div class="flex gap-4 bg-brandBgDark/80 px-4 py-2 rounded-lg border border-brandBorder">
+                    <div class="text-center border-r border-brandBorder pr-4">
+                        <span class="block text-[10px] text-brandTextMuted uppercase tracking-wider">Itens Únicos</span>
+                        <span id="statItensUnicos" class="text-lg font-black text-brandAccent">0</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] text-brandTextMuted uppercase tracking-wider">Total Peças</span>
+                        <span id="statPecasTotais" class="text-lg font-black text-brandAccent">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA DE PRODUTOS RESPONSIVA -->
+            <div class="overflow-x-auto rounded-lg border border-brandBorder">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-brandBgDark/80 text-brandTextMuted text-[10px] uppercase font-bold tracking-wider border-b border-brandBorder">
+                            <th class="px-4 py-3">Código / Produto</th>
+                            <th class="px-4 py-3">Categoria</th>
+                            <th class="px-4 py-3 text-right">Preço</th>
+                            <th class="px-4 py-3 text-center">Quantidade</th>
+                            <th class="px-4 py-3 text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaProdutos" class="divide-y divide-brandBorder">
+                        <!-- Linhas geradas via JavaScript Orientado a Objetos -->
+                    </tbody>
+                </table>
+                
+                <!-- Feedback Vazio -->
+                <div id="semProdutosFeedback" class="hidden flex flex-col items-center justify-center py-16 text-center">
+                    <div class="bg-brandBgDark/60 p-4 rounded-full mb-3 text-brandTextMuted border border-brandBorder">
+                        <i data-lucide="package-search" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-brandTextContrast font-bold text-base">Nenhum produto localizado</h3>
+                    <p class="text-xs text-brandTextMuted max-w-xs mt-1">Insira novos itens através do formulário lateral ou ajuste os filtros de pesquisa.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER DA LOJA -->
+    <footer class="bg-brandBgDark border-t border-brandBorder py-4 px-6 text-center text-xs text-brandTextMuted mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>ElectroVibe S.A. &copy; 2026 - Todos os direitos reservados.</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-brandAccent"></i> Sistema de Controle Interno Seguro</span>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: ALERTA DE ESTOQUE BAIXO E AJUSTES DE MÉDIA -->
+    <div id="modalAlertaEstoque" class="hidden fixed inset-0 bg-brandBgDark/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="bg-brandBg border border-amber-500/30 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[85vh]">
+            <!-- Header Modal -->
+            <div class="bg-amber-600/10 border-b border-amber-500/20 px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2.5 text-amber-500">
+                    <i data-lucide="alert-octagon" class="w-6 h-6"></i>
+                    <div>
+                        <h3 class="font-bold text-lg text-brandTextContrast">Auditoria de Estoque Crítico</h3>
+                        <p class="text-xs text-amber-500/80">Produtos abaixo do limite de segurança (Limite: 10 unidades)</p>
+                    </div>
+                </div>
+                <button class="fechar-modal text-brandTextMuted hover:text-brandTextContrast transition duration-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Body Modal -->
+            <div class="p-6 overflow-y-auto space-y-4 flex-grow">
+                <div class="bg-brandBgDark/50 border border-brandBorder p-4 rounded-lg flex items-center gap-3.5 mb-2">
+                    <div class="bg-brandAccent text-brandBg p-2 rounded font-bold text-sm">
+                        MÉDIA
+                    </div>
+                    <div class="text-xs">
+                        <p class="text-brandText font-bold">Média Geral do Inventário: <span id="valorMediaGeral" class="text-brandAccent">0</span> unidades por produto.</p>
+                        <p class="text-brandTextMuted mt-0.5">O painel calcula a diferença de cada produto em falta para atingir a meta média do almoxarifado atual.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3" id="listaAlertaEstoque">
+                    <!-- Gerado de forma Dinâmica -->
+                </div>
+            </div>
+            <!-- Footer Modal -->
+            <div class="bg-brandBgDark border-t border-brandBorder px-6 py-4 flex justify-end">
+                <button class="fechar-modal bg-brandBg hover:bg-brandBgLight/30 border border-brandBorder text-brandText px-5 py-2 rounded-lg font-semibold text-sm transition">
+                    Fechar Painel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PRODUTOS MAIS VENDIDOS -->
+    <div id="modalMaisVendidos" class="hidden fixed inset-0 bg-brandBgDark/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="bg-brandBg border border-brandAccent/30 w-full max-w-xl rounded-xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[80vh]">
+            <!-- Header Modal -->
+            <div class="bg-brandAccent/10 border-b border-brandAccent/20 px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2.5 text-brandAccent">
+                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                    <div>
+                        <h3 class="font-bold text-lg text-brandTextContrast">Recordistas de Demanda</h3>
+                        <p class="text-xs text-brandTextMuted">Produtos mais vendidos e mais procurados da ElectroVibe</p>
+                    </div>
+                </div>
+                <button class="fechar-modal text-brandTextMuted hover:text-brandTextContrast transition duration-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Body Modal -->
+            <div class="p-6 overflow-y-auto space-y-4 flex-grow" id="corpoMaisVendidos">
+                <!-- Gerado de forma Dinâmica -->
+            </div>
+            <!-- Footer Modal -->
+            <div class="bg-brandBgDark border-t border-brandBorder px-6 py-4 flex justify-end">
+                <button class="fechar-modal bg-brandAccent hover:bg-brandAccentMuted text-brandBg px-5 py-2 rounded-lg font-bold text-sm transition shadow-lg">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: FICHA DE ESPECIFICAÇÕES TÉCNICAS (Substitui o Alert nativo) -->
+    <div id="modalDetalhes" class="hidden fixed inset-0 bg-brandBgDark/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="bg-brandBg border border-brandAccent/30 w-full max-w-lg rounded-xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col">
+            <!-- Header Modal -->
+            <div class="bg-brandBgDark border-b border-brandBorder px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2.5 text-brandAccent">
+                    <i data-lucide="info" class="w-6 h-6"></i>
+                    <div>
+                        <h3 id="detalhesTitulo" class="font-bold text-lg text-brandTextContrast">Ficha Técnica</h3>
+                        <p id="detalhesCodigo" class="text-xs text-brandTextMuted"></p>
+                    </div>
+                </div>
+                <button class="fechar-modal text-brandTextMuted hover:text-brandTextContrast transition duration-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Body Modal -->
+            <div class="p-6 space-y-4">
+                <div>
+                    <span class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1">Categoria</span>
+                    <span id="detalhesCategoria" class="inline-flex items-center px-2.5 py-1 rounded text-xs font-bold bg-brandBgDark text-brandText border border-brandBorder uppercase tracking-wider"></span>
+                </div>
+                <div>
+                    <span class="block text-xs font-semibold text-brandTextMuted uppercase tracking-wider mb-1.5">Ficha Técnica do Hardware</span>
+                    <p id="detalhesTexto" class="text-sm text-brandText bg-brandBgDark/50 p-4 rounded-lg border border-brandBorder whitespace-pre-line leading-relaxed"></p>
+                </div>
+            </div>
+            <!-- Footer Modal -->
+            <div class="bg-brandBgDark border-t border-brandBorder px-6 py-4 flex justify-end">
+                <button class="fechar-modal bg-brandAccent hover:bg-brandAccentMuted text-brandBg px-5 py-2 rounded-lg font-bold text-sm transition">
+                    Fechar Painel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST DE NOTIFICAÇÃO -->
+    <div id="toastNotificacao" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 bg-brandBgDark border border-brandAccent text-brandText px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 z-50 max-w-sm">
+        <div id="toastIcon" class="p-1 rounded-full bg-brandAccent/20 text-brandAccent">
+            <i data-lucide="check" class="w-5 h-5"></i>
+        </div>
+        <p id="toastMessage" class="text-xs font-medium">Operação realizada com sucesso!</p>
+    </div>
+
+    <!-- JAVASCRIPT: POO E CONTROLE DE ESTADO -->
+    <script>
+        /**
+         * CLASSE GERENCIADOR TEMA (OOP)
+         * Controla a persistência, transições e troca de variáveis do design system
+         */
+        class GerenciadorTema {
+            constructor() {
+                this.temaAtual = localStorage.getItem('electrovibe_tema') || 'dark';
+                this.btnToggle = document.getElementById('btnToggleTema');
+                this.init();
+            }
+
+            init() {
+                this.aplicarTema();
+                if (this.btnToggle) {
+                    this.btnToggle.addEventListener('click', () => this.toggleTema());
+                }
+            }
+
+            aplicarTema() {
+                const body = document.body;
+                if (this.temaAtual === 'light') {
+                    body.classList.add('light-mode');
+                } else {
+                    body.classList.remove('light-mode');
+                }
+                this.atualizarIcone();
+            }
+
+            toggleTema() {
+                this.temaAtual = this.temaAtual === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('electrovibe_tema', this.temaAtual);
+                this.aplicarTema();
+                mostrarToast(`Modo ${this.temaAtual === 'light' ? 'Claro' : 'Escuro'} ativado.`);
+            }
+
+            atualizarIcone() {
+                if (!this.btnToggle) return;
+                const icone = this.btnToggle.querySelector('.icone-tema');
+                const span = this.btnToggle.querySelector('.texto-tema');
+                
+                if (span) {
+                    span.textContent = this.temaAtual === 'light' ? 'Modo Escuro' : 'Modo Claro';
+                }
+                
+                if (icone) {
+                    icone.setAttribute('data-lucide', this.temaAtual === 'light' ? 'moon' : 'sun');
+                }
+                
+                // Força o Lucide a renderizar novos ícones de forma reativa caso as tags tenham sido modificadas
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }
+        }
+
+        /**
+         * CLASSE PRODUTO
+         * Encapsula os dados e comportamentos singulares de cada item do inventário
+         */
+        class Produto {
+            constructor(id, codigo, nome, quantidade, categoria, preco, especificacao) {
+                this.id = id;
+                this.codigo = codigo;
+                this.nome = nome;
+                this.quantidade = parseInt(quantidade);
+                this.categoria = categoria;
+                this.preco = parseFloat(preco);
+                this.especificacao = especificacao;
+                this.vendasEstimadas = Math.floor(Math.random() * 450) + 50; 
+            }
+
+            /**
+             * Atualiza a quantidade do estoque com validações lógicas
+             */
+            atualizarEstoque(novaQtd) {
+                const valorNumerico = parseInt(novaQtd);
+                if (isNaN(valorNumerico) || valorNumerico < 0) {
+                    return false;
+                }
+                this.quantidade = valorNumerico;
+                return true;
+            }
+
+            /**
+             * Gera a representação HTML estruturada para inserção imediata na tabela
+             */
+            obterLinhaHTML() {
+                let badgeEstoqueClasse = "bg-brandBg border border-brandBorder text-brandText";
+                if (this.quantidade === 0) {
+                    badgeEstoqueClasse = "bg-rose-500/15 border border-rose-500/30 text-rose-500 font-extrabold";
+                } else if (this.quantidade <= 10) {
+                    badgeEstoqueClasse = "bg-amber-500/15 border border-amber-500/30 text-amber-500 font-semibold";
+                }
+
+                return `
+                    <tr class="hover:bg-brandBgLight/10 transition-colors group" data-id="${this.id}">
+                        <td class="px-4 py-3.5">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-mono font-bold tracking-wider text-brandAccent">${this.codigo}</span>
+                                <span class="text-sm font-semibold text-brandTextContrast group-hover:text-brandAccent transition duration-150">${this.nome}</span>
+                                <span class="text-[10px] text-brandTextMuted/70 mt-0.5 line-clamp-1 italic">${this.especificacao}</span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3.5">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-brandBgDark text-brandTextMuted border border-brandBorder uppercase tracking-wider">
+                                ${this.categoria}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3.5 text-right">
+                            <span class="font-mono text-sm font-bold text-brandTextContrast">R$ ${this.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        </td>
+                        <td class="px-4 py-3.5 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button class="btn-diminuir bg-brandBgDark hover:bg-brandBgLight text-brandTextMuted hover:text-brandTextContrast p-1 rounded border border-brandBorder transition-all cursor-pointer" title="Reduzir 1 unidade">
+                                    <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <input type="number" value="${this.quantidade}" min="0" 
+                                    class="input-quantidade w-14 bg-brandBgDark/80 border border-brandBorder text-center rounded text-sm py-0.5 font-bold font-mono focus:outline-none focus:border-brandAccent ${badgeEstoqueClasse}">
+                                <button class="btn-incrementar bg-brandBgDark hover:bg-brandBgLight text-brandTextMuted hover:text-brandTextContrast p-1 rounded border border-brandBorder transition-all cursor-pointer" title="Adicionar 1 unidade">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3.5 text-right">
+                            <div class="flex justify-end gap-1.5">
+                                <button class="btn-ver-detalhe p-1.5 rounded text-brandTextMuted hover:text-brandAccent hover:bg-brandBgLight/20 transition-all cursor-pointer" title="Ver Especificações">
+                                    <i data-lucide="info" class="w-4 h-4"></i>
+                                </button>
+                                <button class="btn-deletar p-1.5 rounded text-brandTextMuted hover:text-rose-500 hover:bg-rose-500/10 transition-all cursor-pointer" title="Remover Produto">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        /**
+         * CLASSE GERENCIADOR ESTOQUE
+         * Orquestradora do array central e da re-renderização lógica baseada em regras de negócios
+         */
+        class GerenciadorEstoque {
+            constructor() {
+                this.produtos = [];
+                this.categoriaAtiva = 'todas';
+                this.buscaAtiva = '';
+            }
+
+            adicionarProduto(produto) {
+                if (!produto.nome || !produto.codigo || !produto.categoria || isNaN(produto.preco) || isNaN(produto.quantidade) || !produto.especificacao) {
+                    return { sucesso: false, erro: "Preencha todos os campos obrigatórios corretamente." };
+                }
+
+                if (produto.quantidade < 0 || produto.preco <= 0) {
+                    return { sucesso: false, erro: "Verifique se os valores numéricos são lógicos (Quantidade >= 0, Preço > 0)." };
+                }
+
+                const duplicado = this.produtos.some(p => p.codigo.toLowerCase() === produto.codigo.toLowerCase());
+                if (duplicado) {
+                    return { sucesso: false, erro: `Já existe um produto registrado sob o código ${produto.codigo}.` };
+                }
+
+                this.produtos.unshift(produto);
+                this.salvarNoStorage();
+                return { sucesso: true };
+            }
+
+            filtrarPorCategoria(categoria) {
+                this.categoriaAtiva = categoria;
+                this.renderizarTabela();
+            }
+
+            buscarProdutos(query) {
+                this.buscaAtiva = query.toLowerCase().trim();
+                this.renderizarTabela();
+            }
+
+            deletarProduto(id) {
+                this.produtos = this.produtos.filter(p => p.id !== id);
+                this.salvarNoStorage();
+                this.renderizarTabela();
+            }
+
+            obterMediaGeral() {
+                if (this.produtos.length === 0) return 0;
+                const total = this.produtos.reduce((acc, curr) => acc + curr.quantidade, 0);
+                return Math.round(total / this.produtos.length);
+            }
+
+            obterProdutosBaixoEstoque() {
+                return this.produtos.filter(p => p.quantidade <= 10);
+            }
+
+            atualizarEstatisticasRapidas() {
+                const totalItensUnicos = this.produtos.length;
+                const totalPecas = this.produtos.reduce((acc, curr) => acc + curr.quantidade, 0);
+
+                document.getElementById('statItensUnicos').textContent = totalItensUnicos;
+                document.getElementById('statPecasTotais').textContent = totalPecas;
+
+                const baixoEstoqueArray = this.obterProdutosBaixoEstoque();
+                const badge = document.getElementById('badgeBaixoEstoque');
+                if (baixoEstoqueArray.length > 0) {
+                    badge.textContent = baixoEstoqueArray.length;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+
+            renderizarFiltrosCategorias() {
+                const container = document.getElementById('categoriaFiltrosContainer');
+                const categoriasDisponiveis = ["todas", "Periféricos", "Hardware", "Áudio", "Smartphones", "Acessórios"];
+                
+                let html = '';
+                categoriasDisponiveis.forEach(cat => {
+                    let totalNaCat = 0;
+                    if (cat === 'todas') {
+                        totalNaCat = this.produtos.length;
+                    } else {
+                        totalNaCat = this.produtos.filter(p => p.categoria === cat).length;
+                    }
+
+                    const estaAtivo = this.categoriaAtiva === cat;
+                    const classeBotao = estaAtivo 
+                        ? "bg-brandAccent text-brandBg font-bold border-brandAccent" 
+                        : "bg-brandBgDark/60 hover:bg-brandBgLight/40 text-brandText border-brandBorder";
+
+                    html += `
+                        <button data-cat="${cat}" class="cat-filter-btn px-3 py-1 text-xs rounded-full border transition duration-200 flex items-center gap-1.5 ${classeBotao}">
+                            <span>${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                            <span class="inline-block px-1.5 py-0.2 rounded-full text-[9px] ${estaAtivo ? 'bg-brandBg text-brandAccent' : 'bg-brandBgLight text-brandTextMuted'} font-mono">${totalNaCat}</span>
+                        </button>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+                container.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const botao = e.currentTarget;
+                        const cat = botao.getAttribute('data-cat');
+                        this.filtrarPorCategoria(cat);
+                    });
+                });
+            }
+
+            renderizarTabela() {
+                const corpoTabela = document.getElementById('corpoTabelaProdutos');
+                const feedbackVazio = document.getElementById('semProdutosFeedback');
+                
+                let filtrados = this.produtos;
+
+                if (this.categoriaAtiva !== 'todas') {
+                    filtrados = filtrados.filter(p => p.categoria === this.categoriaAtiva);
+                }
+
+                if (this.buscaAtiva) {
+                    filtrados = filtrados.filter(p => 
+                        p.nome.toLowerCase().includes(this.buscaAtiva) || 
+                        p.codigo.toLowerCase().includes(this.buscaAtiva) ||
+                        p.especificacao.toLowerCase().includes(this.buscaAtiva)
+                    );
+                }
+
+                if (filtrados.length === 0) {
+                    corpoTabela.innerHTML = '';
+                    feedbackVazio.classList.remove('hidden');
+                } else {
+                    feedbackVazio.classList.add('hidden');
+                    let linhasHTML = '';
+                    filtrados.forEach(p => {
+                        linhasHTML += p.obterLinhaHTML();
+                    });
+                    corpoTabela.innerHTML = linhasHTML;
+                    lucide.createIcons();
+                    this.atribuirEventosNasLinhas();
+                }
+
+                this.atualizarEstatisticasRapidas();
+                this.renderizarFiltrosCategorias();
+            }
+
+            atribuirEventosNasLinhas() {
+                const corpoTabela = document.getElementById('corpoTabelaProdutos');
+                const linhas = corpoTabela.querySelectorAll('tr');
+
+                linhas.forEach(linha => {
+                    const id = Gabriel = linha.getAttribute('data-id');
+                    const produtoInstanciado = this.produtos.find(p => p.id === id);
+                    if (!produtoInstanciado) return;
+
+                    const inputQtd = linha.querySelector('.input-quantidade');
+                    const btnDiminuir = linha.querySelector('.btn-diminuir');
+                    const btnIncrementar = linha.querySelector('.btn-incrementar');
+                    const btnDeletar = linha.querySelector('.btn-deletar');
+                    const btnVerDetalhe = linha.querySelector('.btn-ver-detalhe');
+
+                    inputQtd.addEventListener('change', (e) => {
+                        const novaQtd = parseInt(e.target.value);
+                        if (produtoInstanciado.atualizarEstoque(novaQtd)) {
+                            this.salvarNoStorage();
+                            this.renderizarTabela();
+                            mostrarToast(`Quantidade de ${produtoInstanciado.nome} atualizada para ${novaQtd}.`);
+                        } else {
+                            e.target.value = produtoInstanciado.quantidade;
+                            mostrarToast("Quantidade inválida informada.", true);
+                        }
+                    });
+
+                    btnDiminuir.addEventListener('click', () => {
+                        const novaQtd = Math.max(0, produtoInstanciado.quantidade - 1);
+                        produtoInstanciado.atualizarEstoque(novaQtd);
+                        this.salvarNoStorage();
+                        this.renderizarTabela();
+                        mostrarToast(`Estoque de ${produtoInstanciado.nome} reduzido.`);
+                    });
+
+                    btnIncrementar.addEventListener('click', () => {
+                        const novaQtd = produtoInstanciado.quantidade + 1;
+                        produtoInstanciado.atualizarEstoque(novaQtd);
+                        this.salvarNoStorage();
+                        this.renderizarTabela();
+                        mostrarToast(`Estoque de ${produtoInstanciado.nome} aumentado.`);
+                    });
+
+                    btnDeletar.addEventListener('click', () => {
+                        if (confirm(`Remover definitivamente "${produtoInstanciado.nome}" do estoque?`)) {
+                            this.deletarProduto(id);
+                            mostrarToast(`${produtoInstanciado.nome} foi removido com sucesso.`);
+                        }
+                    });
+
+                    if (btnVerDetalhe) {
+                        btnVerDetalhe.addEventListener('click', () => {
+                            document.getElementById('detalhesTitulo').textContent = produtoInstanciado.nome;
+                            document.getElementById('detalhesCodigo').textContent = `Código SKU: ${produtoInstanciado.codigo}`;
+                            document.getElementById('detalhesCategoria').textContent = produtoInstanciado.categoria;
+                            document.getElementById('detalhesTexto').textContent = produtoInstanciado.especificacao;
+                            
+                            abrirModal(document.getElementById('modalDetalhes'));
+                        });
+                    }
+                });
+            }
+
+            salvarNoStorage() {
+                localStorage.setItem('electrovibe_estoque', JSON.stringify(this.produtos));
+            }
+
+            carregarDoStorage() {
+                const dados = localStorage.getItem('electrovibe_estoque');
+                if (dados) {
+                    try {
+                        const parseados = JSON.parse(dados);
+                        this.produtos = parseados.map(p => 
+                            new Produto(p.id, p.codigo, p.nome, p.quantidade, p.categoria, p.preco, p.especificacao)
+                        );
+                    } catch (e) {
+                        this.produtos = this.carregarMassaDeDadosIniciais();
+                    }
+                } else {
+                    this.produtos = this.carregarMassaDeDadosIniciais();
+                }
+                this.renderizarTabela();
+            }
+
+            carregarMassaDeDadosIniciais() {
+                const amostras = [
+                    new Produto("1", "EV-1021", "Fone Ouvido Bluetooth Noise-Cancelling Pro", 5, "Áudio", 489.90, "Até 40 horas de bateria, Bluetooth 5.2, drivers dinâmicos de 40mm e carregamento ultra-rápido Type-C"),
+                    new Produto("2", "EV-5542", "Teclado Mecânico Magnético Vibe-85", 14, "Periféricos", 349.90, "PBT Double shot, switch linear vermelho silencioso, estrutura em alumínio espacial e retroiluminação RGB por software"),
+                    new Produto("3", "EV-8012", "Mouse Gamer Ultra-Light 59g", 3, "Periféricos", 199.90, "Sensor PixArt PAW3395 de 26.000 DPI, switches ópticos Kailh de 80 milhões de cliques e cabo paracord flexível"),
+                    new Produto("4", "EV-7721", "Placa de Vídeo RTX 4070 OC Edition 12GB", 8, "Hardware", 4999.00, "Arquitetura NVIDIA Ada Lovelace, DLSS 3, Ray Tracing em tempo real e sistema tri-fan para alta dissipação"),
+                    new Produto("5", "EV-3312", "SSD NVMe M.2 de Alta Performance 2TB", 18, "Hardware", 849.00, "Leituras sequenciais de até 7400 MB/s, dissipador térmico integrado e compatibilidade total com PlayStation 5 e PC")
+                ];
+                localStorage.setItem('electrovibe_estoque', JSON.stringify(amostras));
+                return amostras;
+            }
+        }
+
+        // INSTANCIAÇÃO CENTRAL DO GERENCIADOR DE ESTOQUE
+        const appGerenciador = new GerenciadorEstoque();
+
+        // INICIALIZAÇÃO DE EVENTOS
+        window.addEventListener('DOMContentLoaded', () => {
+            // Primeiro renderiza os ícones estáticos iniciais
+            lucide.createIcons();
+            
+            // Instanciar controle de tema
+            const appTema = new GerenciadorTema();
+
+            appGerenciador.carregarDoStorage();
+
+            const form = document.getElementById('formProduto');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const nome = document.getElementById('prodNome').value.trim();
+                const codigo = document.getElementById('prodCodigo').value.trim();
+                const quantidade = document.getElementById('prodQtd').value;
+                const categoria = document.getElementById('prodCategoria').value;
+                const preco = document.getElementById('prodPreco').value;
+                const especificacao = document.getElementById('prodEspec').value.trim();
+
+                const novoProduto = new Produto(
+                    crypto.randomUUID(),
+                    codigo,
+                    nome,
+                    quantidade,
+                    categoria,
+                    preco,
+                    especificacao
+                );
+
+                const status = appGerenciador.adicionarProduto(novoProduto);
+
+                if (status.sucesso) {
+                    mostrarToast("Sucesso! Novo produto acoplado ao inventário.");
+                    form.reset();
+                    document.getElementById('prodCategoria').selectedIndex = 0;
+                    appGerenciador.renderizarTabela();
+                } else {
+                    mostrarToast(status.erro, true);
+                }
+            });
+
+            const inputBusca = document.getElementById('searchQuery');
+            inputBusca.addEventListener('input', (e) => {
+                appGerenciador.buscarProdutos(e.target.value);
+            });
+
+            // CONTROLADOR DOS MODAIS DE SOBREPOSIÇÃO
+            const modalAlerta = document.getElementById('modalAlertaEstoque');
+            const modalMaisVendidos = document.getElementById('modalMaisVendidos');
+            const modalDetalhes = document.getElementById('modalDetalhes');
+
+            document.getElementById('btnAlertaEstoque').addEventListener('click', () => {
+                const produtosBaixos = appGerenciador.obterProdutosBaixoEstoque();
+                const mediaGeral = appGerenciador.obterMediaGeral();
+                const listaContainer = document.getElementById('listaAlertaEstoque');
+                
+                document.getElementById('valorMediaGeral').textContent = mediaGeral;
+
+                if (produtosBaixos.length === 0) {
+                    listaContainer.innerHTML = `
+                        <div class="text-center py-8 text-brandTextMuted">
+                            <i data-lucide="check-circle-2" class="w-12 h-12 text-emerald-500 mx-auto mb-2"></i>
+                            <p class="font-bold text-sm text-brandTextContrast">Excelente! Nenhum produto em estado crítico.</p>
+                            <p class="text-[11px] mt-1">Todos os produtos possuem quantidade superior a 10 unidades.</p>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                } else {
+                    let htmlListagem = '';
+                    produtosBaixos.forEach(p => {
+                        const diferencaParaMedia = Math.max(0, mediaGeral - p.quantidade);
+                        htmlListagem += `
+                            <div class="bg-brandBgDark/70 rounded-lg p-4 border border-brandBorder flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[10px] font-mono font-bold text-amber-500 bg-amber-500/10 px-1.5 py-0.2 rounded">${p.codigo}</span>
+                                        <h4 class="font-bold text-sm text-brandTextContrast">${p.nome}</h4>
+                                    </div>
+                                    <p class="text-xs text-brandTextMuted mt-1">Status atual: <strong class="text-rose-500">${p.quantidade} unidades</strong> no estoque.</p>
+                                </div>
+                                <div class="bg-brandBg px-3 py-2 rounded border border-brandBorder text-center w-full sm:w-auto">
+                                    <span class="block text-[9px] text-brandTextMuted uppercase tracking-wider">Falta para Média</span>
+                                    <span class="text-sm font-black text-brandAccent font-mono">+${diferencaParaMedia} unidades</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    listaContainer.innerHTML = htmlListagem;
+                }
+
+                abrirModal(modalAlerta);
+            });
+
+            document.getElementById('btnMaisVendidos').addEventListener('click', () => {
+                const container = document.getElementById('corpoMaisVendidos');
+                const ordenadosPorVendas = [...appGerenciador.produtos].sort((a, b) => b.vendasEstimadas - a.vendasEstimadas);
+
+                if (ordenadosPorVendas.length === 0) {
+                    container.innerHTML = `
+                        <p class="text-center text-brandTextMuted py-6 text-sm">Nenhum produto cadastrado para análise.</p>
+                    `;
+                } else {
+                    let htmlMaisVendidos = '<div class="space-y-3">';
+                    ordenadosPorVendas.forEach((p, idx) => {
+                        let rankBadge = `<span class="bg-brandBgLight text-brandText w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">${idx + 1}</span>`;
+                        if (idx === 0) rankBadge = `<span class="bg-yellow-500 text-brandBgDark w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow">🥇</span>`;
+                        if (idx === 1) rankBadge = `<span class="bg-slate-300 text-brandBgDark w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow">🥈</span>`;
+                        if (idx === 2) rankBadge = `<span class="bg-amber-700 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow">🥉</span>`;
+
+                        htmlMaisVendidos += `
+                            <div class="bg-brandBgDark/40 border border-brandBorder p-4 rounded-lg flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    ${rankBadge}
+                                    <div>
+                                        <h4 class="font-bold text-sm text-brandTextContrast">${p.nome}</h4>
+                                        <span class="text-[10px] text-brandTextMuted uppercase tracking-wide">${p.categoria}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-[10px] text-brandTextMuted uppercase">Vendas Mensais</span>
+                                    <span class="text-xs font-bold text-brandAccent font-mono">${p.vendasEstimadas} pçs</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    htmlMaisVendidos += '</div>';
+                    container.innerHTML = htmlMaisVendidos;
+                }
+
+                abrirModal(modalMaisVendidos);
+            });
+
+            document.querySelectorAll('.fechar-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    fecharTodosModais();
+                });
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modalAlerta || e.target === modalMaisVendidos || e.target === modalDetalhes) {
+                    fecharTodosModais();
+                }
+            });
+        });
+
+        // UTILITÁRIOS DE INTERFACE
+        function abrirModal(modalElemento) {
+            modalElemento.classList.remove('hidden');
+            setTimeout(() => {
+                modalElemento.firstElementChild.classList.remove('scale-95');
+                modalElemento.firstElementChild.classList.add('scale-100');
+            }, 10);
+        }
+
+        function fecharTodosModais() {
+            const modais = [
+                document.getElementById('modalAlertaEstoque'), 
+                document.getElementById('modalMaisVendidos'),
+                document.getElementById('modalDetalhes')
+            ];
+            modais.forEach(modal => {
+                if (modal && !modal.classList.contains('hidden')) {
+                    modal.firstElementChild.classList.remove('scale-100');
+                    modal.firstElementChild.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 150);
+                }
+            });
+        }
+
+        function mostrarToast(mensagem, erro = false) {
+            const toast = document.getElementById('toastNotificacao');
+            const toastText = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastText.textContent = message = mensagem;
+
+            if (erro) {
+                toast.classList.add('border-rose-500');
+                toast.classList.remove('border-brandAccent');
+                toastIcon.className = "p-1 rounded-full bg-rose-500/20 text-rose-500";
+                toastIcon.innerHTML = `<i data-lucide="alert-circle" class="w-5 h-5"></i>`;
+            } else {
+                toast.classList.add('border-brandAccent');
+                toast.classList.remove('border-rose-500');
+                toastIcon.className = "p-1 rounded-full bg-brandAccent/20 text-brandAccent";
+                toastIcon.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i>`;
+            }
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
